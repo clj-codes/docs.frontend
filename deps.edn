@@ -1,0 +1,10 @@
+{:paths   ["src" "resources"]
+ :deps    {com.fbeyer/refx {:mvn/version "0.0.49"}
+           lilactown/helix {:mvn/version "0.2.0"}
+           metosin/reitit-schema {:mvn/version "0.6.0"}
+           metosin/reitit-frontend {:mvn/version "0.6.0"}
+           funcool/promesa {:mvn/version "11.0.678"}
+           lambdaisland/fetch {:mvn/version "1.5.83"}}
+ :aliases {:dev {:extra-paths ["dev" "test"]
+                 :extra-deps  {thheller/shadow-cljs {:mvn/version "2.27.1"}
+                               cider/cider-nrepl    {:mvn/version "0.45.0"}}}}}

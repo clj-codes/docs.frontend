@@ -1,0 +1,22 @@
+{:deps   {:aliases [:dev]}
+
+ :dev-http {5000 ["resources/public"]
+            5002 ["resources/tests"]}
+
+ :builds {:app {:target           :browser
+                :devtools         {:preloads [codes.clj.docs.frontend.dev.refresh]
+                                   :reload-strategy :full}
+                :output-dir       "resources/public/js"
+                :asset-path       "/js"
+                :dev              {:modules {:core {:init-fn codes.clj.docs.frontend.dev.core/init}}}
+                :release          {:modules {:core {:init-fn codes.clj.docs.frontend.core/init}}}
+                :compiler-options {:warnings {:extending-base-js-type false}
+                                   :install-deps true}}
+
+          :tests {:target    :browser-test
+                  :test-dir  "resources/tests"
+                  :ns-regexp "-test$"}
+
+          :node-tests {:target    :node-test
+                       :main      codes.clj.docs.node/main
+                       :output-to "resources/tests/node-tests.js"}}}
