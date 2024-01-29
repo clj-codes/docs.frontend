@@ -36,7 +36,8 @@
            "docs.clj.codes"))))
 
 (defnc HeaderDrawer [{:keys [links opened close]}]
-  ($ Drawer {:position "right"
+  ($ Drawer {:data-testid "header-drawer"
+             :position "right"
              :size "xs"
              :opened opened
              :onClose close
@@ -45,11 +46,15 @@
              :hiddenFrom "sm"
              :zIndex 1000000}
      ($ ScrollArea
-        (for [{:keys [href label]} links]
-          ($ NavLink
-             {:href href
-              :leftSection ($ Text {:size "lg"} label)
-              :rightSection ($ IconChevronRight)}))
+        (->> links
+             (map-indexed
+              (fn [index {:keys [href label]}]
+                ($ NavLink
+                   {:key index
+                    :href href
+                    :leftSection ($ Text {:size "lg"} label)
+                    :rightSection ($ IconChevronRight)})))
+             doall)
         ($ NavLink
            {:href "#login"
             :variant "filled"
@@ -67,13 +72,17 @@
              ($ Logo)
              ($ Group
                 ($ Group {:gap "xs" :visibleFrom "sm"}
-                   (for [{:keys [href label]} links]
-                     ($ Button {:component "a"
-                                :href href
-                                :size "compact-md"
-                                :variant "transparent"
-                                :color "var(--mantine-color-text)"}
-                        label))
+                   (->> links
+                        (map-indexed
+                         (fn [index {:keys [href label]}]
+                           ($ Button {:key index
+                                      :component "a"
+                                      :href href
+                                      :size "compact-md"
+                                      :variant "transparent"
+                                      :color "var(--mantine-color-text)"}
+                              label)))
+                        doall)
                    ($ Button {:component "a"
                               :href "#login"
                               :size "compact-md"

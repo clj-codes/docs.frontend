@@ -1,8 +1,13 @@
 (ns codes.clj.docs.frontend.aux.testing-library
-  (:require ["@testing-library/react" :as tlr]
+  (:require ["@mantine/core" :refer [MantineProvider]]
+            ["@testing-library/dom" :as tld]
+            ["@testing-library/react" :as tlr]
+            [codes.clj.docs.frontend.config :refer [theme]]
             [helix.core :refer [$]]))
 
 (def wait-for tlr/waitFor)
+
+(def screen tld/screen)
 
 (defn text [el]
   (.-textContent el))
@@ -13,6 +18,10 @@
 (defn find-by-text
   [el text]
   (.findByText el text))
+
+(defn get-by-testid
+  [el testid]
+  (.getByTestId el testid))
 
 (defn click
   [^js/Element el]
@@ -30,13 +39,24 @@
   [element query]
   (.querySelector element query))
 
+(defn query-all
+  [element query]
+  (.querySelectorAll element query))
+
 (defn testing-container []
-  (as-> (js/document.createElement "div") div
+  (let [div (js/document.createElement "div")]
+    (.setAttribute div "data-testid" "tlr-test-root")
     (js/document.body.appendChild div)))
 
 (defn render
   [component]
-  (tlr/render ($ component)
+  (tlr/render component
+              #js {:container (testing-container)}))
+
+(defn mantine-render
+  [component]
+  (tlr/render ($ MantineProvider {:theme theme}
+                 component)
               #js {:container (testing-container)}))
 
 (defn cleanup
