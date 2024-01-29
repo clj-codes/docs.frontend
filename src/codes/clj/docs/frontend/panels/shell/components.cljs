@@ -56,7 +56,7 @@
                     :rightSection ($ IconChevronRight)})))
              doall)
         ($ NavLink
-           {:href "#login"
+           {:href "/login"
             :variant "filled"
             :active true
             :label "Log In"
@@ -71,7 +71,9 @@
           ($ Group {:className "innerHeader"}
              ($ Logo)
              ($ Group
-                ($ Group {:gap "xs" :visibleFrom "sm"}
+                ($ Group {:data-testid "header-root-links"
+                          :gap "xs"
+                          :visibleFrom "sm"}
                    (->> links
                         (map-indexed
                          (fn [index {:keys [href label]}]
@@ -84,7 +86,7 @@
                               label)))
                         doall)
                    ($ Button {:component "a"
-                              :href "#login"
+                              :href "/login"
                               :size "compact-md"
                               :variant "primary"
                               :leftSection ($ IconBrandGithub {:size "1.5rem" :stroke 1.5})}

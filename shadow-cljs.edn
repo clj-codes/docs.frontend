@@ -17,6 +17,7 @@
                   :test-dir  "resources/tests"
                   :ns-regexp "-test$"}
 
-          :node-tests {:target    :node-test
-                       :main      codes.clj.docs.node/main
-                       :output-to "resources/tests/node-tests.js"}}}
+          :ci-tests {:target           :karma
+                     :output-to        "resources/tests/ci.js"
+                     :ns-regexp        "-test$"
+                     :compiler-options {:static-fns false}}}}

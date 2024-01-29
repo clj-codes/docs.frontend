@@ -23,6 +23,10 @@
   [el testid]
   (.getByTestId el testid))
 
+(defn get-all-by-testid
+  [el testid]
+  (.getAllByTestId el testid))
+
 (defn click
   [^js/Element el]
   (.click tlr/fireEvent el))
