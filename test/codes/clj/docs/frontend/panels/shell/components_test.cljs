@@ -25,15 +25,16 @@
                                                      :label "My link"}
                                                     {:href "/link2"
                                                      :label "My link 2"}]})))
-                             (tl/get-by-testid "header-root-links")))
-                links (->> (tl/query-all header ".mantine-Button-root")
+                             (.findByTestId "header-root-links")))
+                links (->> (.querySelectorAll header ".mantine-Button-root")
                            (mapv #(-> % .-href (str/split "/") last)))]
 
           (is (= ["link" "link2" "login"]
                  links))
 
           (done))
-        (fn [err] (js/console.error err))))))
+        (fn [err] (is (= nil err))
+          (done))))))
 
 (deftest header-drawer-component-test
   (testing "drawer should render component links"
@@ -46,12 +47,13 @@
                                              :label "My link 2"}]
                                     :opened true
                                     :close identity}))
-                drawer (tl/wait-for #(tl/get-by-testid (tl/document) "header-drawer-scrollarea"))
-                links (->> (tl/query-all drawer ".mantine-NavLink-root")
+                drawer (tl/wait-for #(.findByTestId (tl/document) "header-drawer-scrollarea"))
+                links (->> (.querySelectorAll drawer ".mantine-NavLink-root")
                            (mapv #(-> % .-href (str/split "/") last)))]
 
           (is (= ["link" "link2" "login"]
                  links))
 
           (done))
-        (fn [err] (js/console.error err))))))
+        (fn [err] (is (= nil err))
+          (done))))))

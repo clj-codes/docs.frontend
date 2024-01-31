@@ -2,7 +2,7 @@
   (:require [codes.clj.docs.frontend.aux.testing-library :as tlr]
             [shadow.cljs.modern :refer [defclass]]))
 
-(defn mock-window-fns []
+(defn ^:private mock-window-fns []
   (let [has-global? (try js/global (catch js/Object _ nil))
         mock-fn (fn [& _args] nil)
         get-computed-style (.-getComputedStyle js/window)
