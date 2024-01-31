@@ -9,7 +9,7 @@
     "release:clj": "shadow-cljs release app",
     "test:watch": "shadow-cljs watch node-tests --config-merge \"{:autorun true}\"",
     "test": "shadow-cljs compile ci-tests && karma start --single-run",
-    "test:node": "shadow-cljs compile node-tests && node resources/tests/node-tests.js",
+    "test:node": "shadow-cljs compile node-tests && node resources/tests/node.js",
     "start": "conc npm:watch:*",
     "release": "conc npm:release:*"
   },
