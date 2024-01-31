@@ -12,5 +12,5 @@
   ($ AppShell {:padding "md"
                :header #js {:height 60}}
      ($ shell.components/Header {:links header-links})
-     ($ children)
+     ($ AppShell.Main ($ children))
      ($ shell.components/Footer)))
