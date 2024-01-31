@@ -9,6 +9,7 @@
     "release:clj": "shadow-cljs release app",
     "test:watch": "shadow-cljs watch node-tests --config-merge \"{:autorun true}\"",
     "test": "shadow-cljs compile ci-tests && karma start --single-run",
+    "test:node": "shadow-cljs compile node-tests && node resources/tests/node-tests.js",
     "start": "conc npm:watch:*",
     "release": "conc npm:release:*"
   },
@@ -35,6 +36,7 @@
     "concurrently": "^8.2.2",
     "cssnano": "^6.0.3",
     "global-jsdom": "^9.2.0",
+    "jsdom": "^23.2.0",
     "karma": "^6.4.2",
     "karma-chrome-launcher": "^3.2.0",
     "karma-cljs-test": "^0.1.0",

@@ -1,10 +1,10 @@
 (ns codes.clj.docs.frontend.core-test
   (:require ["@testing-library/react" :as tlr]
-            [clojure.test :refer [deftest is use-fixtures]]
-            [codes.clj.docs.frontend.aux.init :refer [setup-root]]
+            [cljs.test :refer [deftest is use-fixtures]]
+            [codes.clj.docs.frontend.aux.init :refer [sync-setup]]
             [helix.dom :as dom]))
 
-(use-fixtures :each setup-root)
+(use-fixtures :each sync-setup)
 
 (deftest a-component-test
   (let [container (dom/div "helix")

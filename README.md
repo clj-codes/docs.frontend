@@ -12,9 +12,14 @@ npm start
 > Tests available at http://localhost:5002  
 
 ### Tests
-Compile with shadow-cljs and run tests in node with jsdom
+Compile with shadow-cljs and run tests in node with karma
 ```bash
 npm test
+```
+#### Jsdom (under evaluation)
+Compile with shadow-cljs and run tests in node with jsdom
+```bash
+npm run test:node
 ```
 
 ### Release

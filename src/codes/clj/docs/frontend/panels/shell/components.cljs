@@ -45,7 +45,7 @@
              :title "Navigation"
              :hiddenFrom "sm"
              :zIndex 1000000}
-     ($ ScrollArea
+     ($ ScrollArea {:data-testid "header-drawer-scrollarea"}
         (->> links
              (map-indexed
               (fn [index {:keys [href label]}]

@@ -9,6 +9,9 @@
 
 (def screen tld/screen)
 
+(defn document []
+  (tlr/getQueriesForElement (.-body js/document) tlr/queries))
+
 (defn text [el]
   (.-textContent el))
 

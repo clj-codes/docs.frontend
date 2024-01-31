@@ -20,4 +20,8 @@
           :ci-tests {:target           :karma
                      :output-to        "resources/tests/ci.js"
                      :ns-regexp        "-test$"
-                     :compiler-options {:static-fns false}}}}
+                     :compiler-options {:static-fns false}}
+
+          :node-tests {:target    :node-test
+                       :main      codes.clj.docs.node/main
+                       :output-to "resources/tests/node.js"}}}

@@ -1,1 +1,3 @@
-{:hooks {:analyze-call {codes.clj.docs.frontend.infra.helix/defnc clj-kondo.lilactown.helix/defnc}}}
+{:hooks {:analyze-call {codes.clj.docs.frontend.infra.helix/defnc clj-kondo.lilactown.helix/defnc}}
+ :config-in-call {shadow.cljs.modern/defclass
+                  {:linters {:unresolved-symbol {:level :off}}}}}
