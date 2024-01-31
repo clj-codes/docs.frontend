@@ -17,10 +17,10 @@ jobs:
 
     steps:
     - name: Clone Repo
-      uses: actions/checkout@v3.0.2
+      uses: actions/checkout@v4.1.1
 
     - name: Prepare java
-      uses: actions/setup-java@v3.3.0
+      uses: actions/setup-java@v4
       with:
         distribution: 'adopt'
         java-version: '11'
@@ -31,12 +31,12 @@ jobs:
         cli: 1.11.1.1435
 
     - name: Karma Tests ${{ matrix.node-version }}
-      uses: actions/setup-node@v3.2.0
+      uses: actions/setup-node@v4.0.1
       with:
         node-version: ${{ matrix.node-version }}
     - run: |
         npm ci
-        npm run tests
+        npm run test
 
   tests-jsdom:
     strategy:
@@ -47,10 +47,10 @@ jobs:
     runs-on: ${{ matrix.os-version }}
     steps:
     - name: Clone Repo
-      uses: actions/checkout@v3.0.2
+      uses: actions/checkout@v4.1.1
 
     - name: Prepare java
-      uses: actions/setup-java@v3.3.0
+      uses: actions/setup-java@v4
       with:
         distribution: 'adopt'
         java-version: '11'
@@ -61,9 +61,9 @@ jobs:
         cli: 1.11.1.1435
 
     - name: JSDOM Tests ${{ matrix.node-version }}
-      uses: actions/setup-node@v3.2.0
+      uses: actions/setup-node@v4.0.1
       with:
         node-version: ${{ matrix.node-version }}
     - run: |
         npm ci
-        npm run tests:node
+        npm run test:node
