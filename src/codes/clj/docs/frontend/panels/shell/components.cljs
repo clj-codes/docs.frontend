@@ -66,9 +66,9 @@
 (defnc Header [{:keys [links]}]
   (let [[opened updater] (useDisclosure false)
         close (.-toggle updater)]
-    ($ AppShell.Header {:className "header"}
+    ($ AppShell.Header {:className "shell-header"}
        ($ Container {:size "md"}
-          ($ Group {:className "innerHeader"}
+          ($ Group {:className "shell-inner-header"}
              ($ Logo)
              ($ Group
                 ($ Group {:data-testid "header-root-links"
@@ -98,17 +98,17 @@
              ($ HeaderDrawer {:links links :opened opened :close close}))))))
 
 (defnc Footer []
-  (dom/footer {:className "footer"}
-    ($ Container {:className "afterFooter" :size "md"}
+  (dom/footer {:className "shell-footer"}
+    ($ Container {:className "shell-after-footer" :size "md"}
        ($ Group {:gap 3}
           ($ Text {:c "dimmed" :size "sm"}
              "© 2024 docs.clj.codes by")
-          ($ Anchor {:className "linkFooter"
+          ($ Anchor {:className "shell-link-footer"
                      :color "var(--mantine-color-text)"
                      :href "https://rafael.delboni.cc"
                      :target "_blank"}
              "delboni"))
-       ($ Group {:className "socialFooter" :gap 0 :justify "flex-end" :wrap "nowrap"}
+       ($ Group {:className "shell-social-footer" :gap 0 :justify "flex-end" :wrap "nowrap"}
           ($ ActionIcon {:size "lg" :color "gray" :variant "subtle"
                          :component "a"
                          :href "https://www.github.com/clj-codes"
