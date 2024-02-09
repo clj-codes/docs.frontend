@@ -17,6 +17,5 @@
 
 (defn ^:dev/after-load clear-cache-and-render! []
   ;; The `:dev/after-load` metadata causes this function to be called
-  ;; after shadow-cljs hot-reloads code. We force a UI update by clearing
-  ;; the Refx subscription cache.
+  ;; after shadow-cljs hot-reloads code.
   (app/render))
