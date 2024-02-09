@@ -8,36 +8,21 @@
 /* import '@mantine/code-highlight/styles.css'; */
 /* ... */
 
-.header {
+.shell-header {
   height: rem(56px);
   margin-bottom: rem(120px);
   background-color: var(--mantine-color-body);
   border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
-.innerHeader {
+.shell-inner-header {
   height: rem(56px);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.linkHeader {
-  display: block;
-  line-height: 1;
-  padding: rem(8px) rem(12px);
-  border-radius: var(--mantine-radius-md);
-  text-decoration: none;
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
-  font-size: var(--mantine-font-size-md);
-  font-weight: 500;
-
-  @mixin hover {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-  }
-}
-
-.footer {
+.shell-footer {
   position: sticky;
   margin-top: rem(10px);
   padding-top: var(--mantine-spacing-xs);
@@ -46,7 +31,7 @@
   border-top: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
 }
 
-.afterFooter {
+.shell-after-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -56,7 +41,7 @@
   }
 }
 
-.linkFooter {
+.shell-link-footer {
   display: block;
   color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-1));
   font-size: var(--mantine-font-size-sm);
@@ -68,8 +53,54 @@
   }
 }
 
-.socialFooter {
+.shell-social-footer {
   @media (max-width: $mantine-breakpoint-sm) {
     margin-top: var(--mantine-spacing-xs);
   }
+}
+
+.error-root {
+  padding-top: rem(80px);
+  padding-bottom: rem(80px);
+}
+
+.error-inner {
+  position: relative;
+}
+
+.error-image {
+  position: absolute;
+  inset: 0;
+  opacity: 0.75;
+  color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+}
+
+.error-content {
+  padding-top: rem(220px);
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding-top: rem(120px);
+  }
+}
+
+.error-title {
+  font-family:
+    Greycliff CF,
+    var(--mantine-font-family);
+  text-align: center;
+  font-weight: 900;
+  font-size: rem(38px);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: rem(32px);
+  }
+}
+
+.error-description {
+  max-width: rem(540px);
+  margin: auto;
+  margin-top: var(--mantine-spacing-xl);
+  margin-bottom: calc(var(--mantine-spacing-xl) * 1.5);
 }
