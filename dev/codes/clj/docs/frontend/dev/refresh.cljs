@@ -1,8 +1,7 @@
 (ns codes.clj.docs.frontend.dev.refresh
   "A place to add preloads for developer tools!"
   (:require [codes.clj.docs.frontend.core :as app]
-            [helix.experimental.refresh :as r]
-            [refx.alpha :as refx]))
+            [helix.experimental.refresh :as r]))
 
 ;; inject-hook! needs to run on application start.
 ;; For ease, we run it at the top level.
@@ -20,5 +19,4 @@
   ;; The `:dev/after-load` metadata causes this function to be called
   ;; after shadow-cljs hot-reloads code. We force a UI update by clearing
   ;; the Refx subscription cache.
-  (refx/clear-subscription-cache!)
   (app/render))
