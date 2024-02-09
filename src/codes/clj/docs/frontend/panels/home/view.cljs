@@ -1,9 +1,6 @@
 (ns codes.clj.docs.frontend.panels.home.view
-  (:require ["@mantine/core" :refer [Anchor Card Container Grid MantineProvider Text Title]]
-            ["react-dom/client" :as rdom]
-            [codes.clj.docs.frontend.config :refer [theme]]
+  (:require ["@mantine/core" :refer [Anchor Card Container Grid Text Title]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
-            [codes.clj.docs.frontend.panels.shell.view :refer [app-shell]]
             [helix.core :refer [$]]
             [helix.dom :as dom]))
 
@@ -29,11 +26,11 @@
                            :href "https://clojure.org"}
                    "Clojure programming language"))))
         ($ Grid.Col {:span 12}
-           ($ Text {:size "xl" :style #js {:padding-top "1rem"}}
+           ($ Text {:size "xl" :style #js {:paddingTop "1rem"}}
               "Built on a tech stack featuring "
               ($ Text {:component "a" :href "https://github.com/lilactown/helix" :inherit true :fw 700} "helix")
               " and "
-              ($ Text {:component "a" :href "https://github.com/ferdinand-beyer/refx" :inherit true :fw 700} "refx")
+              ($ Text {:component "a" :href "https://github.com/lilactown/flex" :inherit true :fw 700} "flex")
               " on the frontend and powered by postgres and "
               ($ Text {:component "a" :href "https://github.com/juji-io/datalevin" :inherit true :fw 700} "datalevin")
               " on the backend.")))

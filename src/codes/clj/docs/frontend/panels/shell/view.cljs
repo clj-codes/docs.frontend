@@ -6,7 +6,7 @@
 
 (def header-links
   [{:label "Libraries"
-    :href "/#/libraries"}])
+    :href "/libraries"}])
 
 (defnc app-shell [{:keys [children]}]
   ($ AppShell {:padding "md"

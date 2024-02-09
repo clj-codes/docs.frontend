@@ -1,8 +1,9 @@
 {:paths   ["src" "resources"]
- :deps    {com.fbeyer/refx {:mvn/version "0.0.49"}
-           lilactown/helix {:mvn/version "0.2.0"}
-           metosin/reitit-schema {:mvn/version "0.6.0"}
-           metosin/reitit-frontend {:mvn/version "0.6.0"}
+ :deps    {lilactown/helix {:mvn/version "0.2.0"}
+           town.lilac/flex {:git/url "https://github.com/lilactown/flex"
+                            :git/sha "25a96d6f6eb976e4ee2a8514743205db600a92d4"}
+           fi.metosin/reitit-malli {:mvn/version "0.7.0-alpha6"}
+           fi.metosin/reitit-frontend {:mvn/version "0.7.0-alpha6"}
            funcool/promesa {:mvn/version "11.0.678"}
            lambdaisland/fetch {:mvn/version "1.5.83"}}
  :aliases {:dev {:extra-paths ["dev" "test"]
