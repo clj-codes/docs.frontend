@@ -1,13 +1,6 @@
 (ns codes.clj.docs.frontend.config
   (:require ["@mantine/core" :refer [createTheme]]))
 
-(def system
-  (let [debug? goog.DEBUG]
-    {:debug? debug?
-     :base-url (if debug?
-                 "http://localhost:3001/api"
-                 "http://docs.clj.codes/api")}))
-
 (def theme
   (createTheme
    (clj->js
@@ -24,4 +17,9 @@
      :primaryColor "moonstone"
      :defaultRadius "md"})))
 
-
+(def config
+  (let [debug? goog.DEBUG]
+    {:debug? debug?
+     :base-url (if debug?
+                 "http://localhost:3001/api"
+                 "http://docs.clj.codes/api")}))

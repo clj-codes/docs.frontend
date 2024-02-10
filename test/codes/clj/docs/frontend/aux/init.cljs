@@ -1,5 +1,7 @@
 (ns codes.clj.docs.frontend.aux.init
   (:require [codes.clj.docs.frontend.aux.testing-library :as tlr]
+            [codes.clj.docs.frontend.infra.http.component :as http.component]
+            [codes.clj.docs.frontend.infra.system.state :as system.state]
             [shadow.cljs.modern :refer [defclass]]))
 
 (defn ^:private mock-window-fns []
@@ -46,3 +48,7 @@
 (defn sync-setup [f]
   (f)
   (tlr/cleanup))
+
+(defn mock-http-with [mocked-responses]
+  (system.state/components assoc
+                           :http (http.component/new-http-mock mocked-responses)))
