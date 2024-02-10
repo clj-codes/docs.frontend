@@ -34,6 +34,7 @@ jobs:
       uses: actions/setup-node@v4.0.1
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
     - run: |
         npm ci
         npm run test
@@ -64,6 +65,33 @@ jobs:
       uses: actions/setup-node@v4.0.1
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
     - run: |
         npm ci
         npm run test:node
+
+  check-lint:
+     strategy:
+       matrix:
+         operating-system: [ubuntu-latest]
+
+     runs-on: ${{ matrix.operating-system }}
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v4
+
+       - name: Install clojure cli
+         uses: DeLaGuardo/setup-clojure@master
+         with:
+           cli: 1.11.1.1435
+
+       - name: Setup clojure-lsp
+         uses: clojure-lsp/setup-clojure-lsp@v1
+         with:
+           clojure-lsp-version: 2024.02.01-11.01.59
+
+       - name: Execute lint checks
+         run: |
+           clojure-lsp format --dry
+           clojure-lsp clean-ns --dry
+           clojure-lsp diagnostics
