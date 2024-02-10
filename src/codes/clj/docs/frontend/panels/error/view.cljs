@@ -1,5 +1,5 @@
 (ns codes.clj.docs.frontend.panels.error.view
-  (:require ["@mantine/core" :refer [Button Container Group Title Text]]
+  (:require ["@mantine/core" :refer [Button Container Group Text Title]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [helix.core :refer [$]]
             [helix.dom :as dom]))
