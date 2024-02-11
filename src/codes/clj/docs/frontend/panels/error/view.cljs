@@ -1,5 +1,5 @@
 (ns codes.clj.docs.frontend.panels.error.view
-  (:require ["@mantine/core" :refer [Button Container Group Title Text]]
+  (:require ["@mantine/core" :refer [Button Container Group Text Title]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [helix.core :refer [$]]
             [helix.dom :as dom]))
@@ -13,16 +13,16 @@
 
 (defnc not-found []
   ($ Container {:className "error-root" :size "md"}
-     (dom/div {:className "error-inner"}
-       ($ not-found-svg {:className "error-image"})
-       (dom/div {:className "error-content"}
-         ($ Title {:className "error-title"} "Nothing to see here")
-         ($ Text {:c "dimmed" :size "lg" :ta "center"
-                  :className "error-description"}
-            "Page you are trying to open does not exist. You may have mistyped the address, or the
+    (dom/div {:className "error-inner"}
+      ($ not-found-svg {:className "error-image"})
+      (dom/div {:className "error-content"}
+        ($ Title {:className "error-title"} "Nothing to see here")
+        ($ Text {:c "dimmed" :size "lg" :ta "center"
+                 :className "error-description"}
+          "Page you are trying to open does not exist. You may have mistyped the address, or the
              page has been moved to another URL. If you think this is an error contact support.")
-         ($ Group {:justify "center"}
-            ($ Button {:size "md"
-                       :component "a"
-                       :href "/"}
-               "Take me back to home"))))))
+        ($ Group {:justify "center"}
+          ($ Button {:size "md"
+                     :component "a"
+                     :href "/"}
+            "Take me back to home"))))))

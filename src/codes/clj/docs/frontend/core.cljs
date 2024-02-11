@@ -14,9 +14,9 @@
 (defnc app [{:keys [_router]}]
   (let [{:keys [current-route]} (use-flex routes-db)]
     ($ MantineProvider {:theme theme}
-       (if-let [view (-> current-route :data :view)]
-         ($ app-shell view)
-         ($ app-shell not-found)))))
+      (if-let [view (-> current-route :data :view)]
+        ($ app-shell view)
+        ($ app-shell not-found)))))
 
 (defonce root
   (rdom/createRoot (js/document.getElementById "app")))

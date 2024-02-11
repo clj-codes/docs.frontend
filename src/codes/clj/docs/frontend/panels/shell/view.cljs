@@ -11,6 +11,6 @@
 (defnc app-shell [{:keys [children]}]
   ($ AppShell {:padding "md"
                :header #js {:height 60}}
-     ($ shell.components/Header {:links header-links})
-     ($ AppShell.Main ($ children))
-     ($ shell.components/Footer)))
+    ($ shell.components/Header {:links header-links})
+    ($ AppShell.Main ($ children))
+    ($ shell.components/Footer)))
