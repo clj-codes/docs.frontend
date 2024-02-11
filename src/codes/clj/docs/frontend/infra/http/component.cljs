@@ -14,12 +14,13 @@
   (request
     [self request-input]))
 
-(defrecord Http [_]
+(defrecord Http [config]
   HttpProvider
   (request
     [_self request-input]
-    (let [{:keys [url]} request-input]
-      (-> (fetch/request url request)
+    (let [{:keys [url path]} request-input
+          request-url (or url (str (:base-url config) path))]
+      (-> (fetch/request request-url request)
           (.then (fn [{:keys [status] :as resp}]
                    (if (> status 400)
                      (throw-info resp)
@@ -27,24 +28,21 @@
           (.catch (fn [resp]
                     (throw-info resp)))))))
 
-(defn new-http [] (map->Http {}))
+(defn new-http [config] (->Http config))
 
 (defrecord HttpMock [responses requests]
   HttpProvider
   (request
-    [_self {:keys [url] :as req}]
+    [_self {:keys [url path] :as req}]
     (swap! requests merge
            (assoc req :instant (current-time)))
-    (if-let [{:keys [status lag] :as response} (get-in @responses [url])]
+    (if-let [{:keys [status lag] :as response} (get-in @responses [(or url path)])]
       (if (> status 400)
         (p/rejected (ex-info "Response error" response))
         (p/delay (or lag 10)
                  (dissoc response :lag)))
       (p/rejected (ex-info "Response error"
                            {:status 500 :body "Response not set in mocks!"})))))
-
-(defn reset-responses! [added-responses {:keys [responses]}]
-  (reset! responses added-responses))
 
 (defn new-http-mock
   [mocked-responses]

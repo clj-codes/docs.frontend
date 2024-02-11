@@ -10,7 +10,7 @@
   {:before async-setup
    :after async-cleanup})
 
-(deftest http-mock-ok-component-test
+(deftest http-mock-url-ok-component-test
   (mock-http-with {"https://pokeapi.co/api/v2/pokemon/3/"
                    {:lag 500
                     :status 200
@@ -20,6 +20,25 @@
     (async done
       (p/catch
         (p/let [response (-> (http/request! {:url "https://pokeapi.co/api/v2/pokemon/3/"
+                                             :method :get}))]
+
+          (is (= {:status 200, :body {:poke :fake}}
+                 response))
+
+          (done))
+        (fn [err] (is (= nil err))
+          (done))))))
+
+(deftest http-mock-path-ok-component-test
+  (mock-http-with {"pokemon/3/"
+                   {:lag 500
+                    :status 200
+                    :body {:poke :fake}}})
+
+  (testing "http should mock request"
+    (async done
+      (p/catch
+        (p/let [response (-> (http/request! {:path "pokemon/3/"
                                              :method :get}))]
 
           (is (= {:status 200, :body {:poke :fake}}

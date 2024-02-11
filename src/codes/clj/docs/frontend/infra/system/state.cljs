@@ -5,4 +5,4 @@
 
 (def components
   (flex/source {:config config/config
-                :http http/new-http}))
+                :http (http/new-http config/config)}))
