@@ -21,10 +21,10 @@
         (p/let [header (tl/wait-for
                         #(-> (tl/mantine-render
                               ($ AppShell
-                                 ($ Header {:links [{:href "/link"
-                                                     :label "My link"}
-                                                    {:href "/link2"
-                                                     :label "My link 2"}]})))
+                                ($ Header {:links [{:href "/link"
+                                                    :label "My link"}
+                                                   {:href "/link2"
+                                                    :label "My link 2"}]})))
                              (.findByTestId "header-root-links")))
                 links (->> (.querySelectorAll header ".mantine-Button-root")
                            (mapv #(-> % .-href (str/split "/") last)))]

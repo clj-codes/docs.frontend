@@ -7,7 +7,7 @@
 ;; TODO 
 (defnc libraries []
   ($ Container {:size "md"}
-     ($ Grid {:id "libraries"}
-        ($ Grid.Col {:span 12}
-           (dom/section
-             ($ Title {:order 2} "Currently Imported Libraries"))))))
+    ($ Grid {:id "libraries"}
+      ($ Grid.Col {:span 12}
+        (dom/section
+          ($ Title {:order 2} "Currently Imported Libraries"))))))

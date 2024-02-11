@@ -30,7 +30,7 @@
 (defn mantine-render
   [component]
   (tlr/render ($ MantineProvider {:theme theme}
-                 component)
+                component)
               #js {:container (testing-container)}))
 
 (defn cleanup
