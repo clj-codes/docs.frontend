@@ -5,8 +5,8 @@
             [helix.core :refer [$]]))
 
 (def header-links
-  [{:label "Libraries"
-    :href "/libraries"}])
+  [{:label "Projects"
+    :href "/projects"}])
 
 (defnc app-shell [{:keys [children]}]
   ($ AppShell {:padding "md"

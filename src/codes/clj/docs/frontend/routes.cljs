@@ -1,6 +1,6 @@
 (ns codes.clj.docs.frontend.routes
   (:require [codes.clj.docs.frontend.panels.home.view :as home.view]
-            [codes.clj.docs.frontend.panels.libraries.view :as libraries.view]))
+            [codes.clj.docs.frontend.panels.projects.view :as projects.view]))
 
 (def routes
   ["/"
@@ -9,7 +9,7 @@
      :view      home.view/home
      :link-text "Home"}]
 
-   ["libraries"
-    {:name      :libraries
-     :view      libraries.view/libraries
-     :link-text "Libraries"}]])
+   ["projects"
+    {:name      :projects
+     :view      projects.view/group-by-orgs
+     :link-text "Projects"}]])
