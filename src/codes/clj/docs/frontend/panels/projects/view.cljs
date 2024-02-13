@@ -71,6 +71,7 @@
         ($ Group {:justify "space-between"}
           project-cards)))))
 
+;; TODO: rendering tests
 (defnc group-by-orgs []
   (let [{:keys [value loading?]} (use-flex document-projects-response)]
     ($ Container {:size "md"}
