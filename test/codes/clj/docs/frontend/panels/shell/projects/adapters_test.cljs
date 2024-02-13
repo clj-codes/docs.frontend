@@ -135,5 +135,5 @@
       :sha "35127b79405e5dff6d9b74dfc674280eb93fab6d"}]}])
 
 (deftest projects->groups-test
-  (is (= expected-output 
+  (is (= expected-output
          (adapters/projects->groups input))))

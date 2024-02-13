@@ -1,7 +1,7 @@
 (ns codes.clj.docs.frontend.panels.projects.view
   (:require ["@mantine/core" :refer [Accordion ActionIcon Anchor Avatar Badge
-                                     Card Code Container Grid Group Text Title
-                                     LoadingOverlay]]
+                                     Card Code Container Grid Group
+                                     LoadingOverlay Text Title]]
             ["@tabler/icons-react" :refer [IconArrowRight]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
