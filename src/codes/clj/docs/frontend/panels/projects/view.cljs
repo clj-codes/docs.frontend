@@ -1,6 +1,7 @@
 (ns codes.clj.docs.frontend.panels.projects.view
-  (:require ["@mantine/core" :refer [Accordion Anchor Avatar Container Grid
-                                     Group Text Title]]
+  (:require ["@mantine/core" :refer [Accordion ActionIcon Anchor Avatar Badge
+                                     Card Code Container Grid Group Text Title]]
+            ["@tabler/icons-react" :refer [IconArrowRight]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.projects.adapters :as adapters]
             [helix.core :refer [$]]
@@ -62,35 +63,77 @@
     :tag "v0.0.1",
     :url "https://gitlab.com/someone/dummy"}])
 
+(defnc card-project [{:keys [id name manifest paths sha tag url]}]
+  ($ Card {:withBorder true :shadow "sm" :padding "lg"}
+    ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+      ($ Group {:justify "space-between"}
+        ($ Anchor {:href (str "/" id)
+                   :fw 500} name)
+        ($ ActionIcon {:component "a"
+                       :href (str "/" id)
+                       :variant "light"}
+          ($ IconArrowRight))))
+    ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+      ($ Grid {:c "dimmed"}
+        ($ Grid.Col
+          ($ Grid
+            ($ Grid.Col {:span #js {:base 12 :md 5}}
+              ($ Title {:order 6} "Git")
+              ($ Anchor {:size "sm" :href url} url))
+            ($ Grid.Col {:span #js {:base 12 :md 5}}
+              ($ Title {:order 6} "Sha")
+              ($ Code sha))
+            ($ Grid.Col {:span #js {:base 12 :md 2}}
+              ($ Title {:order 6} "Tag")
+              ($ Badge {:variant "primary"} tag))))
+        ($ Grid.Col {:span 24}
+          ($ Group
+            ($ Group
+              ($ Title {:order 6} "Manifest")
+              ($ Text {:size "sm" :c "bright" :fw 500} manifest))
+            ($ Group
+              ($ Title {:order 6} "Paths")
+              ($ Group
+                (map (fn [path] ($ Code {:key path :size "sm"} path))
+                  paths)))))))))
+
 (defnc accordion-label [{:keys [label image urls count-projects]}]
   ($ Group {:wrap "nowrap"}
-    (if image
-      ($ Avatar {:src image :radius "xl" :size "lg"})
-      ($ Avatar {:radius "xl" :size "lg"} label))
+    (dom/div
+      (if image
+        ($ Avatar {:src image :radius "xl" :size "lg"})
+        ($ Avatar {:radius "xl" :size "lg"} (subs label 0 3))))
     (dom/div
       ($ Text label)
       ($ Text {:size "sm" :c "dimmed" :fw 400}
-        (mapv #($ Anchor {:component "a" :inherit true :href %} %) urls)
+        (mapv #($ Anchor {:key (str "a-" %)
+                          :component "a"
+                          :inherit true
+                          :href %} %)
+          urls)
         " has " count-projects " indexed projects"))))
 
 (defnc accordion-item [{:keys [id image count-projects urls projects]}]
-  ($ Accordion.Item {:value id :key id}
-    ($ Accordion.Control
-      ($ accordion-label {:label id
-                          :image image
-                          :urls urls
-                          :count-projects count-projects})
+  (let [project-cards (map (fn [{:keys [id] :as props}]
+                             ($ card-project {:key id :& props})) projects)]
+    ($ Accordion.Item {:key id :value id}
+      ($ Accordion.Control
+        ($ accordion-label {:label id
+                            :image image
+                            :urls urls
+                            :count-projects count-projects}))
       ($ Accordion.Panel
-        ($ Text {:size "sm"}
-          (str projects))))))
+        ($ Group {:justify "space-between"}
+          project-cards)))))
 
 (defnc group-by-orgs []
   (let [groups (adapters/projects->groups projects-data)
-        group-item (map (fn [group] ($ accordion-item {:& group})) groups)]
+        group-item (mapv (fn [{:keys [id] :as props}]
+                           ($ accordion-item {:key id :& props})) groups)]
 
     ($ Container {:size "md"}
       ($ Grid {:id "group-by-orgs"}
-        ($ Grid.Col {:span 12}
+        ($ Grid.Col {:key "organization-title" :span 12}
           (dom/section
             ($ Title {:order 1}
               "Projects by "
@@ -100,7 +143,7 @@
 
         (dom/div (dom/br))
 
-        ($ Grid.Col {:span 12}
+        ($ Grid.Col {:key "organization-list" :span 12}
           ($ Accordion {:defaultValue "org.clojure"
                         :chevronPosition "right"
                         :variant "contained"}

@@ -14,7 +14,7 @@
 (defn urls->org-image "Only works with github for now."
   [urls]
   (when-let [github (first (filter #(re-matches #".*github\.com.*" %) urls))]
-    (str github ".png?size=50")))
+    (str github ".png?size=200")))
 
 (defn projects->groups
   [projects]
