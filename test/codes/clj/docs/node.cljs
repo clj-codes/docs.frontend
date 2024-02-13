@@ -3,6 +3,7 @@
             [cljs.test :as test]
             [codes.clj.docs.frontend.core-test]
             [codes.clj.docs.frontend.infra.http-test]
+            [codes.clj.docs.frontend.panels.projects.adapters-test]
             [codes.clj.docs.frontend.panels.shell.components-test]))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}

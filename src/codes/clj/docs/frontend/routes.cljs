@@ -12,4 +12,7 @@
    ["projects"
     {:name      :projects
      :view      projects.view/group-by-orgs
-     :link-text "Projects"}]])
+     :link-text "Projects"
+     :controllers
+     [{:start (fn [& _params]
+                (js/console.log "Entering projects page"))}]}]])
