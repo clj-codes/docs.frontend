@@ -1,5 +1,6 @@
 {:paths   ["src" "resources"]
- :deps    {lilactown/helix {:mvn/version "0.2.0"}
+ :deps    {lilactown/helix {:git/url "https://github.com/lilactown/helix"
+                            :git/sha "35127b79405e5dff6d9b74dfc674280eb93fab6d"}
            town.lilac/flex {:git/url "https://github.com/lilactown/flex"
                             :git/sha "25a96d6f6eb976e4ee2a8514743205db600a92d4"}
            fi.metosin/reitit-malli {:mvn/version "0.7.0-alpha6"}

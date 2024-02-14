@@ -1,5 +1,6 @@
 (ns codes.clj.docs.frontend.infra.flex.hook
   (:require ["react" :as react]
+            ["use-sync-external-store/shim/with-selector" :as with-selector]
             [town.lilac.flex :as flex]))
 
 (defn- cljs-deps
@@ -19,6 +20,6 @@
         snapshot-fn (fn [] @container)
         [subscribe snapshot] (react/useMemo
                               (fn [] [subscribe-fn snapshot-fn])
-                              (cljs-deps container))]
+                              (cljs-deps @container))]
     (react/useDebugValue @container str)
-    (react/useSyncExternalStore subscribe snapshot)))
+    (with-selector/useSyncExternalStoreWithSelector subscribe snapshot nil identity =)))
