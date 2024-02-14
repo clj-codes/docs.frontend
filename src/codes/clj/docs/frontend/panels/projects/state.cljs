@@ -4,7 +4,7 @@
             [codes.clj.docs.frontend.panels.projects.adapters :as adapters]
             [town.lilac.flex :as flex]))
 
-(def document-projects-request
+(def document-projects-fetch
   (flex.promise/resource
    #(-> (http/request! {:path "document/projects/" :method :get})
         (.then (fn [response]
@@ -15,7 +15,7 @@
                   (js/console.error error))))))
 
 (def document-projects-response
-  (flex/signal {:state @(:state document-projects-request)
-                :value @(:value document-projects-request)
-                :error @(:error document-projects-request)
-                :loading? @(:loading? document-projects-request)}))
+  (flex/signal {:state @(:state document-projects-fetch)
+                :value @(:value document-projects-fetch)
+                :error @(:error document-projects-fetch)
+                :loading? @(:loading? document-projects-fetch)}))

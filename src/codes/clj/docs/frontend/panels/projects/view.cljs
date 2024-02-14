@@ -10,7 +10,8 @@
             [helix.dom :as dom]))
 
 (defnc card-project [{:keys [id name manifest paths sha tag url]}]
-  ($ Card {:withBorder true :shadow "sm" :padding "lg"}
+  ($ Card {:id (str "card-project-" id)
+           :withBorder true :shadow "sm" :padding "lg"}
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
       ($ Group {:justify "space-between"}
         ($ Anchor {:href (str "/" id)
@@ -43,7 +44,8 @@
                 (mapv (fn [path] ($ Code {:key path :size "sm"} path)) paths)))))))))
 
 (defnc accordion-label [{:keys [label image urls count-projects]}]
-  ($ Group {:wrap "nowrap"}
+  ($ Group {:data-testid (str "accordion-label-" label)
+            :wrap "nowrap"}
     (dom/div
       (if image
         ($ Avatar {:src image :radius "xl" :size "lg"})
@@ -61,7 +63,9 @@
 (defnc accordion-item [{:keys [id image count-projects urls projects]}]
   (let [project-cards (mapv (fn [{:keys [id] :as props}]
                               ($ card-project {:key id :& props})) projects)]
-    ($ Accordion.Item {:key id :value id}
+    ($ Accordion.Item {:id (str "accordion-item-" id)
+                       :data-testid (str "accordion-item-" id)
+                       :key id :value id}
       ($ Accordion.Control
         ($ accordion-label {:label id
                             :image image
@@ -71,11 +75,10 @@
         ($ Group {:justify "space-between"}
           project-cards)))))
 
-;; TODO: rendering tests
 (defnc group-by-orgs []
   (let [{:keys [value loading?]} (use-flex document-projects-response)]
     ($ Container {:size "md"}
-      ($ Grid {:id "group-by-orgs"}
+      ($ Grid
         ($ Grid.Col {:key "organization-title" :span 12}
           (dom/section
             ($ Title {:order 1}

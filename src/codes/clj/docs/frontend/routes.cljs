@@ -16,4 +16,4 @@
      :link-text "Projects"
      :controllers
      [{:start (fn [& _params]
-                (projects.state/document-projects-request))}]}]])
+                (projects.state/document-projects-fetch))}]}]])
