@@ -70,7 +70,7 @@
     [{:group "org.clojure"
       :name "org.clojure/core.memoize"
       :paths ["/src/main/clojure"]
-      :manifest "deps"
+      :manifest :deps
       :id "org.clojure/core.memoize"
       :url "https://github.com/clojure/core.memoize"
       :artifact "core.memoize"
@@ -80,7 +80,7 @@
       :name "org.clojure/core.logic"
       :paths
       ["/src/main/clojure" "/src/main/java" "/src/main/resources"]
-      :manifest "pom"
+      :manifest :pom
       :id "org.clojure/core.logic"
       :url "https://github.com/clojure/core.logic"
       :artifact "core.logic"
@@ -90,7 +90,7 @@
       :name "org.clojure/clojure"
       :paths
       ["/src/clj" "/src/main/clojure" "/src/main/java" "/src/resources"]
-      :manifest "pom"
+      :manifest :pom
       :id "org.clojure/clojure"
       :url "https://github.com/clojure/clojure"
       :artifact "clojure"
@@ -104,7 +104,7 @@
     [{:group "lilactown"
       :name "lilactown/helix"
       :paths ["/src" "/resources"]
-      :manifest "deps"
+      :manifest :deps
       :id "lilactown/helix"
       :url "https://github.com/lilactown/helix"
       :artifact "helix"
@@ -113,7 +113,7 @@
      {:group "lilactown"
       :name "lilactown/flex"
       :paths ["/src" "/resources"]
-      :manifest "deps"
+      :manifest :deps
       :id "lilactown/flex"
       :url "https://github.com/lilactown/flex"
       :artifact "flex"
@@ -127,7 +127,7 @@
     [{:group "someone"
       :name "someone/dummy"
       :paths ["/src" "/resources"]
-      :manifest "deps"
+      :manifest :deps
       :id "someone/dummy"
       :url "https://gitlab.com/someone/dummy"
       :artifact "dummy"
