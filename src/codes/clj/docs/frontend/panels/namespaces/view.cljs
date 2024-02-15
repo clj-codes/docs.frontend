@@ -74,4 +74,4 @@
 
       (when namespaces
         ($ Grid {:data-testid "namespace-cards-grid"}
-           card-namespaces)))))
+          card-namespaces)))))
