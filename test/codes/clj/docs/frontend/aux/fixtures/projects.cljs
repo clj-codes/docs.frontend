@@ -1,4 +1,4 @@
-(ns codes.clj.docs.frontend.panels.projects.fixtures-test)
+(ns codes.clj.docs.frontend.aux.fixtures.projects)
 
 (def projects
   [{:artifact "core.memoize"

@@ -27,7 +27,7 @@
         ($ IconMoon {:stroke 1.5})))))
 
 (defnc Logo []
-  ($ Anchor {:href "./" :underline "never"
+  ($ Anchor {:href "/" :underline "never"
              :color "var(--mantine-color-text)"}
     ($ Center {:inline true}
       ($ IconSocial {:color "var(--mantine-color-text)"

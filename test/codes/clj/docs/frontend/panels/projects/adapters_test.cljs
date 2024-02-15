@@ -1,8 +1,8 @@
 (ns codes.clj.docs.frontend.panels.projects.adapters-test
   (:require [cljs.test :refer [deftest is use-fixtures]]
+            [codes.clj.docs.frontend.aux.fixtures.projects :as fixtures]
             [codes.clj.docs.frontend.aux.init :refer [sync-setup]]
-            [codes.clj.docs.frontend.panels.projects.adapters :as adapters]
-            [codes.clj.docs.frontend.panels.projects.fixtures-test :as fixtures]))
+            [codes.clj.docs.frontend.panels.projects.adapters :as adapters]))
 
 (use-fixtures :each sync-setup)
 

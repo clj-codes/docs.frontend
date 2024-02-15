@@ -1,5 +1,5 @@
 (ns codes.clj.docs.frontend.panels.projects.state
-  (:require [codes.clj.docs.frontend.infra.flex.resource :as flex.promise]
+  (:require [codes.clj.docs.frontend.infra.flex.promise :as flex.promise]
             [codes.clj.docs.frontend.infra.http :as http]
             [codes.clj.docs.frontend.panels.projects.adapters :as adapters]
             [town.lilac.flex :as flex]))
