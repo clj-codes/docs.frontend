@@ -1,6 +1,7 @@
 (ns codes.clj.docs.frontend.panels.namespaces.view
-  (:require ["@mantine/core" :refer [ActionIcon Anchor Avatar Card Code Container
-                                     Grid Group LoadingOverlay Text Title]]
+  (:require ["@mantine/core" :refer [ActionIcon Anchor Avatar Card Code
+                                     Container Grid Group LoadingOverlay Text
+                                     Title]]
             ["@tabler/icons-react" :refer [IconArrowRight]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
