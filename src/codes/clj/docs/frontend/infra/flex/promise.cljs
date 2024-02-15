@@ -1,8 +1,6 @@
 (ns codes.clj.docs.frontend.infra.flex.promise
   (:require [town.lilac.flex :as flex]))
 
-;; TOOD tests
-
 (defn fetcher-fn [state error value fetcher & args]
   (prn :fetcher-fn args)
   (flex/untrack
