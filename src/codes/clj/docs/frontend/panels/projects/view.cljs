@@ -61,8 +61,10 @@
         " has " count-projects " indexed projects"))))
 
 (defnc accordion-item [{:keys [id image count-projects urls projects]}]
-  (let [project-cards (mapv (fn [{:keys [id] :as props}]
-                              ($ card-project {:key id :& props})) projects)]
+  (let [project-cards (->> projects
+                           (sort-by :artifact)
+                           (mapv (fn [{:keys [id] :as props}]
+                                   ($ card-project {:key id :& props}))))]
     ($ Accordion.Item {:id (str "accordion-item-" id)
                        :data-testid (str "accordion-item-" id)
                        :key id :value id}

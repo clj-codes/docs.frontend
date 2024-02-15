@@ -4,7 +4,7 @@
                                                       async-setup
                                                       mock-http-with]]
             [codes.clj.docs.frontend.aux.testing-library :as tl]
-            [codes.clj.docs.frontend.panels.projects.fixtures-test :as fixtures]
+            [codes.clj.docs.frontend.aux.fixtures.projects :as fixtures]
             [codes.clj.docs.frontend.panels.projects.state :as projects.state]
             [codes.clj.docs.frontend.panels.projects.view :refer [group-by-orgs]]
             [helix.core :refer [$]]
@@ -35,13 +35,13 @@
                                    (->> (.querySelectorAll items ".mantine-Card-root")
                                         (mapv #(-> % .-id))))]
 
-          (is (= ["card-project-org.clojure/core.memoize"
+          (is (= ["card-project-org.clojure/clojure"
                   "card-project-org.clojure/core.logic"
-                  "card-project-org.clojure/clojure"]
+                  "card-project-org.clojure/core.memoize"]
                  (extract-cards-fn org-clojure-items)))
 
-          (is (= ["card-project-lilactown/helix"
-                  "card-project-lilactown/flex"]
+          (is (= ["card-project-lilactown/flex"
+                  "card-project-lilactown/helix"]
                  (extract-cards-fn lilactown-items)))
 
           (is (= ["card-project-someone/dummy"]
