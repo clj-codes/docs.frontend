@@ -12,6 +12,7 @@
 (defnc card-namespace [{:keys [id name author doc filename git-source col row]}]
   ($ Grid.Col
     ($ Card {:id (str "card-namespace-" id)
+             :data-testid (str "card-namespace-" id)
              :withBorder true
              :shadow "sm"
              :padding "lg"}
@@ -51,7 +52,6 @@
             ($ Avatar {:alt "Author"})
             ($ Text author)))))))
 
-;; TODO view tests
 (defnc org-projects []
   (let [{:keys [value loading?]} (use-flex namespaces-response)
         {:keys [namespaces project]} value
@@ -72,4 +72,6 @@
 
       (dom/div (dom/br))
 
-      ($ Grid card-namespaces))))
+      (when namespaces
+        ($ Grid {:data-testid "namespace-cards-grid"}
+           card-namespaces)))))

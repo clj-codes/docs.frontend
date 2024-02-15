@@ -2,7 +2,6 @@
   (:require [town.lilac.flex :as flex]))
 
 (defn fetcher-fn [state error value fetcher & args]
-  (prn :fetcher-fn args)
   (flex/untrack
    (case @state
      (:unresolved :ready :error) (.then (apply fetcher args)

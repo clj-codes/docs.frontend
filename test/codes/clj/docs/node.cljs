@@ -2,7 +2,9 @@
   (:require ["global-jsdom" :as global-jsdom]
             [cljs.test :as test]
             [codes.clj.docs.frontend.core-test]
+            [codes.clj.docs.frontend.infra.flex.promise-test]
             [codes.clj.docs.frontend.infra.http-test]
+            [codes.clj.docs.frontend.panels.namespaces.view-test]
             [codes.clj.docs.frontend.panels.projects.adapters-test]
             [codes.clj.docs.frontend.panels.projects.view-test]
             [codes.clj.docs.frontend.panels.shell.components-test]))

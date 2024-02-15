@@ -14,7 +14,7 @@
   {:before async-setup
    :after async-cleanup})
 
-(deftest group-by-orgs-component-test
+(deftest group-by-orgs-view-test
   ; mock http request
   (mock-http-with {"document/projects/"
                    {:lag 500
