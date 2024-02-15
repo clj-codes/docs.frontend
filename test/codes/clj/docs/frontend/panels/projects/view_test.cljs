@@ -1,10 +1,10 @@
 (ns codes.clj.docs.frontend.panels.projects.view-test
   (:require [cljs.test :refer [async deftest is testing use-fixtures]]
+            [codes.clj.docs.frontend.aux.fixtures.projects :as fixtures]
             [codes.clj.docs.frontend.aux.init :refer [async-cleanup
                                                       async-setup
                                                       mock-http-with]]
             [codes.clj.docs.frontend.aux.testing-library :as tl]
-            [codes.clj.docs.frontend.aux.fixtures.projects :as fixtures]
             [codes.clj.docs.frontend.panels.projects.state :as projects.state]
             [codes.clj.docs.frontend.panels.projects.view :refer [group-by-orgs]]
             [helix.core :refer [$]]

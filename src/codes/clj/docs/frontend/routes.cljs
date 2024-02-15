@@ -1,7 +1,7 @@
 (ns codes.clj.docs.frontend.routes
   (:require [codes.clj.docs.frontend.panels.home.view :as home.view]
-            [codes.clj.docs.frontend.panels.namespaces.view :as namespaces.view]
             [codes.clj.docs.frontend.panels.namespaces.state :as namespaces.state]
+            [codes.clj.docs.frontend.panels.namespaces.view :as namespaces.view]
             [codes.clj.docs.frontend.panels.projects.state :as projects.state]
             [codes.clj.docs.frontend.panels.projects.view :as projects.view]))
 
