@@ -1,4 +1,4 @@
-(ns codes.clj.docs.frontend.aux.testing-library
+(ns codes.clj.docs.frontend.test.aux.testing-library
   (:require ["@mantine/core" :refer [MantineProvider]]
             ["@testing-library/react" :as tlr]
             [codes.clj.docs.frontend.config :refer [theme]]

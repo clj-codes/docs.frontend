@@ -1,7 +1,7 @@
 (ns codes.clj.docs.frontend.panels.namespaces.state
-  (:require [codes.clj.docs.frontend.infra.flex.promise :as flex.promise]
-            [codes.clj.docs.frontend.infra.http :as http]
-            [town.lilac.flex :as flex]))
+  (:require [codes.clj.docs.frontend.infra.http :as http]
+            [town.lilac.flex :as flex]
+            [town.lilac.flex.promise :as flex.promise]))
 
 (def namespaces-fetch
   (flex.promise/resource

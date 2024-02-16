@@ -23,5 +23,5 @@
                      :compiler-options {:static-fns false}}
 
           :node-tests {:target    :node-test
-                       :main      codes.clj.docs.node/main
+                       :main      codes.clj.docs.frontend.test.node/main
                        :output-to "resources/tests/node.js"}}}
