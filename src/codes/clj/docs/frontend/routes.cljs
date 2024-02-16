@@ -1,5 +1,7 @@
 (ns codes.clj.docs.frontend.routes
-  (:require [codes.clj.docs.frontend.panels.home.view :as home.view]
+  (:require [codes.clj.docs.frontend.panels.definitions.state :as definitions.state]
+            [codes.clj.docs.frontend.panels.definitions.view :as definitions.view]
+            [codes.clj.docs.frontend.panels.home.view :as home.view]
             [codes.clj.docs.frontend.panels.namespaces.state :as namespaces.state]
             [codes.clj.docs.frontend.panels.namespaces.view :as namespaces.view]
             [codes.clj.docs.frontend.panels.projects.state :as projects.state]
@@ -25,8 +27,19 @@
      :link-text   "Namspaces"
      :parameters  {:path {:organization string?
                           :project string?}}
-     :controllers [{:parameters {:path [:organization
-                                        :project]}
+     :controllers [{:parameters {:path [:organization :project]}
                     :start (fn [& params]
                              (let [{:keys [organization project]} (-> params first :path)]
-                               (namespaces.state/namespaces-fetch organization project)))}]}]])
+                               (namespaces.state/namespaces-fetch organization project)))}]}]
+
+   [":organization/:project/:namespace"
+    {:name        :definitions
+     :view        definitions.view/namespace-definitions
+     :link-text   "Definitions"
+     :parameters  {:path {:organization string?
+                          :project string?
+                          :namespace string?}}
+     :controllers [{:parameters {:path [:organization :project :namespace]}
+                    :start (fn [& params]
+                             (let [{:keys [organization project namespace]} (-> params first :path)]
+                               (definitions.state/definitions-fetch organization project namespace)))}]}]])
