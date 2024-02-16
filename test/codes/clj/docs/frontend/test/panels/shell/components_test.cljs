@@ -1,12 +1,12 @@
-(ns codes.clj.docs.frontend.panels.shell.components-test
+(ns codes.clj.docs.frontend.test.panels.shell.components-test
   (:require ["@mantine/core" :refer [AppShell]]
             [cljs.test :refer [async deftest is testing use-fixtures]]
             [clojure.string :as str]
-            [codes.clj.docs.frontend.aux.init :refer [async-cleanup
-                                                      async-setup]]
-            [codes.clj.docs.frontend.aux.testing-library :as tl]
             [codes.clj.docs.frontend.panels.shell.components :refer [Header
                                                                      HeaderDrawer]]
+            [codes.clj.docs.frontend.test.aux.init :refer [async-cleanup
+                                                           async-setup]]
+            [codes.clj.docs.frontend.test.aux.testing-library :as tl]
             [helix.core :refer [$]]
             [promesa.core :as p]))
 

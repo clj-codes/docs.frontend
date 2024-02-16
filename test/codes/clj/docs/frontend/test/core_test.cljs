@@ -1,7 +1,7 @@
-(ns codes.clj.docs.frontend.core-test
+(ns codes.clj.docs.frontend.test.core-test
   (:require ["@testing-library/react" :as tlr]
             [cljs.test :refer [deftest is use-fixtures]]
-            [codes.clj.docs.frontend.aux.init :refer [sync-setup]]
+            [codes.clj.docs.frontend.test.aux.init :refer [sync-setup]]
             [helix.dom :as dom]))
 
 (use-fixtures :each sync-setup)

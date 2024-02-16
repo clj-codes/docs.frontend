@@ -1,12 +1,12 @@
-(ns codes.clj.docs.frontend.panels.projects.view-test
+(ns codes.clj.docs.frontend.test.panels.projects.view-test
   (:require [cljs.test :refer [async deftest is testing use-fixtures]]
-            [codes.clj.docs.frontend.aux.fixtures.projects :as fixtures]
-            [codes.clj.docs.frontend.aux.init :refer [async-cleanup
-                                                      async-setup
-                                                      mock-http-with]]
-            [codes.clj.docs.frontend.aux.testing-library :as tl]
             [codes.clj.docs.frontend.panels.projects.state :as projects.state]
             [codes.clj.docs.frontend.panels.projects.view :refer [group-by-orgs]]
+            [codes.clj.docs.frontend.test.aux.fixtures.projects :as fixtures]
+            [codes.clj.docs.frontend.test.aux.init :refer [async-cleanup
+                                                           async-setup
+                                                           mock-http-with]]
+            [codes.clj.docs.frontend.test.aux.testing-library :as tl]
             [helix.core :refer [$]]
             [promesa.core :as p]))
 
@@ -28,9 +28,10 @@
     (async done
       (p/catch
         (p/let [view (tl/mantine-render ($ group-by-orgs))
-                org-clojure-items (tl/wait-for #(.findByTestId view "accordion-item-org.clojure"))
-                lilactown-items (tl/wait-for #(.findByTestId view "accordion-item-lilactown"))
-                someone-items (tl/wait-for #(.findByTestId view "accordion-item-someone"))
+                find-by-test-id-fn (fn [test-id] #(.findByTestId ^js/Object view test-id))
+                org-clojure-items (tl/wait-for (find-by-test-id-fn "accordion-item-org.clojure"))
+                lilactown-items (tl/wait-for (find-by-test-id-fn "accordion-item-lilactown"))
+                someone-items (tl/wait-for (find-by-test-id-fn "accordion-item-someone"))
                 extract-cards-fn (fn [items]
                                    (->> (.querySelectorAll items ".mantine-Card-root")
                                         (mapv #(-> % .-id))))]

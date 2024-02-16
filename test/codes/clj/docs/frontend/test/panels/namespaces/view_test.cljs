@@ -1,12 +1,12 @@
-(ns codes.clj.docs.frontend.panels.namespaces.view-test
+(ns codes.clj.docs.frontend.test.panels.namespaces.view-test
   (:require [cljs.test :refer [async deftest is testing use-fixtures]]
-            [codes.clj.docs.frontend.aux.fixtures.namespaces :as fixtures]
-            [codes.clj.docs.frontend.aux.init :refer [async-cleanup
-                                                      async-setup
-                                                      mock-http-with]]
-            [codes.clj.docs.frontend.aux.testing-library :as tl]
             [codes.clj.docs.frontend.panels.namespaces.state :as projects.state]
             [codes.clj.docs.frontend.panels.namespaces.view :refer [org-projects]]
+            [codes.clj.docs.frontend.test.aux.fixtures.namespaces :as fixtures]
+            [codes.clj.docs.frontend.test.aux.init :refer [async-cleanup
+                                                           async-setup
+                                                           mock-http-with]]
+            [codes.clj.docs.frontend.test.aux.testing-library :as tl]
             [helix.core :refer [$]]
             [promesa.core :as p]))
 
@@ -28,7 +28,7 @@
     (async done
       (p/catch
         (p/let [view (tl/mantine-render ($ org-projects))
-                items (tl/wait-for #(.findByTestId view "namespace-cards-grid"))
+                items (tl/wait-for #(.findByTestId ^js/Object view "namespace-cards-grid"))
                 extract-cards-fn (fn [items]
                                    (->> (.querySelectorAll items ".mantine-Card-root")
                                         (mapv #(-> % .-id))))]

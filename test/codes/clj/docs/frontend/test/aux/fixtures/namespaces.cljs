@@ -1,4 +1,4 @@
-(ns codes.clj.docs.frontend.aux.fixtures.namespaces)
+(ns codes.clj.docs.frontend.test.aux.fixtures.namespaces)
 
 (def namespaces
   {:namespaces [{:artifact "clojure",

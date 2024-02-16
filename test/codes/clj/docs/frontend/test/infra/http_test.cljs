@@ -1,9 +1,9 @@
-(ns codes.clj.docs.frontend.infra.http-test
+(ns codes.clj.docs.frontend.test.infra.http-test
   (:require [cljs.test :refer [async deftest is testing use-fixtures]]
-            [codes.clj.docs.frontend.aux.init :refer [async-cleanup
-                                                      async-setup
-                                                      mock-http-with]]
             [codes.clj.docs.frontend.infra.http :as http]
+            [codes.clj.docs.frontend.test.aux.init :refer [async-cleanup
+                                                           async-setup
+                                                           mock-http-with]]
             [promesa.core :as p]))
 
 (use-fixtures :each

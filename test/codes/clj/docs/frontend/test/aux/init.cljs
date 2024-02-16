@@ -1,7 +1,7 @@
-(ns codes.clj.docs.frontend.aux.init
-  (:require [codes.clj.docs.frontend.aux.testing-library :as tlr]
-            [codes.clj.docs.frontend.infra.http.component :as http.component]
+(ns codes.clj.docs.frontend.test.aux.init
+  (:require [codes.clj.docs.frontend.infra.http.component :as http.component]
             [codes.clj.docs.frontend.infra.system.state :as system.state]
+            [codes.clj.docs.frontend.test.aux.testing-library :as tlr]
             [shadow.cljs.modern :refer [defclass]]))
 
 (defn ^:private mock-window-fns []
