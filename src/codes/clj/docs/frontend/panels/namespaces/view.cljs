@@ -15,8 +15,8 @@
                              (sort-by :name)
                              (mapv
                               (fn [{:keys [id] :as props}]
-                                ($ Grid.Col
-                                  ($ card-namespace {:list? true :key id :& props})))))
+                                ($ Grid.Col {:key id}
+                                  ($ card-namespace {:list? true :& props})))))
         project-id (:id project)]
     ($ Container {:size "md"}
       ($ LoadingOverlay {:visible loading? :zIndex 1000
