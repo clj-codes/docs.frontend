@@ -1,5 +1,4 @@
-(ns codes.clj.docs.frontend.test.aux.fixtures.definitions
-  (:require [clojure.string :as str]))
+(ns codes.clj.docs.frontend.test.aux.fixtures.definitions)
 
 (def definitions
   {:definitions [{:arglist-strs ["[system-props]"],
@@ -486,15 +485,3 @@
              :sha "ce55092f2b2f5481d25cff6205470c1335760ef6",
              :tag "clojure-1.11.1",
              :url "https://github.com/clojure/clojure"}})
-
-(->> definitions
-     :definitions
-     (sort-by :name)
-     (group-by (fn [{:keys [name]}]
-                 (if-let [alpha (->> name
-                                     str/lower-case
-                                     first
-                                     (re-matches #"[a-z]"))]
-                   alpha
-                   "*")))
-     (sort-by first))

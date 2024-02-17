@@ -1,10 +1,12 @@
 (ns codes.clj.docs.frontend.panels.definitions.view
   (:refer-clojure :exclude [namespace])
-  (:require ["@mantine/core" :refer [Container Grid LoadingOverlay Space Title]]
+  (:require ["@mantine/core" :refer [Anchor Container Divider Grid
+                                     LoadingOverlay Space Title]]
             [codes.clj.docs.frontend.components.documents :refer [card-namespace]]
             [codes.clj.docs.frontend.components.navigation :refer [breadcrumbs]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
+            [codes.clj.docs.frontend.panels.definitions.adapters :as adapters]
             [codes.clj.docs.frontend.panels.definitions.state :refer [definitions-response]]
             [helix.core :refer [$]]))
 
@@ -13,7 +15,8 @@
   (let [{:keys [value loading?]} (use-flex definitions-response)
         {:keys [definitions namespace project]} value
         project-id (:id project)
-        namespace-name (:name namespace)]
+        namespace-name (:name namespace)
+        grouped-definitions (adapters/definitions->alphabetic-grouped-list definitions)]
 
     ($ Container {:size "md"}
 
@@ -36,4 +39,16 @@
 
       (when definitions
         ($ Grid {:data-testid "definition-cards-grid"}
+          (mapv (fn [[group definitions]]
+                  ($ Grid.Col {:key group}
+                    ($ Divider {:id group :my "xs" :size "sm"
+                                :labelPosition "left"
+                                :label ($ Anchor {:fz "lg" :fw 500 :c "dimmed"
+                                                  :href (str "#" group)}
+                                         group)})
+                    ; TODO
+                    (str definitions)))
+
+            grouped-definitions)
+
           (str definitions))))))
