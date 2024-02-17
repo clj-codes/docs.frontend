@@ -19,6 +19,7 @@
                                 ($ Grid.Col {:key id}
                                   ($ card-namespace {:& props})))))
         project-id (:id project)]
+
     ($ Container {:size "md"}
       ($ LoadingOverlay {:visible loading? :zIndex 1000
                          :overlayProps #js {:radius "sm" :blur 2}})
@@ -27,15 +28,10 @@
                               {:id project-id :title project-id}]})
 
       ($ Space {:h "lg"})
-
       ($ card-project {:header true :key project-id :& project})
-
       ($ Space {:h "lg"})
-
       ($ Title {:order 3} "Namespaces")
-
       ($ Space {:h "xl"})
-
       (when namespaces
         ($ Grid {:data-testid "namespace-cards-grid"}
           card-namespaces))
