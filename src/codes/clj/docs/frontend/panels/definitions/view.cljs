@@ -1,7 +1,7 @@
 (ns codes.clj.docs.frontend.panels.definitions.view
   (:refer-clojure :exclude [namespace])
   (:require ["@mantine/core" :refer [Anchor Container Divider Grid
-                                     LoadingOverlay Space Title]]
+                                     LoadingOverlay Space Text Title]]
             [codes.clj.docs.frontend.components.documents :refer [card-namespace]]
             [codes.clj.docs.frontend.components.navigation :refer [breadcrumbs]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
@@ -39,16 +39,24 @@
 
       (when definitions
         ($ Grid {:data-testid "definition-cards-grid"}
-          (mapv (fn [[group definitions]]
+          (mapv (fn [[group sub-definitions]]
                   ($ Grid.Col {:key group}
                     ($ Divider {:id group :my "xs" :size "sm"
                                 :labelPosition "left"
                                 :label ($ Anchor {:fz "lg" :fw 500 :c "dimmed"
                                                   :href (str "#" group)}
                                          group)})
-                    ; TODO
-                    (str definitions)))
+                    (mapv
+                      (fn [{:keys [id name doc]}]
+                        ; TODO move to component
+                        ($ Grid {:key id :gutter "xs"}
+                          ($ Grid.Col {:span 3}
+                            ($ Anchor {:href id}
+                              ($ Text name)))
+                          ($ Grid.Col {:span 9}
+                            (if doc
+                              ($ Text {:size "sm" :lineClamp 1} doc)
+                              ($ Text {:size "sm" :c "dimmed"} "no documentation")))))
+                      sub-definitions)))
 
-            grouped-definitions)
-
-          (str definitions))))))
+            grouped-definitions))))))

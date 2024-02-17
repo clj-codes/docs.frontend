@@ -73,19 +73,12 @@
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
       ($ Grid
         ($ Grid.Col
-          ($ Grid
-            ($ Grid.Col {:span #js {:base 12 :md 2}}
+          ($ Grid {:justify "space-between" :align "stretch"}
+            ($ Grid.Col
               ($ Group
                 ($ Title {:order 6} "Source")
-                ($ Anchor {:size "sm" :href git-source} "Source")))
-            ($ Grid.Col {:span #js {:base 12 :md 5}}
-              ($ Group
-                ($ Title {:order 6} "Filename")
-                ($ Text filename)))
-            ($ Grid.Col {:span #js {:base 12 :md 2}}
-              ($ Group
-                ($ Title {:order 6} "Row")
-                ($ Text (str row ":" col))))))
+                ($ Anchor {:size "md" :href git-source :fw 500}
+                  ($ Text (rest (str filename ":" row ":" col))))))))
         (when doc
           ($ Grid.Col
             ($ Title {:order 6} "Doc")

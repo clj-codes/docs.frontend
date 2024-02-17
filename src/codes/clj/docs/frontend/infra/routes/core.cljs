@@ -7,6 +7,7 @@
 
 (defn on-navigate [new-match]
   (when new-match
+    (.scrollTo js/window 0 0)
     (navigated new-match)))
 
 (def router
