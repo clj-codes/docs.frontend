@@ -3,7 +3,8 @@
   (:require ["@mantine/core" :refer [Anchor Container Divider Grid
                                      LoadingOverlay Space Text Title]]
             [codes.clj.docs.frontend.components.documents :refer [card-namespace]]
-            [codes.clj.docs.frontend.components.navigation :refer [breadcrumbs]]
+            [codes.clj.docs.frontend.components.navigation :refer [back-to-top
+                                                                   breadcrumbs]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.definitions.adapters :as adapters]
@@ -29,7 +30,7 @@
 
       ($ Space {:h "lg"})
 
-      ($ card-namespace {:list? false :key (:id namespace) :& namespace})
+      ($ card-namespace {:header true :key (:id namespace) :& namespace})
 
       ($ Space {:h "lg"})
 
@@ -59,4 +60,6 @@
                               ($ Text {:size "sm" :c "dimmed"} "no documentation")))))
                       sub-definitions)))
 
-            grouped-definitions))))))
+            grouped-definitions)))
+
+      ($ back-to-top))))

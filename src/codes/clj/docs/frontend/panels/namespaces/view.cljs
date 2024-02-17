@@ -2,7 +2,8 @@
   (:require ["@mantine/core" :refer [Container Grid LoadingOverlay Space Title]]
             [codes.clj.docs.frontend.components.documents :refer [card-namespace
                                                                   card-project]]
-            [codes.clj.docs.frontend.components.navigation :refer [breadcrumbs]]
+            [codes.clj.docs.frontend.components.navigation :refer [back-to-top
+                                                                   breadcrumbs]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.namespaces.state :refer [namespaces-response]]
@@ -16,7 +17,7 @@
                              (mapv
                               (fn [{:keys [id] :as props}]
                                 ($ Grid.Col {:key id}
-                                  ($ card-namespace {:list? true :& props})))))
+                                  ($ card-namespace {:& props})))))
         project-id (:id project)]
     ($ Container {:size "md"}
       ($ LoadingOverlay {:visible loading? :zIndex 1000
@@ -27,7 +28,7 @@
 
       ($ Space {:h "lg"})
 
-      ($ card-project {:list? false :key project-id :& project})
+      ($ card-project {:header true :key project-id :& project})
 
       ($ Space {:h "lg"})
 
@@ -37,4 +38,6 @@
 
       (when namespaces
         ($ Grid {:data-testid "namespace-cards-grid"}
-          card-namespaces)))))
+          card-namespaces))
+
+      ($ back-to-top))))

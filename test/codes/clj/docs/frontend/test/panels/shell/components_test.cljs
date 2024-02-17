@@ -2,8 +2,8 @@
   (:require ["@mantine/core" :refer [AppShell]]
             [cljs.test :refer [async deftest is testing use-fixtures]]
             [clojure.string :as str]
-            [codes.clj.docs.frontend.panels.shell.components :refer [Header
-                                                                     HeaderDrawer]]
+            [codes.clj.docs.frontend.panels.shell.components :refer [header
+                                                                     header-drawer]]
             [codes.clj.docs.frontend.test.aux.init :refer [async-cleanup
                                                            async-setup]]
             [codes.clj.docs.frontend.test.aux.testing-library :as tl]
@@ -21,7 +21,7 @@
         (p/let [header (tl/wait-for
                         #(-> (tl/mantine-render
                               ($ AppShell
-                                ($ Header {:links [{:href "/link"
+                                ($ header {:links [{:href "/link"
                                                     :label "My link"}
                                                    {:href "/link2"
                                                     :label "My link 2"}]})))
@@ -41,7 +41,7 @@
     (async done
       (p/catch
         (p/let [_ (tl/mantine-render
-                   ($ HeaderDrawer {:links [{:href "/link"
+                   ($ header-drawer {:links [{:href "/link"
                                              :label "My link"}
                                             {:href "/link2"
                                              :label "My link 2"}]

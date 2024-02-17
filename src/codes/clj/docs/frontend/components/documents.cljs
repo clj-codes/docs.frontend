@@ -6,16 +6,17 @@
             [helix.core :refer [$]]))
 
 ;; TODO test
-(defnc card-project [{:keys [id name manifest paths sha tag url list?]}]
+(defnc card-project [{:keys [id name manifest paths sha tag url header]}]
   ($ Card {:id (str "card-project-" id)
            :key (str "card-project-" id)
-           :className (when-not list? "components-documents-cards")
+           :className (when header "components-documents-cards")
            :withBorder true
            :shadow "sm"
            :padding "lg"}
 
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
-      (if list?
+      (if header
+        ($ Title {:order 5} name)
         ($ Group {:justify "space-between"}
           ($ Anchor {:href (str "/" id)
                      :fw 500}
@@ -23,8 +24,7 @@
           ($ ActionIcon {:component "a"
                          :href (str "/" id)
                          :variant "light"}
-            ($ IconArrowRight)))
-        ($ Title {:order 5} name)))
+            ($ IconArrowRight)))))
 
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
       ($ Grid {:c "dimmed"}
@@ -50,16 +50,18 @@
                 (mapv (fn [path] ($ Code {:key path :size "sm"} path)) paths)))))))))
 
 ;; TODO test
-(defnc card-namespace [{:keys [id name author doc filename git-source col row list?]}]
+(defnc card-namespace [{:keys [id name author doc filename git-source col row header]}]
   ($ Card {:id (str "card-namespace-" id)
            :data-testid (str "card-namespace-" id)
-           :className (when-not list? "components-documents-cards")
+           :className (when header "components-documents-cards")
            :withBorder true
            :shadow "sm"
            :padding "lg"}
 
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
-      (if list?
+      (if header
+
+        ($ Title {:order 5} name)
         ($ Group {:justify "space-between"}
           ($ Anchor {:href (str "/" id)
                      :fw 500}
@@ -67,8 +69,7 @@
           ($ ActionIcon {:component "a"
                          :href (str "/" id)
                          :variant "light"}
-            ($ IconArrowRight)))
-        ($ Title {:order 5} name)))
+            ($ IconArrowRight)))))
 
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
       ($ Grid
