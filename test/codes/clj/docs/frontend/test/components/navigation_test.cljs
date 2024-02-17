@@ -14,8 +14,8 @@
 (def items [{:id "projects" :href "/projects" :title "Projects"}
             {:id "namespace" :title "Namespace"}])
 
-(deftest header-component-test
-  (testing "header should render component links"
+(deftest breadcrumbs-component-test
+  (testing "breadcrumbs should render component links and texts"
     (async done
       (p/catch
         (p/let [breads (tl/wait-for

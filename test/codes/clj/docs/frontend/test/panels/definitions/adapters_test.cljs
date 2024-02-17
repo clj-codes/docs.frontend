@@ -30,7 +30,7 @@
    ["v" [{:name "validate-opts"}]]
    ["w" [{:name "with-lock"}]]])
 
-(deftest projects->groups-test
+(deftest definitions->alphabetic-grouped-list-test
   (is (match? expected-output
               (-> fixtures/definitions
                   :definitions
