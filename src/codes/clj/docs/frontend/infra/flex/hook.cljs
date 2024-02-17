@@ -14,8 +14,7 @@
   "React hook to subscribe to flex sources."
   [container]
   (let [subscribe-fn (fn [callback]
-                       (let [signal (flex/signal @container)
-                             listener (flex/listen signal callback)]
+                       (let [listener (flex/listen container callback)]
                          #(flex/dispose! listener)))
         snapshot-fn (fn [] @container)
         [subscribe snapshot] (react/useMemo

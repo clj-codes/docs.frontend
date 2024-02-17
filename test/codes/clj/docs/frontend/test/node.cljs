@@ -1,6 +1,7 @@
 (ns codes.clj.docs.frontend.test.node
   (:require ["global-jsdom" :as global-jsdom]
             [cljs.test :as test]
+            [codes.clj.docs.frontend.test.components.documents-test]
             [codes.clj.docs.frontend.test.components.navigation-test]
             [codes.clj.docs.frontend.test.core-test]
             [codes.clj.docs.frontend.test.infra.http-test]
