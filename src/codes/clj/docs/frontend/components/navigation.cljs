@@ -1,5 +1,6 @@
 (ns codes.clj.docs.frontend.components.navigation
-  (:require ["@mantine/core" :refer [ActionIcon Anchor Affix Breadcrumbs Text Transition]]
+  (:require ["@mantine/core" :refer [ActionIcon Affix Anchor Breadcrumbs Text
+                                     Transition]]
             ["@mantine/hooks" :refer [useWindowScroll]]
             ["@tabler/icons-react" :refer [IconArrowUp]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]

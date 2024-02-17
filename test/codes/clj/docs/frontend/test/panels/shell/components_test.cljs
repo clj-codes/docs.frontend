@@ -42,11 +42,11 @@
       (p/catch
         (p/let [_ (tl/mantine-render
                    ($ header-drawer {:links [{:href "/link"
-                                             :label "My link"}
-                                            {:href "/link2"
-                                             :label "My link 2"}]
-                                    :opened true
-                                    :close identity}))
+                                              :label "My link"}
+                                             {:href "/link2"
+                                              :label "My link 2"}]
+                                     :opened true
+                                     :close identity}))
                 drawer (tl/wait-for #(.findByTestId (tl/document) "header-drawer-scrollarea"))
                 links (->> (.querySelectorAll drawer ".mantine-NavLink-root")
                            (mapv #(-> % .-href (str/split "/") last)))]
