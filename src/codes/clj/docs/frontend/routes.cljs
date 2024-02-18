@@ -1,5 +1,7 @@
 (ns codes.clj.docs.frontend.routes
-  (:require [codes.clj.docs.frontend.panels.definitions.state :as definitions.state]
+  (:require [codes.clj.docs.frontend.panels.definition.state :as definition.state]
+            [codes.clj.docs.frontend.panels.definition.view :as definition.view]
+            [codes.clj.docs.frontend.panels.definitions.state :as definitions.state]
             [codes.clj.docs.frontend.panels.definitions.view :as definitions.view]
             [codes.clj.docs.frontend.panels.home.view :as home.view]
             [codes.clj.docs.frontend.panels.namespaces.state :as namespaces.state]
@@ -42,4 +44,31 @@
      :controllers [{:parameters {:path [:organization :project :namespace]}
                     :start (fn [& params]
                              (let [{:keys [organization project namespace]} (-> params first :path)]
-                               (definitions.state/definitions-fetch organization project namespace)))}]}]])
+                               (definitions.state/definitions-fetch organization project namespace)))}]}]
+
+   [":organization/:project/:namespace/:definition"
+    {:name        :definition
+     :view        definition.view/definition-detail
+     :link-text   "Definition"
+     :parameters  {:path {:organization string?
+                          :project string?
+                          :namespace string?
+                          :definition string?}}
+     :controllers [{:parameters {:path [:organization :project :namespace :definition]}
+                    :start (fn [& params]
+                             (let [{:keys [organization project namespace definition]} (-> params first :path)]
+                               (definition.state/definition-fetch organization project namespace definition 0)))}]}]
+
+   [":organization/:project/:namespace/:definition/:index"
+    {:name        :definition-indexed
+     :view        definition.view/definition-detail
+     :link-text   "Definition"
+     :parameters  {:path {:organization string?
+                          :project string?
+                          :namespace string?
+                          :definition string?
+                          :index integer?}}
+     :controllers [{:parameters {:path [:organization :project :namespace :definition :index]}
+                    :start (fn [& params]
+                             (let [{:keys [organization project namespace definition index]} (-> params first :path)]
+                               (definition.state/definition-fetch organization project namespace definition index)))}]}]])

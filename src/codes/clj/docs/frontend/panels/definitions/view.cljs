@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [namespace])
   (:require ["@mantine/core" :refer [Anchor Container Divider Grid
                                      LoadingOverlay Space Text Title]]
+            [clojure.string :as str]
             [codes.clj.docs.frontend.components.documents :refer [card-namespace]]
             [codes.clj.docs.frontend.components.navigation :refer [back-to-top
                                                                    breadcrumbs]]
@@ -15,7 +16,8 @@
 (defnc definition-line [{:keys [id name doc]}]
   (dom/div {:className "definition-line-row"}
     (dom/div {:className "definition-line-name-column"}
-      ($ Anchor {:size "sm" :href id}
+      ($ Anchor {:size "sm" :href (->> (str/replace id #"/0$" "")
+                                       (str "/"))}
         ($ Text name)))
     (dom/div {:className "definition-line-doc-column"}
       ($ Title {:fw 450 :order 6 :lineClamp 1}
