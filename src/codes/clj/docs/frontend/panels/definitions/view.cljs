@@ -1,7 +1,7 @@
 (ns codes.clj.docs.frontend.panels.definitions.view
   (:refer-clojure :exclude [namespace])
   (:require ["@mantine/core" :refer [Anchor Container Divider Grid
-                                     LoadingOverlay Space Text Title SimpleGrid]]
+                                     LoadingOverlay Space Text Title]]
             [codes.clj.docs.frontend.components.documents :refer [card-namespace]]
             [codes.clj.docs.frontend.components.navigation :refer [back-to-top
                                                                    breadcrumbs]]
