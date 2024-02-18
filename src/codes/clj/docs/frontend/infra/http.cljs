@@ -20,4 +20,12 @@
        {:path "pokemon/3/"
         :method :get})
       (.then #(prn "then" %))
+      (.catch  #(prn "catch" %)))
+
+  (-> (http.component/request
+       (http.component/new-http  {:base-url "http://localhost:3001/api/"})
+       {:path "document/definitions/org.clojure/clojure/clojure.core"
+        :as :edn
+        :method :get})
+      (.then #(prn "then" %))
       (.catch  #(prn "catch" %))))

@@ -1,7 +1,7 @@
 (ns codes.clj.docs.frontend.panels.definitions.view
   (:refer-clojure :exclude [namespace])
   (:require ["@mantine/core" :refer [Anchor Container Divider Grid
-                                     LoadingOverlay Space Text Title]]
+                                     LoadingOverlay Space Text Title SimpleGrid]]
             [codes.clj.docs.frontend.components.documents :refer [card-namespace]]
             [codes.clj.docs.frontend.components.navigation :refer [back-to-top
                                                                    breadcrumbs]]
@@ -13,14 +13,15 @@
             [helix.dom :as dom]))
 
 (defnc definition-line [{:keys [id name doc]}]
-  ($ Grid {:key id :gutter "xs"}
-    ($ Grid.Col {:span 3}
-      ($ Anchor {:href id}
+  (dom/div {:className "definition-line-row"}
+    (dom/div {:className "definition-line-name-column"}
+      ($ Anchor {:size "sm" :href id}
         ($ Text name)))
-    ($ Grid.Col {:span 9}
-      (if doc
-        ($ Text {:size "sm" :lineClamp 1} doc)
-        ($ Text {:size "sm" :c "dimmed"} "no documentation")))))
+    (dom/div {:className "definition-line-doc-column"}
+      ($ Title {:fw 450 :order 6 :lineClamp 1}
+        (or doc
+          ($ Text {:c "dimmed" :size "sm"}
+            "no documentation"))))))
 
 (defnc definitions-gruoped [{:keys [group sub-definitions]}]
   (dom/div
@@ -30,7 +31,7 @@
                                   :href (str "#" group)}
                          group)})
 
-    (mapv
+    (map
       (fn [{:keys [id] :as definition}]
         ($ definition-line {:key id :& definition}))
       sub-definitions)))
