@@ -10,7 +10,7 @@
             [helix.core :refer [$]]
             [helix.dom :as dom]))
 
-(defnc DarkModeButton []
+(defnc dark-mode-button []
   (let [set-scheme (.-setColorScheme (useMantineColorScheme))
         current-scheme (useComputedColorScheme
                         "light"
@@ -26,7 +26,7 @@
         ($ IconSun {:stroke 1.5})
         ($ IconMoon {:stroke 1.5})))))
 
-(defnc Logo []
+(defnc logo []
   ($ Anchor {:href "/" :underline "never"
              :color "var(--mantine-color-text)"}
     ($ Center {:inline true}
@@ -35,7 +35,7 @@
       ($ Text {:ml "0.2rem" :size "xl"}
         "docs.clj.codes"))))
 
-(defnc HeaderDrawer [{:keys [links opened close]}]
+(defnc header-drawer [{:keys [links opened close]}]
   ($ Drawer {:data-testid "header-drawer"
              :position "right"
              :size "xs"
@@ -63,13 +63,13 @@
          :leftSection ($ IconBrandGithub {:size "1.5rem" :stroke 1.5})
          :rightSection ($ IconChevronRight)}))))
 
-(defnc Header [{:keys [links]}]
+(defnc header [{:keys [links]}]
   (let [[opened updater] (useDisclosure false)
         close (.-toggle updater)]
     ($ AppShell.Header {:className "shell-header"}
       ($ Container {:size "md"}
         ($ Group {:className "shell-inner-header"}
-          ($ Logo)
+          ($ logo)
           ($ Group
             ($ Group {:data-testid "header-root-links"
                       :gap "xs"
@@ -89,15 +89,16 @@
                          :href "/login"
                          :size "compact-md"
                          :variant "primary"
-                         :leftSection ($ IconBrandGithub {:size "1.5rem" :stroke 1.5})}
+                         :leftSection ($ IconBrandGithub
+                                        {:size "1.5rem" :stroke 1.5})}
                 "Log in"))
             ($ Group {:gap "xs"}
-              ($ DarkModeButton)
+              ($ dark-mode-button)
               ($ Burger {:opened opened :onClick close
                          :size "sm" :hiddenFrom "sm"})))
-          ($ HeaderDrawer {:links links :opened opened :close close}))))))
+          ($ header-drawer {:links links :opened opened :close close}))))))
 
-(defnc Footer []
+(defnc footer []
   (dom/footer {:className "shell-footer"}
     ($ Container {:className "shell-after-footer" :size "md"}
       ($ Group {:gap 3}
@@ -108,7 +109,8 @@
                    :href "https://rafael.delboni.cc"
                    :target "_blank"}
           "delboni"))
-      ($ Group {:className "shell-social-footer" :gap 0 :justify "flex-end" :wrap "nowrap"}
+      ($ Group {:className "shell-social-footer"
+                :gap 0 :justify "flex-end" :wrap "nowrap"}
         ($ ActionIcon {:size "lg" :color "gray" :variant "subtle"
                        :component "a"
                        :href "https://www.github.com/clj-codes"

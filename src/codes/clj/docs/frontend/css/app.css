@@ -8,6 +8,57 @@
 /* import '@mantine/code-highlight/styles.css'; */
 /* ... */
 
+.definition-line-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-top: rem(4px);
+  padding-bottom: rem(4px);
+}
+
+.definition-line-row:hover {
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+}
+
+.definition-line-name-column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+}
+
+.definition-line-doc-column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  padding-bottom: rem(10px);
+}
+
+@media screen and (min-width: 800px) {
+  .definition-line-name-column {
+    flex: 1;
+  }
+
+  .definition-line-doc-column {
+    flex: 3;
+    padding-bottom: 0px;
+  }
+}
+
+.components-documents-cards {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: rem(6px);
+    background-image: linear-gradient(0,
+        var(--mantine-color-green-6),
+        var(--mantine-color-cyan-6));
+  }
+}
+
 .shell-header {
   height: rem(56px);
   margin-bottom: rem(120px);

@@ -1,56 +1,13 @@
 (ns codes.clj.docs.frontend.panels.namespaces.view
-  (:require ["@mantine/core" :refer [ActionIcon Anchor Avatar Card Code
-                                     Container Grid Group LoadingOverlay Text
-                                     Title]]
-            ["@tabler/icons-react" :refer [IconArrowRight]]
+  (:require ["@mantine/core" :refer [Container Grid LoadingOverlay Space Title]]
+            [codes.clj.docs.frontend.components.documents :refer [card-namespace
+                                                                  card-project]]
+            [codes.clj.docs.frontend.components.navigation :refer [back-to-top
+                                                                   breadcrumbs]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.namespaces.state :refer [namespaces-response]]
-            [helix.core :refer [$]]
-            [helix.dom :as dom]))
-
-(defnc card-namespace [{:keys [id name author doc filename git-source col row]}]
-  ($ Grid.Col
-    ($ Card {:id (str "card-namespace-" id)
-             :data-testid (str "card-namespace-" id)
-             :withBorder true
-             :shadow "sm"
-             :padding "lg"}
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
-        ($ Group {:justify "space-between"}
-          ($ Anchor {:href (str "/" id)
-                     :fw 500} name)
-          ($ ActionIcon {:component "a"
-                         :href (str "/" id)
-                         :variant "light"}
-            ($ IconArrowRight))))
-
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
-        ($ Grid
-          ($ Grid.Col
-            ($ Grid
-              ($ Grid.Col {:span #js {:base 12 :md 2}}
-                ($ Group
-                  ($ Title {:order 6} "Source")
-                  ($ Anchor {:size "sm" :href git-source} "Source")))
-              ($ Grid.Col {:span #js {:base 12 :md 5}}
-                ($ Group
-                  ($ Title {:order 6} "Filename")
-                  ($ Text filename)))
-              ($ Grid.Col {:span #js {:base 12 :md 2}}
-                ($ Group
-                  ($ Title {:order 6} "Row")
-                  ($ Text (str row ":" col))))))
-          (when doc
-            ($ Grid.Col
-              ($ Title {:order 6} "Doc")
-              ($ Code {:block true} doc)))))
-
-      (when author
-        ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
-          ($ Group {:justify "flex-start"}
-            ($ Avatar {:alt "Author"})
-            ($ Text author)))))))
+            [helix.core :refer [$]]))
 
 (defnc org-projects []
   (let [{:keys [value loading?]} (use-flex namespaces-response)
@@ -59,19 +16,24 @@
                              (sort-by :name)
                              (mapv
                               (fn [{:keys [id] :as props}]
-                                ($ card-namespace {:key id :& props}))))]
-    ($ LoadingOverlay {:visible loading? :zIndex 1000
-                       :overlayProps #js {:radius "sm" :blur 2}})
+                                ($ Grid.Col {:key id}
+                                  ($ card-namespace {:& props})))))
+        project-id (:id project)]
 
     ($ Container {:size "md"}
-      ($ Title {:order 1}
-        "Namespaces on "
-        ($ Text {:component "span" :inherit true :variant "gradient"
-                 :gradient #js {:from "cyan" :to "green" :deg 90}}
-          (:id project)))
+      ($ LoadingOverlay {:visible loading? :zIndex 1000
+                         :overlayProps #js {:radius "sm" :blur 2}})
 
-      (dom/div (dom/br))
+      ($ breadcrumbs {:items [{:id "projects" :href "/projects" :title "Projects"}
+                              {:id project-id :title project-id}]})
 
+      ($ Space {:h "lg"})
+      ($ card-project {:header true :key project-id :& project})
+      ($ Space {:h "lg"})
+      ($ Title {:order 3} "Namespaces")
+      ($ Space {:h "xl"})
       (when namespaces
         ($ Grid {:data-testid "namespace-cards-grid"}
-          card-namespaces)))))
+          card-namespaces))
+
+      ($ back-to-top))))
