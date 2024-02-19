@@ -17,7 +17,7 @@
                       :body)))
          (.catch (fn [error]
                    (js/console.error error)
-                   error))))))
+                   (throw error)))))))
 
 (def definition-response
   (flex/signal {:state @(:state definition-fetch)

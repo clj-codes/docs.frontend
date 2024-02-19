@@ -9,6 +9,9 @@
             [codes.clj.docs.frontend.panels.projects.state :as projects.state]
             [codes.clj.docs.frontend.panels.projects.view :as projects.view]))
 
+(defn- set-title! [title]
+  (set! (.-title js/document) title))
+
 (def routes
   ["/"
    [""
@@ -21,6 +24,7 @@
      :view        projects.view/group-by-orgs
      :link-text   "Projects"
      :controllers [{:start (fn [& _params]
+                             (set-title! "Projects - docs.clj.codes")
                              (projects.state/document-projects-fetch))}]}]
 
    [":organization/:project"
@@ -32,6 +36,7 @@
      :controllers [{:parameters {:path [:organization :project]}
                     :start (fn [& params]
                              (let [{:keys [organization project]} (-> params first :path)]
+                               (set-title! (str organization " - " project " - docs.clj.codes"))
                                (namespaces.state/namespaces-fetch organization project)))}]}]
 
    [":organization/:project/:namespace"
@@ -44,6 +49,7 @@
      :controllers [{:parameters {:path [:organization :project :namespace]}
                     :start (fn [& params]
                              (let [{:keys [organization project namespace]} (-> params first :path)]
+                               (set-title! (str namespace " - " organization " - " project " - docs.clj.codes"))
                                (definitions.state/definitions-fetch organization project namespace)))}]}]
 
    [":organization/:project/:namespace/:definition"
@@ -57,6 +63,7 @@
      :controllers [{:parameters {:path [:organization :project :namespace :definition]}
                     :start (fn [& params]
                              (let [{:keys [organization project namespace definition]} (-> params first :path)]
+                               (set-title! (str definition " - " namespace " - " organization " - " project " - docs.clj.codes"))
                                (definition.state/definition-fetch organization project namespace definition 0)))}]}]
 
    [":organization/:project/:namespace/:definition/:index"
@@ -71,4 +78,5 @@
      :controllers [{:parameters {:path [:organization :project :namespace :definition :index]}
                     :start (fn [& params]
                              (let [{:keys [organization project namespace definition index]} (-> params first :path)]
+                               (set-title! (str definition " - " namespace " - " organization " - " project " - docs.clj.codes"))
                                (definition.state/definition-fetch organization project namespace definition index)))}]}]])

@@ -27,6 +27,5 @@
     ($ Affix {:position #js {:bottom 20 :right 20}}
       ($ Transition {:transition "slide-up" :mounted (> (.-y scroll) 0)}
         (fn [transition-style]
-          (prn transition-style)
           ($ ActionIcon {:style transition-style :onClick #(scrollTo #js {:y 0})}
             ($ IconArrowUp)))))))
