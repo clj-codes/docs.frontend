@@ -5,7 +5,7 @@
   "scripts": {
     "watch:css": "postcss src/codes/clj/docs/frontend/css/app.css -w --dir resources/public/css --verbose",
     "watch:clj": "shadow-cljs watch app tests",
-    "release:css": "postcss src/css/app.css --dir public/app",
+    "release:css": "postcss src/codes/clj/docs/frontend/css/app.css --dir resources/public/css",
     "release:clj": "shadow-cljs release app",
     "test:watch": "shadow-cljs watch node-tests --config-merge \"{:autorun true}\"",
     "test": "shadow-cljs compile ci-tests && karma start --single-run",

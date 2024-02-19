@@ -73,7 +73,7 @@ jobs:
         npm ci
         npm run release
 
-    - name: Upload uberjar artifact
+    - name: Upload web artifact
       uses: actions/upload-artifact@v4
       with:
         name: built-web
@@ -88,7 +88,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Download uberjar artifact
+    - name: Download web artifact
       uses: actions/download-artifact@v4
       with:
         name: built-web
