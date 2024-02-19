@@ -22,4 +22,4 @@
     {:debug? debug?
      :base-url (if debug?
                  "http://localhost:3001/api/"
-                 "http://docs.clj.codes/api/")}))
+                 "https://docs-backend.fly.dev/api/")}))
