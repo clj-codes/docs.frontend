@@ -13,7 +13,7 @@
                       :body)))
          (.catch (fn [error]
                    (js/console.error error)
-                   error))))))
+                   (throw error)))))))
 
 (def namespaces-response
   (flex/signal {:state @(:state namespaces-fetch)

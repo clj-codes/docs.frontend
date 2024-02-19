@@ -76,7 +76,7 @@
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
       ($ Grid
         ($ Grid.Col
-          ($ Grid {:justify "space-between" :align "stretch"}
+          ($ Grid {:justify "space-between"}
             ($ Grid.Col
               ($ Group
                 ($ Title {:order 6} "Source")

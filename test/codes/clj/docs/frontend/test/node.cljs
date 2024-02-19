@@ -5,6 +5,7 @@
             [codes.clj.docs.frontend.test.components.navigation-test]
             [codes.clj.docs.frontend.test.core-test]
             [codes.clj.docs.frontend.test.infra.http-test]
+            [codes.clj.docs.frontend.test.panels.definition.view-test]
             [codes.clj.docs.frontend.test.panels.definitions.adapters-test]
             [codes.clj.docs.frontend.test.panels.definitions.view-test]
             [codes.clj.docs.frontend.test.panels.namespaces.view-test]

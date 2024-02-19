@@ -13,7 +13,7 @@
                      adapters/projects->groups)))
         (.catch (fn [error]
                   (js/console.error error)
-                  error)))))
+                  (throw error))))))
 
 (def document-projects-response
   (flex/signal {:state @(:state document-projects-fetch)
