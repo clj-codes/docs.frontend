@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  tests-karma:
+  tests_karma:
     strategy:
       matrix:
         os-version: [ubuntu-latest]
@@ -82,7 +82,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [run_tests, build_web]
+    needs: [tests_karma, build_web]
 
     steps:
     - name: Checkout
