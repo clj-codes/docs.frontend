@@ -94,9 +94,8 @@ jobs:
         name: built-web
         path: release/public
 
-    - name: Debug Artifact
-    - run: |
-        ls release/public
+    - name: Display structure of downloaded files
+      run: ls -R
 
     - uses: superfly/flyctl-actions/setup-flyctl@master
       # --ha=false because by default fly.io spins two machines for high availability
