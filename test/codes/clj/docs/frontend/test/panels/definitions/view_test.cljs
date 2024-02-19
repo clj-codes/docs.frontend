@@ -24,7 +24,7 @@
   ; call initial db fetch
   (projects.state/definitions-fetch "org.clojure" "clojure" "clojure.core.server")
 
-  (testing "org-projects should render project namespace cards"
+  (testing "namespace-definitions should render definitions list"
     (async done
       (p/catch
         (p/let [view (tl/mantine-render ($ namespace-definitions))

@@ -13,8 +13,9 @@
             [helix.core :refer [$]]
             [helix.dom :as dom]))
 
-(defnc card-definition [{:keys [id added defined-by arglist-strs name doc filename
-                                git-source col row deprecated macro private]}]
+(defnc card-definition [{:keys [id added defined-by arglist-strs doc filename
+                                git-source col row deprecated macro private]
+                         :as definition}]
   ($ Card {:id (str "card-definition-" id)
            :key (str "card-definition-" id)
            :data-testid (str "card-definition-" id)
@@ -23,21 +24,24 @@
            :padding "lg"}
 
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
-      ($ Title {:order 2} name))
+      ($ Title {:id "card-definition-title" :order 2}
+        (:name definition)))
 
-    ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
-      ($ Group {:justify "flex-start"}
-        ($ Title {:order 6} "Metadata")
-        (when added
-          ($ Badge {:variant "light" :color "moonstone"}
-            (str "since: " added)))
-        (when deprecated
-          ($ Badge {:variant "light" :color "orange"}
-            (str "deprecated: " deprecated)))
-        (when macro
-          ($ Badge {:variant "light" :color "grape"} "macro"))
-        (when private
-          ($ Badge {:variant "light" :color "gray"} "private"))))
+    (when (or added deprecated macro private)
+      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+        ($ Group {:id "card-definition-metadata"
+                  :justify "flex-start"}
+          ($ Title {:order 6} "Metadata")
+          (when added
+            ($ Badge {:variant "light" :color "moonstone"}
+              (str "since: " added)))
+          (when deprecated
+            ($ Badge {:variant "light" :color "orange"}
+              (str "deprecated: " deprecated)))
+          (when macro
+            ($ Badge {:variant "light" :color "grape"} "macro"))
+          (when private
+            ($ Badge {:variant "light" :color "gray"} "private")))))
 
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
       ($ Group {:justify "space-between"}
@@ -58,7 +62,7 @@
               #($ Group {:key (str %) :my "sm"}
                  ($ Code {:c "white" :color "moonstone"}
                    ($ Text
-                     ($ Text {:span true :size "sm"} (str "(" name " "))
+                     ($ Text {:span true :size "sm"} (str "(" (:name definition) " "))
                      ($ Text {:span true :size "sm" :fw 1000}
                        (str/replace % #"\[|\]" ""))
                      ($ Text {:span true :size "sm"} ")"))))
@@ -70,7 +74,6 @@
                      :block true}
               doc)))))))
 
-;; TODO tests
 (defnc definition-detail []
   (let [{:keys [state error value loading?]} (use-flex definition-response)
         {:keys [project namespace definition]} value
