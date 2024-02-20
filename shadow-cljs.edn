@@ -9,9 +9,14 @@
                 :output-dir       "resources/public/js"
                 :asset-path       "/js"
                 :dev              {:modules {:core {:init-fn codes.clj.docs.frontend.dev.core/init}}}
-                :release          {:modules {:core {:init-fn codes.clj.docs.frontend.core/init}}}
+                :release          {:modules {:core {:init-fn codes.clj.docs.frontend.core/init}}
+                                   :module-hash-names true}
                 :compiler-options {:warnings {:extending-base-js-type false}
-                                   :install-deps true}}
+                                   :install-deps true}
+                :build-hooks
+                [(shadow.html/copy-file
+                  "resources/index.src.html"
+                  "resources/public/index.html")]}
 
           :tests {:target    :browser-test
                   :test-dir  "resources/tests"
