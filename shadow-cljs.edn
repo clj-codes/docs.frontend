@@ -14,7 +14,7 @@
                 :compiler-options {:warnings {:extending-base-js-type false}
                                    :install-deps true}
                 :build-hooks
-                [(codes.clj.docs.frontend.dev.shadow.hooks.html/copy-file
+                [(shadow.html/copy-file
                   "resources/index.src.html"
                   "resources/public/index.html")]}
 
