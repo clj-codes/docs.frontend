@@ -1,6 +1,5 @@
 node_modules/
-resources/public/js
-resources/public/css
+resources/public
 resources/tests
 
 /out
