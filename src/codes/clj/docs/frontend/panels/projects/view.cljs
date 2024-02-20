@@ -18,18 +18,18 @@
     (dom/div
       ($ Text label)
       ($ Text {:size "sm" :c "dimmed" :fw 400}
-        (mapv #($ Anchor {:key (str "a-" %)
-                          :component "a"
-                          :inherit true
-                          :href %} %)
+        (map #($ Anchor {:key (str "a-" %)
+                         :component "a"
+                         :inherit true
+                         :href %} %)
           urls)
         " has " count-projects " indexed projects"))))
 
 (defnc accordion-item [{:keys [id image count-projects urls projects]}]
   (let [project-cards (->> projects
                            (sort-by :artifact)
-                           (mapv (fn [{:keys [id] :as props}]
-                                   ($ card-project {:key id :& props}))))]
+                           (map (fn [{:keys [id] :as props}]
+                                  ($ card-project {:key id :& props}))))]
     ($ Accordion.Item {:id (str "accordion-item-" id)
                        :data-testid (str "accordion-item-" id)
                        :key id :value id}
@@ -61,5 +61,5 @@
           ($ Accordion {:defaultValue "org.clojure"
                         :chevronPosition "right"
                         :variant "contained"}
-            (mapv (fn [{:keys [id] :as props}]
-                    ($ accordion-item {:key id :& props})) value)))))))
+            (map (fn [{:keys [id] :as props}]
+                   ($ accordion-item {:key id :& props})) value)))))))

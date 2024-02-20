@@ -14,10 +14,9 @@
         {:keys [namespaces project]} value
         card-namespaces (->> namespaces
                              (sort-by :name)
-                             (mapv
-                              (fn [{:keys [id] :as props}]
-                                ($ Grid.Col {:key id}
-                                  ($ card-namespace {:& props})))))
+                             (map (fn [{:keys [id] :as props}]
+                                    ($ Grid.Col {:key id}
+                                      ($ card-namespace {:& props})))))
         project-id (:id project)]
 
     ($ Container {:size "md"}

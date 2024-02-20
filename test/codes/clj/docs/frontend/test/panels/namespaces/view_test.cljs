@@ -31,7 +31,7 @@
                 items (tl/wait-for #(.findByTestId ^js/Object view "namespace-cards-grid"))
                 extract-cards-fn (fn [items]
                                    (->> (.querySelectorAll items ".mantine-Card-root")
-                                        (mapv #(-> % .-id))))]
+                                        (map #(-> % .-id))))]
 
           (is (= ["card-namespace-org.clojure/clojure/clojure.test.junit"
                   "card-namespace-org.clojure/clojure/clojure.xml"

@@ -49,7 +49,7 @@
             ($ Group
               ($ Title {:order 6} "Paths")
               ($ Group
-                (mapv (fn [path] ($ Code {:key path :size "sm"} path)) paths)))))))))
+                (map (fn [path] ($ Code {:key path :size "sm"} path)) paths)))))))))
 
 (defnc card-namespace [{:keys [id name author doc filename git-source col row header]}]
   ($ Card {:id (str "card-namespace-" id)

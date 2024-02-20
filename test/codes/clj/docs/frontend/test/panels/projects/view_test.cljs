@@ -34,7 +34,7 @@
                 someone-items (tl/wait-for (find-by-test-id-fn "accordion-item-someone"))
                 extract-cards-fn (fn [items]
                                    (->> (.querySelectorAll items ".mantine-Card-root")
-                                        (mapv #(-> % .-id))))]
+                                        (map #(-> % .-id))))]
 
           (is (= ["card-project-org.clojure/clojure"
                   "card-project-org.clojure/core.logic"

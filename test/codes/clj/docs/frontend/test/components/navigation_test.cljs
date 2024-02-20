@@ -25,9 +25,9 @@
           (is (= [{:tag "A" :val "Projects"}
                   {:tag "P" :val "Namespace"}]
                  (->> (.querySelectorAll breads ".components-navigation-breadcrumbs")
-                      (mapv (fn [elem]
-                              {:tag (.-tagName elem)
-                               :val (.-textContent elem)})))))
+                      (map (fn [elem]
+                             {:tag (.-tagName elem)
+                              :val (.-textContent elem)})))))
 
           (done))
         (fn [err] (is (= nil err))
