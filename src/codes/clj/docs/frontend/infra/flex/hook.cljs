@@ -6,11 +6,13 @@
 (defn use-flex
   "React hook to subscribe to flex sources."
   [container]
-  (let [subscribe-fn (fn [callback]
-                       (let [listener (flex/listen container callback)]
-                         #(flex/dispose! listener)))
-        snapshot-fn (fn [] @container)
-        [subscribe snapshot] (react/useMemo
-                              (fn [] [subscribe-fn snapshot-fn])
-                              #js [container])]
+  (let [subscribe (react/useCallback
+                   (fn [callback]
+                     (let [listener (flex/listen container callback)]
+                       #(flex/dispose! listener)))
+                   #js [container])
+        snapshot (react/useCallback
+                  (fn [] (binding [flex/*warn-nonreactive-deref* false]
+                           @container))
+                  #js [container])]
     (with-selector/useSyncExternalStoreWithSelector subscribe snapshot nil identity =)))
