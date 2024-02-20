@@ -27,7 +27,7 @@
                                                     :label "My link 2"}]})))
                              (.findByTestId "header-root-links")))
                 links (->> (.querySelectorAll header ".mantine-Button-root")
-                           (mapv #(-> % .-href (str/split "/") last)))]
+                           (map #(-> % .-href (str/split "/") last)))]
 
           (is (= ["link" "link2" "login"]
                  links))
@@ -49,7 +49,7 @@
                                      :close identity}))
                 drawer (tl/wait-for #(.findByTestId (tl/document) "header-drawer-scrollarea"))
                 links (->> (.querySelectorAll drawer ".mantine-NavLink-root")
-                           (mapv #(-> % .-href (str/split "/") last)))]
+                           (map #(-> % .-href (str/split "/") last)))]
 
           (is (= ["link" "link2" "login"]
                  links))

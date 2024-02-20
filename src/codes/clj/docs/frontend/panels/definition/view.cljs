@@ -62,9 +62,11 @@
               #($ Group {:key (str %) :my "sm"}
                  ($ Code {:c "white" :color "moonstone"}
                    ($ Text
-                     ($ Text {:span true :size "sm"} (str "(" (:name definition) " "))
+                     ($ Text {:span true :size "sm"} (str "(" (:name definition)))
                      ($ Text {:span true :size "sm" :fw 1000}
-                       (str/replace % #"\[|\]" ""))
+                       (let [args (str/replace % #"\[|\]" "")]
+                         (when (not (str/blank? args))
+                           (str " " args))))
                      ($ Text {:span true :size "sm"} ")"))))
               arglist-strs)))
         (when doc

@@ -60,11 +60,11 @@
       ($ Space {:h "xl"})
       (when definitions
         ($ Grid {:data-testid "definition-lines-grid"}
-          (mapv (fn [[group sub-definitions]]
-                  ($ Grid.Col {:key group}
-                    ($ definitions-gruoped {:key (str "grouped-" group)
-                                            :group group
-                                            :sub-definitions sub-definitions})))
+          (map (fn [[group sub-definitions]]
+                 ($ Grid.Col {:key group}
+                   ($ definitions-gruoped {:key (str "grouped-" group)
+                                           :group group
+                                           :sub-definitions sub-definitions})))
 
             grouped-definitions)))
 

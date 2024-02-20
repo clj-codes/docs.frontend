@@ -52,11 +52,13 @@
            ($ NavLink
              {:key index
               :href href
+              :onClick close
               :leftSection ($ Text {:size "lg"} label)
               :rightSection ($ IconChevronRight)})))
         doall)
       ($ NavLink
         {:href "/login"
+         :onClick close
          :variant "filled"
          :active true
          :label "Log In"

@@ -42,7 +42,7 @@
                   "v" "validate-opts"
                   "w" "with-lock"]
                  (->> (.querySelectorAll items ".mantine-Anchor-root")
-                      (mapv #(-> % .-textContent)))))
+                      (map #(-> % .-textContent)))))
 
           (done))
         (fn [err] (is (= nil err))

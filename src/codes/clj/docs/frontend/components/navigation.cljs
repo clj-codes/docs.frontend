@@ -7,14 +7,14 @@
             [helix.core :refer [$]]))
 
 (defnc breadcrumbs [{:keys [items]}]
-  (let [links (mapv (fn [{:keys [id href title]}]
-                      (if href
-                        ($ Anchor {:key id :id (str "a-" id)
-                                   :href href
-                                   :className "components-navigation-breadcrumbs"} title)
-                        ($ Text {:key id :id (str "t-" id)
-                                 :className "components-navigation-breadcrumbs"} title)))
-                    items)]
+  (let [links (map (fn [{:keys [id href title]}]
+                     (if href
+                       ($ Anchor {:key id :id (str "a-" id)
+                                  :href href
+                                  :className "components-navigation-breadcrumbs"} title)
+                       ($ Text {:key id :id (str "t-" id)
+                                :className "components-navigation-breadcrumbs"} title)))
+                   items)]
     ($ Breadcrumbs {:data-testid "breadcrumbs"
                     :visibleFrom "xs"
                     :separator "→"

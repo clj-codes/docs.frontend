@@ -18,12 +18,12 @@
   [projects]
   (->> projects
        (group-by :group)
-       (mapv (fn [[group projects]]
-               (let [urls (grouped-projects->urls projects)
-                     image (urls->org-image urls)]
-                 {:id group
-                  :image image
-                  :count-projects (count projects)
-                  :urls urls
-                  :projects projects})))))
+       (map (fn [[group projects]]
+              (let [urls (grouped-projects->urls projects)
+                    image (urls->org-image urls)]
+                {:id group
+                 :image image
+                 :count-projects (count projects)
+                 :urls urls
+                 :projects projects})))))
 
