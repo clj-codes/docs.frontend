@@ -3,13 +3,6 @@
             ["use-sync-external-store/shim/with-selector" :as with-selector]
             [town.lilac.flex :as flex]))
 
-(defn- cljs-deps
-  [deps]
-  (let [ref (react/useRef deps)]
-    (when (not= (.-current ref) deps)
-      (set! (.-current ref) deps))
-    #js [(.-current ref)]))
-
 (defn use-flex
   "React hook to subscribe to flex sources."
   [container]
@@ -19,6 +12,5 @@
         snapshot-fn (fn [] @container)
         [subscribe snapshot] (react/useMemo
                               (fn [] [subscribe-fn snapshot-fn])
-                              (cljs-deps @container))]
-    (react/useDebugValue @container str)
+                              #js [container])]
     (with-selector/useSyncExternalStoreWithSelector subscribe snapshot nil identity =)))
