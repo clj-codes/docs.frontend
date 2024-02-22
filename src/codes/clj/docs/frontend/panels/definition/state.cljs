@@ -1,6 +1,7 @@
 (ns codes.clj.docs.frontend.panels.definition.state
   (:refer-clojure :exclude [namespace])
-  (:require [codes.clj.docs.frontend.infra.http :as http]
+  (:require [codes.clj.docs.frontend.adapters.url :refer [safe-href->url-encoded]]
+            [codes.clj.docs.frontend.infra.http :as http]
             [town.lilac.flex :as flex]
             [town.lilac.flex.promise :as flex.promise]))
 
@@ -10,7 +11,13 @@
    so we generate an numeric index for those."
   (flex.promise/resource
    (fn [organization project namespace definition index]
-     (-> (http/request! {:path (str "document/definition/" organization "/" project "/" namespace "/" definition "/" index)
+     (-> (http/request! {:path (safe-href->url-encoded
+                                (str "document/definition/"
+                                     organization "/"
+                                     project "/"
+                                     namespace "/"
+                                     definition "/"
+                                     index))
                          :method :get})
          (.then (fn [response]
                   (-> response

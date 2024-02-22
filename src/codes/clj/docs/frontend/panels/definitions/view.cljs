@@ -5,7 +5,8 @@
             [clojure.string :as str]
             [codes.clj.docs.frontend.components.documents :refer [card-namespace]]
             [codes.clj.docs.frontend.components.navigation :refer [back-to-top
-                                                                   breadcrumbs]]
+                                                                   breadcrumbs
+                                                                   safe-anchor]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.definitions.adapters :as adapters]
@@ -16,8 +17,8 @@
 (defnc definition-line [{:keys [id name doc]}]
   (dom/div {:className "definition-line-row"}
     (dom/div {:className "definition-line-name-column"}
-      ($ Anchor {:size "sm" :href (->> (str/replace id #"/0$" "")
-                                       (str "/"))}
+      ($ safe-anchor {:size "sm" :href (->> (str/replace id #"/0$" "")
+                                            (str "/"))}
         ($ Text name)))
     (dom/div {:className "definition-line-doc-column"}
       ($ Title {:fw 450 :order 6 :lineClamp 1}

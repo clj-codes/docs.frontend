@@ -1,12 +1,16 @@
 (ns codes.clj.docs.frontend.panels.namespaces.state
-  (:require [codes.clj.docs.frontend.infra.http :as http]
+  (:require [codes.clj.docs.frontend.adapters.url :refer [safe-href->url-encoded]]
+            [codes.clj.docs.frontend.infra.http :as http]
             [town.lilac.flex :as flex]
             [town.lilac.flex.promise :as flex.promise]))
 
 (def namespaces-fetch
   (flex.promise/resource
    (fn [organization project]
-     (-> (http/request! {:path (str "document/namespaces/" organization "/" project)
+     (-> (http/request! {:path (safe-href->url-encoded
+                                (str "document/namespaces/"
+                                     organization "/"
+                                     project))
                          :method :get})
          (.then (fn [response]
                   (-> response

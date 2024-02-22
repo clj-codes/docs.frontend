@@ -2,8 +2,25 @@
   (:require ["@mantine/core" :refer [ActionIcon Anchor Avatar Badge Card Code
                                      Grid Group Text Title]]
             ["@tabler/icons-react" :refer [IconArrowRight]]
+            [codes.clj.docs.frontend.components.navigation :refer [safe-anchor]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [helix.core :refer [$]]))
+
+(defnc head-card-section [{:keys [id name header]}]
+  (if header
+    ($ Card.Section {:withBorder true
+                     :inheritPadding true
+                     :py "sm"}
+      ($ Title {:order 5} name))
+    ($ Card.Section {:component safe-anchor
+                     :href (str "/" id)
+                     :withBorder true
+                     :inheritPadding true
+                     :py "sm"}
+      ($ Group {:justify "space-between"}
+        ($ Title {:order 4} name)
+        ($ ActionIcon {:variant "light"}
+          ($ IconArrowRight))))))
 
 (defnc card-project [{:keys [id name manifest paths sha tag url header]}]
   ($ Card {:id (str "card-project-" id)
@@ -14,19 +31,7 @@
            :shadow "sm"
            :padding "lg"}
 
-    ($ Card.Section {:withBorder true
-                     :inheritPadding true
-                     :py "sm"}
-      (if header
-        ($ Title {:order 5} name)
-        ($ Group {:justify "space-between"}
-          ($ Anchor {:href (str "/" id)
-                     :fw 500}
-            ($ Title {:order 4} name))
-          ($ ActionIcon {:component "a"
-                         :href (str "/" id)
-                         :variant "light"}
-            ($ IconArrowRight)))))
+    ($ head-card-section {:id id :name name :header header})
 
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
       ($ Grid {:c "dimmed"}
@@ -60,18 +65,7 @@
            :shadow "sm"
            :padding "lg"}
 
-    ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
-      (if header
-
-        ($ Title {:order 5} name)
-        ($ Group {:justify "space-between"}
-          ($ Anchor {:href (str "/" id)
-                     :fw 500}
-            ($ Title {:order 4} name))
-          ($ ActionIcon {:component "a"
-                         :href (str "/" id)
-                         :variant "light"}
-            ($ IconArrowRight)))))
+    ($ head-card-section {:id id :name name :header header})
 
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
       ($ Grid

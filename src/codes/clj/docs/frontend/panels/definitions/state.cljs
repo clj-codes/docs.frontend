@@ -1,13 +1,18 @@
 (ns codes.clj.docs.frontend.panels.definitions.state
   (:refer-clojure :exclude [namespace])
-  (:require [codes.clj.docs.frontend.infra.http :as http]
+  (:require [codes.clj.docs.frontend.adapters.url :refer [safe-href->url-encoded]]
+            [codes.clj.docs.frontend.infra.http :as http]
             [town.lilac.flex :as flex]
             [town.lilac.flex.promise :as flex.promise]))
 
 (def definitions-fetch
   (flex.promise/resource
    (fn [organization project namespace]
-     (-> (http/request! {:path (str "document/definitions/" organization "/" project "/" namespace)
+     (-> (http/request! {:path (safe-href->url-encoded
+                                (str "document/definitions/"
+                                     organization "/"
+                                     project "/"
+                                     namespace))
                          :method :get})
          (.then (fn [response]
                   (-> response

@@ -3,17 +3,24 @@
                                      Transition]]
             ["@mantine/hooks" :refer [useWindowScroll]]
             ["@tabler/icons-react" :refer [IconArrowUp]]
+            [codes.clj.docs.frontend.adapters.url :refer [href->safe-href]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [helix.core :refer [$]]))
+
+(defnc safe-anchor [{:keys [href] :as props}]
+  (let [safe-href (href->safe-href href)]
+    ($ Anchor {:& (assoc props :href safe-href)})))
 
 (defnc breadcrumbs [{:keys [items]}]
   (let [links (map (fn [{:keys [id href title]}]
                      (if href
-                       ($ Anchor {:key id :id (str "a-" id)
-                                  :href href
-                                  :className "components-navigation-breadcrumbs"} title)
-                       ($ Text {:key id :id (str "t-" id)
-                                :className "components-navigation-breadcrumbs"} title)))
+                       ($ safe-anchor
+                         {:key id :id (str "a-" id)
+                          :href href
+                          :className "components-navigation-breadcrumbs"} title)
+                       ($ Text
+                         {:key id :id (str "t-" id)
+                          :className "components-navigation-breadcrumbs"} title)))
                    items)]
     ($ Breadcrumbs {:data-testid "breadcrumbs"
                     :visibleFrom "xs"
