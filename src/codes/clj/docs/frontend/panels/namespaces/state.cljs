@@ -7,9 +7,10 @@
 (def namespaces-fetch
   (flex.promise/resource
    (fn [organization project]
-     (-> (http/request! {:path (->> (str organization "/" project)
-                                    safe-href->url-encoded
-                                    (str "document/namespaces/"))
+     (-> (http/request! {:path (safe-href->url-encoded
+                                (str "document/namespaces/"
+                                     organization "/"
+                                     project))
                          :method :get})
          (.then (fn [response]
                   (-> response

@@ -8,9 +8,11 @@
 (def definitions-fetch
   (flex.promise/resource
    (fn [organization project namespace]
-     (-> (http/request! {:path (->> (str organization "/" project "/" namespace)
-                                    safe-href->url-encoded
-                                    (str "document/definitions/"))
+     (-> (http/request! {:path (safe-href->url-encoded
+                                (str "document/definitions/"
+                                     organization "/"
+                                     project "/"
+                                     namespace))
                          :method :get})
          (.then (fn [response]
                   (-> response
