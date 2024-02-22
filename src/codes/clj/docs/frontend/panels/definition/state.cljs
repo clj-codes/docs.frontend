@@ -1,6 +1,6 @@
 (ns codes.clj.docs.frontend.panels.definition.state
   (:refer-clojure :exclude [namespace])
-  (:require [codes.clj.docs.frontend.components.adapters :refer [safe-href->url-encoded]]
+  (:require [codes.clj.docs.frontend.adapters.url :refer [safe-href->url-encoded]]
             [codes.clj.docs.frontend.infra.http :as http]
             [town.lilac.flex :as flex]
             [town.lilac.flex.promise :as flex.promise]))

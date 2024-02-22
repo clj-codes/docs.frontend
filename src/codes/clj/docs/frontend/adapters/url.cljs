@@ -1,4 +1,4 @@
-(ns codes.clj.docs.frontend.components.adapters
+(ns codes.clj.docs.frontend.adapters.url
   (:require [clojure.string :as str]))
 
 (defn safe-href->href [safe-href]

@@ -3,7 +3,7 @@
                                      Transition]]
             ["@mantine/hooks" :refer [useWindowScroll]]
             ["@tabler/icons-react" :refer [IconArrowUp]]
-            [codes.clj.docs.frontend.components.adapters :refer [href->safe-href]]
+            [codes.clj.docs.frontend.adapters.url :refer [href->safe-href]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [helix.core :refer [$]]))
 

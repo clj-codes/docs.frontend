@@ -1,6 +1,6 @@
-(ns codes.clj.docs.frontend.test.components.adapters-test
+(ns codes.clj.docs.frontend.test.adapters.url-test
   (:require [cljs.test :refer [deftest is use-fixtures]]
-            [codes.clj.docs.frontend.components.adapters :as adapters]
+            [codes.clj.docs.frontend.adapters.url :as adapters]
             [codes.clj.docs.frontend.test.aux.init :refer [sync-setup]]
             [matcher-combinators.test :refer [match?]]))
 
