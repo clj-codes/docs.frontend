@@ -1,31 +1,38 @@
 (ns codes.clj.docs.frontend.components.adapters
   (:require [clojure.string :as str]))
 
-;; TODO tests
+(defn safe-href->href [safe-href]
+  (when safe-href
+    (-> safe-href
+        (str/replace #"/_\.\./" "/../")
+        (str/replace #"/_\.\." "/..")
+        (str/replace #"/_\." "/.")
+        (str/replace #"/_\./" "/./")
+        (str/replace #"/_fs" "//")
+        (str/replace #"/_fs/" "///")
+        (str/replace #"_bs" "\\")
+        (str/replace #"_q" "?"))))
+
 (defn href->safe-href [href]
   (when href
-    (cond
-      (re-find #"_..$" href) ".."
-      (re-find #"_.$" href) "."
-      (re-find #"_fs$" href) "/"
-      :else (-> href
-                (str/replace #"_bs" "\\\\")
-                (str/replace #"_q" "?")))))
+    (-> href
+        (str/replace #"/\.\./" "/_../")
+        (str/replace #"/\.\./" "/_..")
+        (str/replace #"/\." "/_.")
+        (str/replace #"/\./" "/_./")
+        (str/replace #"//" "/_fs")
+        (str/replace #"///" "/_fs/")
+        (str/replace #"\\" "_bs")
+        (str/replace #"\?" "_q"))))
 
-;; TODO tests
-(defn safe-href->href [visual-encoded]
-  (when visual-encoded
-    (cond
-      (re-find #"\.\.$" visual-encoded) "_.."
-      (re-find #"\.$" visual-encoded) "_."
-      (re-find #"/$" visual-encoded) "_fs"
-      :else (-> visual-encoded
-                (str/replace #"\\" "_bs")
-                (str/replace #"\?" "_q")))))
-
-;; TODO tests
-(defn safe-href->url-encoded [visual-encoded]
-  (when visual-encoded
-    (-> visual-encoded
-        href->safe-href
-        js/encodeURIComponent)))
+(defn safe-href->url-encoded [safe-href]
+  (when safe-href
+    (-> safe-href
+        (str/replace #"/_\.\./" (js/encodeURIComponent "/../"))
+        (str/replace #"/_\.\." (js/encodeURIComponent "/.."))
+        (str/replace #"/_\./" (js/encodeURIComponent "/./"))
+        (str/replace #"/_\." (js/encodeURIComponent "/."))
+        (str/replace #"/_fs" (str "/" (js/encodeURIComponent "/")))
+        (str/replace #"/_fs/" (str "/" (js/encodeURIComponent "/") "/"))
+        (str/replace #"_bs" (js/encodeURIComponent "\\"))
+        (str/replace #"_q" (js/encodeURIComponent "?")))))

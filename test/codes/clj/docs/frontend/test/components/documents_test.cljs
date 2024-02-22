@@ -58,17 +58,17 @@
           (is (match? #"/org.clojure/core.memoize$"
                       (-> list-project-card
                           (.querySelector ".mantine-Card-section")
-                          (.querySelector ".mantine-Anchor-root")
-                          .-href)))
+                          (aget "href"))))
 
           (is (match? "org.clojure/core.memoize"
                       (-> header-project-card
                           (.querySelector ".mantine-Card-section")
                           (.querySelector ".mantine-Title-root")
                           .-textContent)))
+
           (is (nil? (-> header-project-card
                         (.querySelector ".mantine-Card-section")
-                        (.querySelector ".mantine-Anchor-root"))))
+                        (aget "href"))))
 
           (done))
         (fn [err] (is (= nil err))
@@ -88,17 +88,17 @@
           (is (match? #"org.clojure/clojure/clojure.xml$"
                       (-> list-project-card
                           (.querySelector ".mantine-Card-section")
-                          (.querySelector ".mantine-Anchor-root")
-                          .-href)))
+                          (aget "href"))))
 
           (is (match? "clojure.xml"
                       (-> header-project-card
                           (.querySelector ".mantine-Card-section")
                           (.querySelector ".mantine-Title-root")
                           .-textContent)))
+
           (is (nil? (-> header-project-card
                         (.querySelector ".mantine-Card-section")
-                        (.querySelector ".mantine-Anchor-root"))))
+                        (aget "href"))))
 
           (done))
         (fn [err] (is (= nil err))

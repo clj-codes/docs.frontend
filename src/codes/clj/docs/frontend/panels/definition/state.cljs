@@ -11,9 +11,13 @@
    so we generate an numeric index for those."
   (flex.promise/resource
    (fn [organization project namespace definition index]
-     (-> (http/request! {:path (->> (str organization "/" project "/" namespace "/" definition "/" index)
-                                    safe-href->url-encoded
-                                    (str "document/definition/"))
+     (-> (http/request! {:path (safe-href->url-encoded
+                                (str "document/definition/"
+                                     organization "/"
+                                     project "/"
+                                     namespace "/"
+                                     definition "/"
+                                     index))
                          :method :get})
          (.then (fn [response]
                   (-> response
