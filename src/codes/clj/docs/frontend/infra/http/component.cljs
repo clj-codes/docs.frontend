@@ -20,7 +20,7 @@
     [_self request-input]
     (let [{:keys [url path]} request-input
           request-url (or url (str (:base-url config) path))]
-      (-> (fetch/request request-url request)
+      (-> (fetch/request request-url request-input)
           (.then (fn [{:keys [status] :as resp}]
                    (if (> status 400)
                      (throw-info resp)
