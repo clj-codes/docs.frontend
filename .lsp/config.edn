@@ -1,4 +1,5 @@
 {:keep-require-at-start? true
  :cljfmt {:indents {#re "helix.dom.*" [[:inner 0] [:inner 1]]
                     $ [[:inner 0] [:inner 1]]
-                    async [[:inner 0] [:inner 1]]}}}
+                    async [[:inner 0] [:inner 1]]
+                    use-effect [[:inner 0] [:inner 1]]}}}
