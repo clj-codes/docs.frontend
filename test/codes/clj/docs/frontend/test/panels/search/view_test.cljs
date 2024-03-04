@@ -62,7 +62,7 @@
     (async done
       (p/catch
         (p/let [view (tl/mantine-render ($ search-page))
-                cards (tl/wait-for #(.findByTestId ^js/Object (tlr/within js/document) "page-result-cards"))]
+                cards (tl/wait-for #(.findByTestId ^js/Object view "page-result-cards"))]
 
           (is (= ["card-search-result-org.clojure/clojure/clojure.core.server/servers/0"
                   "card-search-result-org.clojure/clojure/clojure.core.server/stop-server/0"
