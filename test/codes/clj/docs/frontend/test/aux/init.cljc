@@ -6,10 +6,13 @@
             [codes.clj.docs.frontend.test.aux.testing-library :as tlr]
             [shadow.cljs.modern :refer [defclass]]))
 
+#_{:clj-kondo/ignore [:uninitialized-var]}
+(def node?
+  #?(:node true :cljs false))
+
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn ^:private mock-window-fns []
-  (let [has-global? (try js/global (catch js/Object _ nil))
-        mock-fn (fn [& _args] nil)
+  (let [mock-fn (fn [& _args] nil)
         get-computed-style (.-getComputedStyle js/window)
         resize-observer (defclass ResizeObserver
                           (constructor [this] nil)
@@ -38,7 +41,7 @@
     (set! (.-ResizeObserver js/window)
           resize-observer)
 
-    (when has-global?
+    (when node?
       (set! (.-ResizeObserver js/global)
             resize-observer))
 
