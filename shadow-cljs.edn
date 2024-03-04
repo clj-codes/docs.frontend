@@ -28,5 +28,6 @@
                      :compiler-options {:static-fns false}}
 
           :node-tests {:target    :node-test
+                       :compiler-options {:reader-features #{:node}}
                        :main      codes.clj.docs.frontend.test.node/main
                        :output-to "resources/tests/node.js"}}}

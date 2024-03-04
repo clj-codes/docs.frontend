@@ -41,8 +41,9 @@
         (p/rejected (ex-info "Response error" response))
         (p/delay (or lag 10)
                  (dissoc response :lag)))
-      (p/rejected (ex-info "Response error"
-                           {:status 500 :body "Response not set in mocks!"})))))
+      (p/rejected (do (js/console.debug "Error:" "Response not set in mocks!" (clj->js req))
+                      (ex-info "Response error"
+                               {:status 500 :body "Response not set in mocks!"}))))))
 
 (defn new-http-mock
   [mocked-responses]

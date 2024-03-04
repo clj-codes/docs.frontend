@@ -1,9 +1,12 @@
 (ns codes.clj.docs.frontend.test.aux.init
-  (:require [codes.clj.docs.frontend.infra.http.component :as http.component]
+  (:require #?@(:node [["global-jsdom/register"]])
+            [cljs.js :as js]
+            [codes.clj.docs.frontend.infra.http.component :as http.component]
             [codes.clj.docs.frontend.infra.system.state :as system.state]
             [codes.clj.docs.frontend.test.aux.testing-library :as tlr]
             [shadow.cljs.modern :refer [defclass]]))
 
+#_{:clj-kondo/ignore [:unresolved-var]}
 (defn ^:private mock-window-fns []
   (let [has-global? (try js/global (catch js/Object _ nil))
         mock-fn (fn [& _args] nil)
@@ -37,18 +40,24 @@
 
     (when has-global?
       (set! (.-ResizeObserver js/global)
-            resize-observer))))
+            resize-observer))
+
+    (set! (.-scrollTo js/window)
+          mock-fn)))
 
 (defn async-setup []
   (mock-window-fns))
 
+#_{:clj-kondo/ignore [:unresolved-var]}
 (defn async-cleanup []
   (tlr/cleanup))
 
+#_{:clj-kondo/ignore [:unresolved-var]}
 (defn sync-setup [f]
   (f)
   (tlr/cleanup))
 
+#_{:clj-kondo/ignore [:unresolved-var]}
 (defn mock-http-with [mocked-responses]
   (system.state/components assoc
                            :http (http.component/new-http-mock mocked-responses)))

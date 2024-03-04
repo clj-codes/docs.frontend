@@ -1,6 +1,6 @@
 (ns codes.clj.docs.frontend.test.node
-  (:require ["global-jsdom" :as global-jsdom]
-            [cljs.test :as test]
+  (:require [cljs.test :as test]
+            [codes.clj.docs.frontend.test.aux.init]
             [codes.clj.docs.frontend.test.components.documents-test]
             [codes.clj.docs.frontend.test.components.navigation-test]
             [codes.clj.docs.frontend.test.core-test]
@@ -20,5 +20,4 @@
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn main []
-  (global-jsdom)
   (test/run-all-tests #".*-test$"))

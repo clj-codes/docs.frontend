@@ -13,14 +13,16 @@
 
 (defnc spotlight-modal
   [{:keys [query-limit debounced-query loading? items close-fn query] :as props}]
-  ($ Spotlight.Root {:& (dissoc props
+  ($ Spotlight.Root {:data-testid "spotlight-modal-search-root"
+                     :& (dissoc props
                                 :query-limit
                                 :debounced-query
                                 :loading?
                                 :close-fn
                                 :items)}
 
-    ($ Spotlight.Search {:placeholder "Search"
+    ($ Spotlight.Search {:data-testid "spotlight-modal-search-input"
+                         :placeholder "Search"
                          :leftSection ($ IconSearch {:stroke 1.5})})
 
     ($ Spotlight.ActionsList
@@ -85,7 +87,9 @@
                :label "Search"
                :aria-label "Search"}]
     ($ Group
-      ($ Button {:& (conj props
+      ($ Button {:id "spotlight-search-button"
+                 :data-testid "spotlight-search-button"
+                 :& (conj props
                           {:visibleFrom "sm"
                            :size "compact-md"
                            :leftSection ($ IconSearch)})}
@@ -142,17 +146,17 @@
 
     ($ Space {:h "lg"})
 
-    ($ FocusTrap
+    ($ FocusTrap {:tabIndex 0}
       ($ TextInput {:placeholder "Type your search here"
                     :size "lg"
-                    :value debounced
+                    :value (or debounced "")
                     :onChange #(set-debounced (-> % .-currentTarget .-value))
                     :autoFocus true}))
 
     ($ Space {:h "lg"})
 
     (if (seq items)
-      ($ SimpleGrid {:cols 1 :verticalSpacing "xs"}
+      ($ SimpleGrid {:cols 1 :verticalSpacing "xs" :data-testid "page-result-cards"}
         (map (fn [item] ($ page-result-card {:key (:id item) :& item}))
           items))
 
