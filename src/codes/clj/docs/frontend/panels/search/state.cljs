@@ -3,21 +3,28 @@
             [town.lilac.flex :as flex]
             [town.lilac.flex.promise :as flex.promise]))
 
+(def spotlight-results (flex/source {:error nil
+                                     :loading? false
+                                     :value nil}))
+
+(def page-results (flex/source {:error nil
+                                :loading? false
+                                :value nil}))
+
 (def search-fetch
   (flex.promise/resource
-   (fn [query top]
+   (fn [result-source query top]
+     (result-source assoc :loading? true)
      (-> (http/request! {:method :get
                          :path "document/search/"
                          :query-params {:q query :top top}})
          (.then (fn [response]
-                  (-> response
-                      :body)))
+                  (result-source {:error nil
+                                  :loading? false
+                                  :value (:body response)})))
          (.catch (fn [error]
                    (js/console.error error)
+                   (result-source {:error error
+                                   :loading? false
+                                   :value nil})
                    (throw error)))))))
-
-(def search-response
-  (flex/signal {:state @(:state search-fetch)
-                :value @(:value search-fetch)
-                :error @(:error search-fetch)
-                :loading? @(:loading? search-fetch)}))

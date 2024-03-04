@@ -9,8 +9,7 @@
     :href "/projects"}])
 
 (defnc app-shell [{:keys [children]}]
-  ($ AppShell {:padding "md"
-               :header #js {:height 60}}
+  ($ AppShell {:padding "md"}
     ($ shell.components/header {:links header-links})
     ($ AppShell.Main ($ children))
     ($ shell.components/footer)))

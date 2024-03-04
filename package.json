@@ -23,8 +23,9 @@
   },
   "homepage": "https://github.com/clj-codes/docs.frontend#readme",
   "dependencies": {
-    "@mantine/core": "^7.5.3",
-    "@mantine/hooks": "^7.5.0",
+    "@mantine/core": "^7.6.1",
+    "@mantine/hooks": "^7.6.1",
+    "@mantine/spotlight": "^7.6.1",
     "@tabler/icons-react": "^2.47.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -34,10 +35,10 @@
   "devDependencies": {
     "@testing-library/react": "^14.2.1",
     "concurrently": "^8.2.2",
-    "cssnano": "^6.0.3",
+    "cssnano": "^6.0.5",
     "global-jsdom": "^9.2.0",
     "jsdom": "^23.2.0",
-    "karma": "^6.4.2",
+    "karma": "^6.4.3",
     "karma-chrome-launcher": "^3.2.0",
     "karma-cljs-test": "^0.1.0",
     "postcss": "^8.4.35",
@@ -45,6 +46,6 @@
     "postcss-import": "^16.0.1",
     "postcss-preset-mantine": "^1.13.0",
     "postcss-simple-vars": "^7.0.1",
-    "shadow-cljs": "^2.27.4"
+    "shadow-cljs": "^2.27.5"
   }
 }

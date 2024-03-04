@@ -1,12 +1,13 @@
 (ns codes.clj.docs.frontend.panels.shell.components
-  (:require ["@mantine/core" :refer [ActionIcon Anchor AppShell Burger Button
-                                     Center Container Drawer Group NavLink
+  (:require ["@mantine/core" :refer [ActionIcon Anchor Burger Button Center
+                                     Container Divider Drawer Group NavLink
                                      ScrollArea Text useComputedColorScheme
                                      useMantineColorScheme]]
             ["@mantine/hooks" :refer [useDisclosure]]
             ["@tabler/icons-react" :refer [IconBrandGithub IconChevronRight
                                            IconMoon IconSocial IconSun]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
+            [codes.clj.docs.frontend.panels.search.view :refer [search-spotlight]]
             [helix.core :refer [$]]
             [helix.dom :as dom]))
 
@@ -68,7 +69,7 @@
 (defnc header [{:keys [links]}]
   (let [[opened updater] (useDisclosure false)
         close (.-toggle updater)]
-    ($ AppShell.Header {:className "shell-header"}
+    (dom/div
       ($ Container {:size "md"}
         ($ Group {:className "shell-inner-header"}
           ($ logo)
@@ -95,10 +96,12 @@
                                         {:size "1.5rem" :stroke 1.5})}
                 "Log in"))
             ($ Group {:gap "xs"}
+              ($ search-spotlight)
               ($ dark-mode-button)
               ($ Burger {:opened opened :onClick close
                          :size "sm" :hiddenFrom "sm"})))
-          ($ header-drawer {:links links :opened opened :close close}))))))
+          ($ header-drawer {:links links :opened opened :close close})))
+      ($ Divider))))
 
 (defnc footer []
   (dom/footer {:className "shell-footer"}
