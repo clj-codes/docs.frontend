@@ -47,7 +47,7 @@
       ($ Group {:justify "space-between"}
         ($ Group
           ($ Title {:order 6} "Source")
-          ($ Anchor {:size "md" :href git-source :fw 500}
+          ($ Anchor {:size "md" :href git-source :fw "bold"}
             ($ Text (rest (str filename ":" row ":" col)))))
         ($ Group
           ($ Title {:order 6} "Defined by")

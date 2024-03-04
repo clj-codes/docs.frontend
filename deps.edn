@@ -2,12 +2,12 @@
  :deps    {lilactown/helix {:git/url "https://github.com/lilactown/helix"
                             :git/sha "35127b79405e5dff6d9b74dfc674280eb93fab6d"}
            town.lilac/flex {:git/url "https://github.com/lilactown/flex"
-                            :git/sha "4b1bd050d48499c58d64e0b31b3be04db1faf1ea"}
+                            :git/sha "afa6491ace9015577ffa9245086f945825a93633"}
            metosin/reitit-malli {:mvn/version "0.7.0-alpha7"}
            metosin/reitit-frontend {:mvn/version "0.7.0-alpha7"}
            funcool/promesa {:mvn/version "11.0.678"}
            lambdaisland/fetch {:mvn/version "1.5.83"}}
  :aliases {:dev {:extra-paths ["dev" "test"]
                  :extra-deps  {nubank/matcher-combinators {:mvn/version "3.9.1"}
-                               thheller/shadow-cljs {:mvn/version "2.27.4"}
+                               thheller/shadow-cljs {:mvn/version "2.27.5"}
                                cider/cider-nrepl    {:mvn/version "0.45.0"}}}}}

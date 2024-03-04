@@ -7,7 +7,9 @@
             [codes.clj.docs.frontend.panels.namespaces.state :as namespaces.state]
             [codes.clj.docs.frontend.panels.namespaces.view :as namespaces.view]
             [codes.clj.docs.frontend.panels.projects.state :as projects.state]
-            [codes.clj.docs.frontend.panels.projects.view :as projects.view]))
+            [codes.clj.docs.frontend.panels.projects.view :as projects.view]
+            [codes.clj.docs.frontend.panels.search.state :as search.state :refer [page-results]]
+            [codes.clj.docs.frontend.panels.search.view :as search.view]))
 
 (defn- set-title! [title]
   (set! (.-title js/document) title))
@@ -17,7 +19,9 @@
    [""
     {:name        :home
      :view        home.view/home
-     :link-text   "Home"}]
+     :link-text   "Home"
+     :controllers [{:start (fn [& _params]
+                             (set-title! "docs.clj.codes"))}]}]
 
    ["projects"
     {:name        :projects
@@ -26,6 +30,18 @@
      :controllers [{:start (fn [& _params]
                              (set-title! "Projects - docs.clj.codes")
                              (projects.state/document-projects-fetch))}]}]
+
+   ["search"
+    {:name        :search
+     :view        search.view/search-page
+     :link-text   "Search"
+     :parameters  {:query [:map
+                           [:q {:optional true} :string]]}
+     :controllers [{:parameters {:query [:q]}
+                    :start (fn [& params]
+                             (let [{:keys [q]} (-> params first :query)]
+                               (set-title! "Search - docs.clj.codes")
+                               (search.state/search-fetch page-results (or q "") 100)))}]}]
 
    [":organization/:project"
     {:name        :namespaces

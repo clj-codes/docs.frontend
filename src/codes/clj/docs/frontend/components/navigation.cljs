@@ -31,7 +31,7 @@
 
 (defnc back-to-top []
   (let [[scroll scrollTo] (useWindowScroll)]
-    ($ Affix {:position #js {:bottom 20 :right 20}}
+    ($ Affix {:position #js {:bottom "6%" :right "6%"}}
       ($ Transition {:transition "slide-up" :mounted (> (.-y scroll) 0)}
         (fn [transition-style]
           ($ ActionIcon {:style transition-style :onClick #(scrollTo #js {:y 0})}
