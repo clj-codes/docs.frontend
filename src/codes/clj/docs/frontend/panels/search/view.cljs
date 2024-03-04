@@ -7,7 +7,7 @@
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.infra.routes.state :refer [routes-db]]
-            [codes.clj.docs.frontend.panels.search.components :refer [page-results
+            [codes.clj.docs.frontend.panels.search.components :refer [page-results-section
                                                                       spotlight-modal
                                                                       spotlight-search-button]]
             [codes.clj.docs.frontend.panels.search.state :refer [page-results
@@ -22,7 +22,7 @@
 ;; TODO test
 (defnc search-spotlight []
   (let [query-limit 30
-        [query set-query] (hooks/use-state "")
+        [query set-query] (hooks/use-state nil)
         [debounced] (useDebouncedValue query 500)
         {:keys [value loading?]} (use-flex spotlight-results)
         open-fn (.-open spotlight)
@@ -30,19 +30,21 @@
 
     (hooks/use-effect
       [debounced]
-      (search-fetch spotlight-results (or debounced "") query-limit))
+      (when debounced
+        (search-fetch spotlight-results (or debounced "") query-limit)))
 
     (dom/div
-      ($ spotlight-modal {:query-limit query-limit
-                          :query query
+      ($ spotlight-modal {:key "spotlight-modal"
+                          :query-limit query-limit
                           :debounced-query debounced
+                          :loading? loading?
+                          :close-fn close-fn
+                          :items value
+                          :query query
                           :onQueryChange set-query
                           :scrollable true
                           :size "xl"
-                          :maxHeight "400rem"
-                          :loading? loading?
-                          :items value
-                          :close-fn close-fn})
+                          :maxHeight "400rem"})
       ($ spotlight-search-button {:on-click open-fn}))))
 
 ;; TODO test
@@ -74,9 +76,9 @@
             (str error))
 
           (dom/div
-            ($ page-results {:query query
-                             :debounced deb-query
-                             :set-debounced set-deb-query
-                             :items value})
+            ($ page-results-section {:query query
+                                     :debounced deb-query
+                                     :set-debounced set-deb-query
+                                     :items value})
 
             ($ back-to-top)))))))

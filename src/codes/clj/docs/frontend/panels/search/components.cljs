@@ -12,8 +12,13 @@
             [helix.dom :as dom]))
 
 (defnc spotlight-modal
-  [{:keys [query-limit query debounced-query loading? items close-fn] :as props}]
-  ($ Spotlight.Root {:& (dissoc props :loading? :items)}
+  [{:keys [query-limit debounced-query loading? items close-fn query] :as props}]
+  ($ Spotlight.Root {:& (dissoc props
+                                :query-limit
+                                :debounced-query
+                                :loading?
+                                :close-fn
+                                :items)}
 
     ($ Spotlight.Search {:placeholder "Search"
                          :leftSection ($ IconSearch {:stroke 1.5})})
@@ -28,14 +33,19 @@
                          (group-by :type)
                          (map
                           (fn [[type-key grouped-items]]
-                            ($ Spotlight.ActionsGroup {:label (name type-key)}
+                            ($ Spotlight.ActionsGroup
+                              {:data-testid (str "spotlight-actions-group" type-key)
+                               :key (str "spotlight-actions-group" type-key)
+                               :label (name type-key)}
                               (map
                                 (fn [{:keys [id name doc type]}]
                                   ($ Spotlight.Action
                                     {:data-testid (str "spotlight-action-" id)
-                                     :key id
+                                     :key (str "spotlight-action-" id)
                                      :label name
-                                     :description ($ Text {:size "xs" :lineClamp 3}
+                                     :description ($ Text {:component "div"
+                                                           :size "xs"
+                                                           :lineClamp 3}
                                                     ($ Text {:fw "bold"}
                                                       (str/replace id #"/0$" ""))
                                                     ($ Text
@@ -112,13 +122,14 @@
           (str/replace id #"/0$" "")))
 
       ($ Title {:fw 450 :order 6 :lineClamp 1 :mt "sm"}
-        ($ Text {:size "sm"
+        ($ Text {:component "div"
+                 :size "sm"
                  :lineClamp 3}
           (or doc
             ($ Text {:c "dimmed"}
               "no documentation")))))))
 
-(defnc page-results [{:keys [query debounced set-debounced items]}]
+(defnc page-results-section [{:keys [query debounced set-debounced items]}]
   (dom/div
     (dom/section
       (if-not (str/blank? query)
@@ -136,7 +147,7 @@
                     :size "lg"
                     :value debounced
                     :onChange #(set-debounced (-> % .-currentTarget .-value))
-                    :autofocus true}))
+                    :autoFocus true}))
 
     ($ Space {:h "lg"})
 
