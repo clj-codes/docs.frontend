@@ -72,7 +72,7 @@
                                     :key "spotlight-no-query"}
                   "Search the documentation")))
 
-      (when (and (>= (count items) query-limit) 
+      (when (and (>= (count items) query-limit)
                  (not loading?))
         ($ Spotlight.Empty {:data-testid "spotlight-limit-reached"
                             :key "spotlight-limit-reached"}
