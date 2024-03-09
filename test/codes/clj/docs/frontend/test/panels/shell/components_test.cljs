@@ -24,7 +24,8 @@
                                 ($ header {:links [{:href "/link"
                                                     :label "My link"}
                                                    {:href "/link2"
-                                                    :label "My link 2"}]})))
+                                                    :label "My link 2"}]
+                                           :login-link "/login"})))
                              (.findByTestId "header-root-links")))
                 links (->> (.querySelectorAll header ".mantine-Button-root")
                            (map #(-> % .-href (str/split "/") last)))]
@@ -45,6 +46,7 @@
                                               :label "My link"}
                                              {:href "/link2"
                                               :label "My link 2"}]
+                                     :login-link "/login"
                                      :opened true
                                      :close identity}))
                 drawer (tl/wait-for #(.findByTestId (tl/document) "header-drawer-scrollarea"))

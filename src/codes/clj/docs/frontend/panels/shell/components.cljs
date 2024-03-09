@@ -36,7 +36,7 @@
       ($ Text {:ml "0.2rem" :size "xl"}
         "docs.clj.codes"))))
 
-(defnc header-drawer [{:keys [links opened close]}]
+(defnc header-drawer [{:keys [links login-link opened close]}]
   ($ Drawer {:data-testid "header-drawer"
              :position "right"
              :size "xs"
@@ -58,7 +58,7 @@
               :rightSection ($ IconChevronRight)})))
         doall)
       ($ NavLink
-        {:href "/login"
+        {:href login-link
          :onClick close
          :variant "filled"
          :active true
@@ -66,7 +66,7 @@
          :leftSection ($ IconBrandGithub {:size "1.5rem" :stroke 1.5})
          :rightSection ($ IconChevronRight)}))))
 
-(defnc header [{:keys [links]}]
+(defnc header [{:keys [links login-link]}]
   (let [[opened updater] (useDisclosure false)
         close (.-toggle updater)]
     (dom/div
@@ -89,7 +89,7 @@
                      label)))
                 doall)
               ($ Button {:component "a"
-                         :href "/login"
+                         :href login-link
                          :size "compact-md"
                          :variant "primary"
                          :leftSection ($ IconBrandGithub
@@ -100,7 +100,8 @@
               ($ dark-mode-button)
               ($ Burger {:opened opened :onClick close
                          :size "sm" :hiddenFrom "sm"})))
-          ($ header-drawer {:links links :opened opened :close close})))
+          ($ header-drawer {:links links :login-link login-link
+                            :opened opened :close close})))
       ($ Divider))))
 
 (defnc footer []
