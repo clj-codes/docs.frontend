@@ -2,7 +2,8 @@
   (:require [reitit.frontend.controllers :as rfc]
             [town.lilac.flex :as flex]))
 
-(def routes-db (flex/source {:current-route nil}))
+(def routes-db (flex/source {:router nil
+                             :current-route nil}))
 
 (defn navigated [new-match]
   (let [old-match (:current-route @routes-db)

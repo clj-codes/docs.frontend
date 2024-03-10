@@ -1,5 +1,6 @@
 (ns codes.clj.docs.frontend.routes
-  (:require [codes.clj.docs.frontend.panels.definition.state :as definition.state]
+  (:require [codes.clj.docs.frontend.infra.auth.github.view :as auth.github.view]
+            [codes.clj.docs.frontend.panels.definition.state :as definition.state]
             [codes.clj.docs.frontend.panels.definition.view :as definition.view]
             [codes.clj.docs.frontend.panels.definitions.state :as definitions.state]
             [codes.clj.docs.frontend.panels.definitions.view :as definitions.view]
@@ -21,6 +22,20 @@
      :view        home.view/home
      :link-text   "Home"
      :controllers [{:start (fn [& _params]
+                             (set-title! "docs.clj.codes"))}]}]
+
+   ["github-callback"
+    {:name        :github-callback
+     :parameters  {:query [:map
+                           [:code {:optional true} :string]
+                           [:page {:optional true} :string]
+                           [:error {:optional true} :string]
+                           [:error_description {:optional true} :string]
+                           [:error_uri {:optional true} :string]]}
+     :view        auth.github.view/page
+     :link-text   "github-callback"
+     :controllers [{:parameters {:query [:code :page :error :error_description :error_uri]}
+                    :start (fn [& _params]
                              (set-title! "docs.clj.codes"))}]}]
 
    ["projects"

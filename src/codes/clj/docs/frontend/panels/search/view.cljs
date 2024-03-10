@@ -57,11 +57,13 @@
 
     (hooks/use-effect
       [query]
-      (set-deb-query query))
+      (when query
+        (set-deb-query query)))
 
     (hooks/use-effect
       [debounced]
-      (rfe/set-query {:q deb-query}))
+      (when debounced
+        (rfe/set-query {:q deb-query})))
 
     ($ Container {:size "md"}
       (if loading?

@@ -25,7 +25,9 @@
                                                     :label "My link"}
                                                    {:href "/link2"
                                                     :label "My link 2"}]
-                                           :login-link "/login"})))
+                                           :login-link "/login"
+                                           :logoff identity
+                                           :user nil})))
                              (.findByTestId "header-root-links")))
                 links (->> (.querySelectorAll header ".mantine-Button-root")
                            (map #(-> % .-href (str/split "/") last)))]
@@ -48,7 +50,9 @@
                                               :label "My link 2"}]
                                      :login-link "/login"
                                      :opened true
-                                     :close identity}))
+                                     :close identity
+                                     :logoff identity
+                                     :user nil}))
                 drawer (tl/wait-for #(.findByTestId (tl/document) "header-drawer-scrollarea"))
                 links (->> (.querySelectorAll drawer ".mantine-NavLink-root")
                            (map #(-> % .-href (str/split "/") last)))]
