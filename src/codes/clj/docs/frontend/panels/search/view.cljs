@@ -19,7 +19,6 @@
             [react :as react]
             [reitit.frontend.easy :as rfe]))
 
-;; TODO test
 (defnc search-spotlight []
   (let [query-limit 30
         [query set-query] (hooks/use-state nil)
@@ -47,7 +46,6 @@
                           :maxHeight "400rem"})
       ($ spotlight-search-button {:on-click open-fn}))))
 
-;; TODO test
 (defnc search-page []
   (let [{:keys [current-route]} (use-flex routes-db)
         query (-> current-route :query-params :q)

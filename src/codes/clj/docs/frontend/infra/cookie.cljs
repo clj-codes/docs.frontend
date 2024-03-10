@@ -13,14 +13,12 @@
   [name]
   (cookie/get name))
 
-; TODO test
 (defn get-edn-cookie
   [name]
   (try
     (-> (get-cookie name)
         reader/read-string)
-    (catch :default ex
-      (js/console.error ex)
+    (catch :default _ex
       nil)))
 
 (defn remove-cookie

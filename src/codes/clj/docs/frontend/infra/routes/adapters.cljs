@@ -1,7 +1,6 @@
 (ns codes.clj.docs.frontend.infra.routes.adapters
   (:require [reitit.frontend :as rf]))
 
-; TODO test
 (defn href->route [href router]
   (let [match  (rf/match-by-path router href)
         route  (-> match :data :name)

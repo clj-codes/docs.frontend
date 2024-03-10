@@ -4,6 +4,7 @@
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.infra.system.state :as system.state]
+            [codes.clj.docs.frontend.panels.shell.adapters :as shell.adapters]
             [codes.clj.docs.frontend.panels.shell.components :as shell.components]
             [helix.core :refer [$]]))
 
@@ -11,17 +12,9 @@
   [{:label "Projects"
     :href "/projects"}])
 
-; todo move to logic & test
-(defn build-github-link [current]
-  (let [{:keys [login-url client-id redirect-uri]} (-> @system.state/components
-                                                       :config
-                                                       :github)]
-    (str login-url
-         "?client_id=" client-id
-         "&redirect_uri=" (str redirect-uri "?page=" current))))
-
 (defnc app-shell [{:keys [children path]}]
-  (let [login-link (build-github-link path)
+  (let [config-github (-> @system.state/components :config :github)
+        login-link (shell.adapters/path->github-link path config-github)
         user (use-flex auth.state/user-signal)
         logoff-fn #(auth.state/user assoc :value nil)]
     ($ AppShell {:padding "md"}

@@ -1,5 +1,7 @@
 (ns codes.clj.docs.frontend.infra.auth.github.view
-  (:require ["@mantine/core" :refer [LoadingOverlay]]
+  (:require ["@mantine/core" :refer [Alert Anchor Container LoadingOverlay
+                                     Space Text Title]]
+            ["@tabler/icons-react" :refer [IconInfoCircle]]
             [codes.clj.docs.frontend.infra.auth.github.state :as github.state]
             [codes.clj.docs.frontend.infra.auth.state :as auth.state]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
@@ -10,14 +12,13 @@
             [helix.hooks :as hooks]
             [reitit.frontend.easy :as rfe]))
 
-; TODO: tests
 (defnc page []
   (let [{:keys [router current-route]} (use-flex routes.state/routes-db)
-        {:keys [code page]} (:query-params current-route)
+        {:keys [code page error error_description error_uri]} (:query-params current-route)
         {:keys [route path-params query-params]} (routes.adapters/href->route
                                                   page
                                                   router)
-        user (use-flex auth.state/user-signal)]
+        {user-error :error user :value} (use-flex auth.state/user)]
 
     (hooks/use-effect
       [code]
@@ -29,7 +30,21 @@
       (when user
         (rfe/push-state route path-params query-params)))
 
-    ($ LoadingOverlay {:loaderProps #js {:size "xl"}
-                       :visible true
-                       :zIndex 1000
-                       :overlayProps #js {:radius "sm" :blur 2}})))
+    ($ Container {:size "md"}
+      ($ Space {:h "xl"})
+      (cond
+        error ($ Alert {:variant "light" :color "red"
+                        :radius "md" :title "Error"
+                        :icon ($ IconInfoCircle)}
+                ($ Title {:order 4} error)
+                ($ Text error_description)
+                ($ Anchor {:href error_uri} error_uri))
+        user-error ($ Alert {:variant "light" :color "red"
+                             :radius "md" :title "Error"
+                             :icon ($ IconInfoCircle)}
+                     ($ Title {:order 4} "Server Error")
+                     ($ Text user-error))
+        :else ($ LoadingOverlay {:loaderProps #js {:size "xl"}
+                                 :visible true
+                                 :zIndex 1000
+                                 :overlayProps #js {:radius "sm" :blur 2}})))))

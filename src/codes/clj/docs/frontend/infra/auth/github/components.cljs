@@ -6,7 +6,8 @@
 
 (defnc login-navlink [{:keys [close login-link]}]
   ($ NavLink
-    {:href login-link
+    {:data-testid "github-login-navlink"
+     :href login-link
      :onClick close
      :variant "filled"
      :active true
@@ -17,21 +18,22 @@
 (defnc logoff-navlink [{:keys [logoff close user]}]
   (let [{:keys [avatar-url]} (:author user)]
     ($ NavLink
-      {:onClick (fn [_] (logoff) (close))
+      {:data-testid "github-logoff-navlink"
+       :onClick (fn [_] (logoff) (close))
        :variant "subtle"
        :active true
        :label "Logoff"
        :leftSection ($ Avatar {:src avatar-url :radius "xl" :size "sm"})
        :rightSection ($ IconChevronRight)})))
 
-; TODO test
 (defnc auth-navlink [{:keys [logoff close user login-link]}]
   (if user
     ($ logoff-navlink {:logoff logoff :close close :user user})
     ($ login-navlink {:close close :login-link login-link})))
 
 (defnc login-button [{:keys [login-link]}]
-  ($ Button {:component "a"
+  ($ Button {:data-testid "github-login-button"
+             :component "a"
              :href login-link
              :size "compact-md"
              :variant "primary"
@@ -41,14 +43,14 @@
 
 (defnc logoff-button [{:keys [logoff user]}]
   (let [{:keys [avatar-url]} (:author user)]
-    ($ Button {:onClick logoff
+    ($ Button {:data-testid "github-logoff-button"
+               :onClick logoff
                :size "compact-md"
                :variant "subtle"
                :leftSection ($ Avatar
                               {:src avatar-url :radius "md" :size "sm"})}
       "Logoff")))
 
-; TODO test
 (defnc auth-button [{:keys [logoff user login-link]}]
   (if user
     ($ logoff-button {:logoff logoff :user user})
