@@ -1,5 +1,5 @@
 (ns codes.clj.docs.frontend.infra.auth.github.view
-  (:require ["@mantine/core" :refer [Loader]]
+  (:require ["@mantine/core" :refer [LoadingOverlay]]
             [codes.clj.docs.frontend.infra.auth.github.state :as github.state]
             [codes.clj.docs.frontend.infra.auth.state :as auth.state]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
@@ -29,4 +29,7 @@
       (when user
         (rfe/push-state route path-params query-params)))
 
-    ($ Loader {:color "moonstone"})))
+    ($ LoadingOverlay {:loaderProps #js {:size "xl"}
+                       :visible true
+                       :zIndex 1000
+                       :overlayProps #js {:radius "sm" :blur 2}})))
