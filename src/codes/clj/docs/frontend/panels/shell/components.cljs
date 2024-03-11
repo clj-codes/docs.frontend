@@ -6,6 +6,7 @@
             ["@mantine/hooks" :refer [useDisclosure]]
             ["@tabler/icons-react" :refer [IconBrandGithub IconChevronRight
                                            IconMoon IconSocial IconSun]]
+            [codes.clj.docs.frontend.infra.auth.github.components :as github.components]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.search.view :refer [search-spotlight]]
             [helix.core :refer [$]]
@@ -36,7 +37,7 @@
       ($ Text {:ml "0.2rem" :size "xl"}
         "docs.clj.codes"))))
 
-(defnc header-drawer [{:keys [links opened close]}]
+(defnc header-drawer [{:keys [links login-link opened close logoff user]}]
   ($ Drawer {:data-testid "header-drawer"
              :position "right"
              :size "xs"
@@ -57,16 +58,10 @@
               :leftSection ($ Text {:size "lg"} label)
               :rightSection ($ IconChevronRight)})))
         doall)
-      ($ NavLink
-        {:href "/login"
-         :onClick close
-         :variant "filled"
-         :active true
-         :label "Log In"
-         :leftSection ($ IconBrandGithub {:size "1.5rem" :stroke 1.5})
-         :rightSection ($ IconChevronRight)}))))
+      ($ github.components/auth-navlink {:logoff logoff :user user
+                                         :login-link login-link}))))
 
-(defnc header [{:keys [links]}]
+(defnc header [{:keys [links login-link logoff user]}]
   (let [[opened updater] (useDisclosure false)
         close (.-toggle updater)]
     (dom/div
@@ -88,19 +83,16 @@
                               :color "var(--mantine-color-text)"}
                      label)))
                 doall)
-              ($ Button {:component "a"
-                         :href "/login"
-                         :size "compact-md"
-                         :variant "primary"
-                         :leftSection ($ IconBrandGithub
-                                        {:size "1.5rem" :stroke 1.5})}
-                "Log in"))
+              ($ github.components/auth-button {:logoff logoff :user user
+                                                :login-link login-link}))
             ($ Group {:gap "xs"}
               ($ search-spotlight)
               ($ dark-mode-button)
               ($ Burger {:opened opened :onClick close
                          :size "sm" :hiddenFrom "sm"})))
-          ($ header-drawer {:links links :opened opened :close close})))
+          ($ header-drawer {:links links :login-link login-link
+                            :opened opened :close close
+                            :logoff logoff :user user})))
       ($ Divider))))
 
 (defnc footer []

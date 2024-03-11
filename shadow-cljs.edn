@@ -13,10 +13,9 @@
                                    :module-hash-names true}
                 :compiler-options {:warnings {:extending-base-js-type false}
                                    :install-deps true}
-                :build-hooks
-                [(shadow.html/copy-file
-                  "resources/index.src.html"
-                  "resources/public/index.html")]}
+                :build-hooks      [(shadow.html/copy-file
+                                    "resources/index.src.html"
+                                    "resources/public/index.html")]}
 
           :tests {:target    :browser-test
                   :test-dir  "resources/tests"

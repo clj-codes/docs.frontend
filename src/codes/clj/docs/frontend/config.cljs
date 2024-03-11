@@ -22,4 +22,11 @@
     {:debug? debug?
      :base-url (if debug?
                  "http://localhost:3001/api/"
-                 "https://docs-backend.fly.dev/api/")}))
+                 "https://docs-backend.fly.dev/api/")
+     :github {:login-url "https://github.com/login/oauth/authorize"
+              :client-id (if debug?
+                           "e2e06123b7ca69a6150a"
+                           "46d86692f00ed9c613a1")
+              :redirect-uri (if debug?
+                              "http://localhost:5000/github-callback"
+                              "https://docs.clj.codes/github-callback")}}))
