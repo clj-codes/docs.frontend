@@ -1,17 +1,19 @@
 (ns codes.clj.docs.frontend.panels.definition.view
   (:refer-clojure :exclude [namespace])
-  (:require ["@mantine/core" :refer [Alert Anchor Badge Card Code Container
-                                     Grid Group LoadingOverlay Space Text
-                                     Title]]
+  (:require ["@mantine/core" :refer [Alert Anchor Badge Button Card Center
+                                     Code Container Grid Group LoadingOverlay
+                                     Space Text Title]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
+            [codes.clj.docs.frontend.components.markdown :refer [markdown-editor]]
             [codes.clj.docs.frontend.components.navigation :refer [back-to-top
                                                                    breadcrumbs]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.definition.state :refer [definition-response]]
             [helix.core :refer [$]]
-            [helix.dom :as dom]))
+            [helix.dom :as dom]
+            [helix.hooks :as hooks]))
 
 (defnc card-definition [{:keys [id added defined-by arglist-strs doc filename
                                 git-source col row deprecated macro private]
@@ -76,6 +78,46 @@
                      :block true}
               doc)))))))
 
+;; todo finish & test
+(defnc card-notes [{:keys [definition notes current-user]}]
+  (let [[new-note set-new-note] (hooks/use-state "")]
+
+    ($ Card {:id "card-notes"
+             :key "card-notes"
+             :data-testid "card-notes"
+             :withBorder true
+             :shadow "sm"
+             :padding "lg"}
+
+      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+        ($ Title {:id "card-notes-title" :order 4}
+          (str (count notes) " Notes")))
+
+      ($ Card.Section {:inheritPadding true :py "sm"}
+        ($ Grid
+          ($ Grid.Col {:span 12}
+            (if (seq notes)
+              (map #(dom/div (str %)) notes)
+              ($ Center
+                ($ Text "No notes"))))))
+
+      ($ Card.Section {:inheritPadding true :py "sm"}
+        (if current-user
+          ($ Grid
+            ($ Grid.Col {:span 12}
+              ($ markdown-editor {:text new-note
+                                  :set-text set-new-note
+                                  :placeholder "Leave a note"}))
+            ($ Grid.Col {:span 12}
+              ($ Group {:justify "flex-end" :gap "xs"}
+                ($ Button {:variant "light" :color "red"} "Cancel")
+                ($ Button {:variant "filled" :color "teal"} "Save"))))
+
+          ($ Group {:justify "flex-end"}
+            ($ Text {:size "sm"} "Log in to add a note")))))))
+
+;; todo query for definition socials list by id on:
+;; %backend%/api/social/definition/{definition-id}
 (defnc definition-detail []
   (let [{:keys [state error value loading?]} (use-flex definition-response)
         {:keys [project namespace definition]} value
@@ -100,5 +142,9 @@
 
           ($ Space {:h "lg"})
           ($ card-definition {:& definition})
+
+          ($ Space {:h "lg"})
+          ;; todo social definitions notes and current logged user here
+          ($ card-notes {:notes [] :current-user false :definition definition})
 
           ($ back-to-top))))))

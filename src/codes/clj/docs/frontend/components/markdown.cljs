@@ -6,8 +6,7 @@
             ["remark-gfm" :default remarkGfm]
             [clojure.string :as str]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
-            [helix.core :refer [$]]
-            [helix.hooks :as hooks]))
+            [helix.core :refer [$]]))
 
 (defnc code-highlight [{:keys [children language] :as props}]
   ($ CodeHighlight {:& props
@@ -40,32 +39,19 @@
                                                 :className className
                                                 :children children}))))}})))
 
-(defnc markdown-editor [{:keys [placeholder initial-value]}]
-  (let [[text set-text] (hooks/use-state initial-value)]
-    ($ Paper {:withBorder true}
-      ($ Tabs {:defaultValue "write"}
-        ($ Tabs.List
-          ($ Tabs.Tab {:value "write"} "Write")
-          ($ Tabs.Tab {:value "preview"} "Preview"))
-        ($ Tabs.Panel {:value "write"}
-          ($ Textarea {:value text
-                       :size "md"
-                       :onChange (fn [event] (set-text (-> event .-currentTarget .-value)))
-                       :autosize true
-                       :minRows 8
-                       :placeholder placeholder
-                       :p "xs"}))
-        ($ Tabs.Panel {:value "preview"}
-          ($ markdown (if (str/blank? text) "Nothing to preview" text)))))))
-
-(comment
-  ($ code-highlight {:language "clojure"}
-    "(+ 1 2)")
-
-  ($ markdown
-    "# Test
-*testing* something:  
-**banana**
-```clojure 
-(+ 1 2)
-```"))
+(defnc markdown-editor [{:keys [placeholder text set-text]}]
+  ($ Paper {:withBorder true}
+    ($ Tabs {:defaultValue "write"}
+      ($ Tabs.List
+        ($ Tabs.Tab {:value "write"} "Write")
+        ($ Tabs.Tab {:value "preview"} "Preview"))
+      ($ Tabs.Panel {:value "write"}
+        ($ Textarea {:value text
+                     :size "md"
+                     :onChange (fn [event] (set-text (-> event .-currentTarget .-value)))
+                     :autosize true
+                     :minRows 8
+                     :placeholder placeholder
+                     :p "xs"}))
+      ($ Tabs.Panel {:value "preview"}
+        ($ markdown (if (str/blank? text) "Nothing to preview" text))))))
