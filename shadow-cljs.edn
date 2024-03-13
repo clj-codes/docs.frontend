@@ -3,6 +3,8 @@
  :dev-http {5000 ["resources/public"]
             5002 ["resources/tests"]}
 
+ :jvm-opts ["-Xss16m"]
+ 
  :builds {:app {:target           :browser
                 :devtools         {:preloads [codes.clj.docs.frontend.dev.refresh]
                                    :reload-strategy :full}
