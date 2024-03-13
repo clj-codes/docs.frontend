@@ -79,7 +79,7 @@
               doc)))))))
 
 ;; todo finish & test
-(defnc card-notes [{:keys [definition notes current-user]}]
+(defnc card-notes [{:keys [_definition notes current-user]}]
   (let [[new-note set-new-note] (hooks/use-state "")]
 
     ($ Card {:id "card-notes"
