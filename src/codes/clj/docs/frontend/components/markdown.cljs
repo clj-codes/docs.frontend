@@ -2,8 +2,8 @@
   (:require ["@mantine/code-highlight" :refer [CodeHighlight]]
             ["@mantine/core" :refer [Blockquote Code Paper ScrollArea Tabs
                                      Textarea]]
-            ["react-markdown" :default ReactMarkdown]
-            ["remark-gfm" :default remarkGfm]
+            ["react-markdown$default" :as ReactMarkdown]
+            ["remark-gfm$default" :as remarkGfm]
             [clojure.string :as str]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [helix.core :refer [$]]))
