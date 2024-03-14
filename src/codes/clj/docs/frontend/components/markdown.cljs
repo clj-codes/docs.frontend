@@ -1,19 +1,34 @@
 (ns codes.clj.docs.frontend.components.markdown
-  (:require ["@mantine/code-highlight" :refer [CodeHighlight]]
-            ["@mantine/core" :refer [Blockquote Code Paper ScrollArea Tabs
-                                     Textarea]]
+  (:require ["@mantine/core" :refer [Blockquote Code Paper ScrollArea Tabs
+                                     Textarea useComputedColorScheme]]
             ["react-markdown$default" :as ReactMarkdown]
+            ["react-syntax-highlighter/dist/esm/languages/prism/clojure$default" :as clojure-prism]
+            ["react-syntax-highlighter/dist/esm/prism-light.js$default" :as SyntaxHighlighter]
+            ["react-syntax-highlighter/dist/esm/styles/prism" :refer [materialDark
+                                                                      materialLight]]
             ["remark-gfm$default" :as remarkGfm]
+            [applied-science.js-interop :as j]
             [clojure.string :as str]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
+            [goog.object]
             [helix.core :refer [$]]))
 
-(defnc code-highlight [{:keys [children language] :as props}]
-  ($ CodeHighlight {:& props
-                    :styles (clj->js {:code {:fontSize "var(--mantine-font-size-sm)"}})
-                    :withCopyButton true
-                    :code (str children)
-                    :language (or language "clojure")}))
+;; Register your languages here
+(.registerLanguage SyntaxHighlighter "clojure" clojure-prism)
+
+(defnc code-highlighter [{:keys [children language] :as props}]
+  (let [current-scheme (useComputedColorScheme "light" #js {:getInitialValueInEffect true})]
+    ($ SyntaxHighlighter {:& props
+                          :PreTag "div"
+                          :children children
+                          :style (-> (if (= current-scheme "light")
+                                       materialLight
+                                       materialDark)
+                                     (j/assoc-in! ["code[class*=\"language-\"]" :fontSize]
+                                                  "var(--mantine-font-size-sm)")
+                                     (j/assoc-in! ["pre[class*=\"language-\"]" :fontSize]
+                                                  "var(--mantine-font-size-sm)"))
+                          :language language})))
 
 (defnc markdown [{:keys [children]}]
   ($ ScrollArea.Autosize {:my "auto" :pl "1.5rem" :pr "1.5rem"
@@ -25,13 +40,12 @@
                                          ($ Blockquote {:py "0.25rem" :px "md"}
                                            (.-children props)))
                            :code (fn [props]
-                                   (let [children (.-children props)
-                                         className (.-className props)
-                                         match (.exec #"language-(\w+)" (or className ""))]
+                                   (j/let [^js {:keys [children className]} props
+                                           match (.exec #"language-(\w+)" (or className ""))]
                                      (if match
-                                       ($ code-highlight {:& props
-                                                          :children children
-                                                          :language (last match)})
+                                       ($ code-highlighter {:& props
+                                                            :children children
+                                                            :language (last match)})
                                        ($ Code {:& props
                                                 :style #js {:fontSize "var(--mantine-font-size-sm)"}
                                                 :block (when-not (str/blank? children)

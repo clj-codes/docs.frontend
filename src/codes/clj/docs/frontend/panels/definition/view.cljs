@@ -145,6 +145,6 @@
 
           ($ Space {:h "lg"})
           ;; todo social definitions notes and current logged user here
-          ($ card-notes {:notes [] :current-user false :definition definition})
+          ($ card-notes {:notes [] :current-user true :definition definition})
 
           ($ back-to-top))))))

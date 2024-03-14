@@ -3,7 +3,7 @@
  :dev-http {5000 ["resources/public"]
             5002 ["resources/tests"]}
 
- :jvm-opts ["-Xss16m"]
+ :jvm-opts ["-Xss4M"]
 
  :builds {:app {:target           :browser
                 :devtools         {:preloads [codes.clj.docs.frontend.dev.refresh]
@@ -32,8 +32,13 @@
                        :compiler-options {:reader-features #{:node}}
                        :main      codes.clj.docs.frontend.test.node/main
                        :output-to "resources/tests/node.js"
-                       :js-options
-                       {:resolve {"react-markdown" {:target :file
-                                                    :file   "test/mocks/react-markdown.js"}
-                                  "remark-gfm" {:target :file
-                                                :file   "test/mocks/remark-gfm.js"}}}}}}
+                       :js-options {:resolve {"react-syntax-highlighter/dist/esm/languages/prism/clojure" {:target :npm
+                                                                                                           :require "react-syntax-highlighter/dist/cjs/languages/prism/clojure"}
+                                              "react-syntax-highlighter/dist/esm/prism-light.js" {:target :npm
+                                                                                                  :require "react-syntax-highlighter/dist/cjs/prism-light.js"}
+                                              "react-syntax-highlighter/dist/esm/styles/prism" {:target :npm
+                                                                                                :require "react-syntax-highlighter/dist/cjs/styles/prism"}
+                                              "react-markdown" {:target :file
+                                                                :file   "test/mocks/react-markdown.js"}
+                                              "remark-gfm" {:target :file
+                                                            :file   "test/mocks/remark-gfm.js"}}}}}}

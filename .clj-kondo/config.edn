@@ -1,3 +1,4 @@
 {:hooks {:analyze-call {codes.clj.docs.frontend.infra.helix/defnc clj-kondo.lilactown.helix/defnc}}
+ :lint-as {applied-science.js-interop/let clojure.core/let}
  :config-in-call {shadow.cljs.modern/defclass
                   {:linters {:unresolved-symbol {:level :off}}}}}

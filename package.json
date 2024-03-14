@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/clj-codes/docs.frontend#readme",
   "dependencies": {
-    "@mantine/code-highlight": "^7.6.2",
     "@mantine/core": "^7.6.1",
     "@mantine/hooks": "^7.6.1",
     "@mantine/spotlight": "^7.6.2",
@@ -33,6 +32,7 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",
     "react-refresh": "^0.14.0",
+    "react-syntax-highlighter": "^15.5.0",
     "remark-gfm": "^4.0.0",
     "use-sync-external-store": "^1.2.0"
   },

@@ -21,6 +21,9 @@
                           (unobserve [this & args] nil)
                           (disconnect [this & args] nil))]
 
+    ; jest.mock ("react-markdown", () => (props) => {return <> {props.children} </>})
+    ; jest.mock ("remark-gfm", () => () => {})
+
     (set! (.-getComputedStyle js/window)
           (fn [elt]
             (get-computed-style elt)))
