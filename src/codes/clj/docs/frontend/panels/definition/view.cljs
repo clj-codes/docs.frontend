@@ -1,9 +1,8 @@
 (ns codes.clj.docs.frontend.panels.definition.view
   (:refer-clojure :exclude [namespace])
-  (:require ["@mantine/core" :refer [Alert Anchor Badge Box Button Card Center
-                                     Code Container Grid Group Loader
-                                     LoadingOverlay Space Text Title
-                                     Skeleton]]
+  (:require ["@mantine/core" :refer [Alert Anchor Badge Button Card Center
+                                     Code Container Grid Group LoadingOverlay
+                                     Skeleton Space Text Title]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
             [codes.clj.docs.frontend.components.markdown :refer [markdown-editor]]
