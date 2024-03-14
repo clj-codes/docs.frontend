@@ -95,7 +95,8 @@
                     :start (fn [& params]
                              (let [{:keys [organization project namespace definition]} (-> params first :path)]
                                (set-title! (str definition " - " namespace " - " organization " - " project " - docs.clj.codes"))
-                               (definition.state/definition-fetch organization project namespace definition 0)))}]}]
+                               (definition.state/definition-docs-fetch organization project namespace definition 0)
+                               (definition.state/definition-social-fetch organization project namespace definition 0)))}]}]
 
    [":organization/:project/:namespace/:definition/:index"
     {:name        :definition-indexed
@@ -110,4 +111,5 @@
                     :start (fn [& params]
                              (let [{:keys [organization project namespace definition index]} (-> params first :path)]
                                (set-title! (str definition " - " namespace " - " organization " - " project " - docs.clj.codes"))
-                               (definition.state/definition-fetch organization project namespace definition index)))}]}]])
+                               (definition.state/definition-docs-fetch organization project namespace definition index)
+                               (definition.state/definition-social-fetch organization project namespace definition index)))}]}]])

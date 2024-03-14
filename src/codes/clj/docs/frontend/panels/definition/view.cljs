@@ -1,8 +1,9 @@
 (ns codes.clj.docs.frontend.panels.definition.view
   (:refer-clojure :exclude [namespace])
-  (:require ["@mantine/core" :refer [Alert Anchor Badge Button Card Center
-                                     Code Container Grid Group LoadingOverlay
-                                     Space Text Title]]
+  (:require ["@mantine/core" :refer [Alert Anchor Badge Box Button Card Center
+                                     Code Container Grid Group Loader
+                                     LoadingOverlay Space Text Title
+                                     Skeleton]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
             [codes.clj.docs.frontend.components.markdown :refer [markdown-editor]]
@@ -10,7 +11,8 @@
                                                                    breadcrumbs]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
-            [codes.clj.docs.frontend.panels.definition.state :refer [definition-response]]
+            [codes.clj.docs.frontend.panels.definition.state :refer [definition-docs-results
+                                                                     definition-social-results]]
             [helix.core :refer [$]]
             [helix.dom :as dom]
             [helix.hooks :as hooks]))
@@ -78,6 +80,17 @@
                      :block true}
               doc)))))))
 
+(defnc card-loading-social []
+  ($ Card {:id "card-social-loading"
+           :key "card-social-loading"
+           :data-testid "card-social-loading"
+           :withBorder true
+           :shadow "sm"
+           :padding "lg"}
+    ($ Group {:mb "md"}
+      ($ Skeleton {:height 30 :circle true})
+      ($ Skeleton {:height 100 :radius "md"}))))
+
 ;; todo finish & test
 (defnc card-notes [{:keys [_definition notes current-user]}]
   (let [[new-note set-new-note] (hooks/use-state "")]
@@ -116,23 +129,29 @@
           ($ Group {:justify "flex-end"}
             ($ Text {:size "sm"} "Log in to add a note")))))))
 
-;; todo query for definition socials list by id on:
-;; %backend%/api/social/definition/{definition-id}
 (defnc definition-detail []
-  (let [{:keys [state error value loading?]} (use-flex definition-response)
-        {:keys [project namespace definition]} value
+  (let [{docs-state :state
+         docs-error :error
+         docs-value :value
+         docs-loading? :loading?} (use-flex definition-docs-results)
+        {social-error :error
+         social-value :value
+         social-loading? :loading?} (use-flex definition-social-results)
+        {:keys [project namespace definition]} docs-value
         project-id (:id project)
         namespace-id (:id namespace)]
 
+    (prn social-error social-value social-loading?)
+
     ($ Container {:size "md"}
-      ($ LoadingOverlay {:visible loading? :zIndex 1000
+      ($ LoadingOverlay {:visible docs-loading? :zIndex 1000
                          :overlayProps #js {:radius "sm" :blur 2}})
 
-      (if (= state :error)
+      (if (= docs-state :error)
         ($ Alert {:variant "light" :color "red"
                   :radius "md" :title "Error"
                   :icon ($ IconInfoCircle)}
-          (str error))
+          (str docs-error))
 
         (dom/div
           ($ breadcrumbs {:items [{:id "projects" :href "/projects" :title "Projects"}
@@ -144,7 +163,8 @@
           ($ card-definition {:& definition})
 
           ($ Space {:h "lg"})
-          ;; todo social definitions notes and current logged user here
-          ($ card-notes {:notes [] :current-user true :definition definition})
+          (if false ;social-loading?
+            ($ card-loading-social)
+            ($ card-notes {:notes [] :current-user true :definition definition}))
 
           ($ back-to-top))))))

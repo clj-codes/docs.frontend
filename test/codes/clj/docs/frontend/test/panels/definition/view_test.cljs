@@ -23,7 +23,7 @@
                       :body fixtures/definition}})
 
     ; call initial db fetch
-    (definition.state/definition-fetch "org.clojure" "clojure" "clojure.core.server" "prepl" 0)
+    (definition.state/definition-docs-fetch "org.clojure" "clojure" "clojure.core.server" "prepl" 0)
 
     (async done
       (p/catch
@@ -49,7 +49,7 @@
                       :status 200
                       :body (update-in fixtures/definition [:definition] dissoc :added)}})
 
-    (definition.state/definition-fetch "org.clojure" "clojure" "clojure.core.server" "prepl" 1)
+    (definition.state/definition-docs-fetch "org.clojure" "clojure" "clojure.core.server" "prepl" 1)
 
     (async done
       (p/catch
