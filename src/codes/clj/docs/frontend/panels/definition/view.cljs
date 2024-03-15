@@ -1,17 +1,18 @@
 (ns codes.clj.docs.frontend.panels.definition.view
   (:refer-clojure :exclude [namespace])
-  (:require ["@mantine/core" :refer [Alert Anchor Badge Button Card Center
-                                     Code Container Grid Group LoadingOverlay
+  (:require ["@mantine/core" :refer [Alert Anchor Badge Button Card Code
+                                     Container Grid Group LoadingOverlay Modal
                                      Skeleton Space Text Title]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
-            [codes.clj.docs.frontend.components.markdown :refer [markdown-editor]]
             [codes.clj.docs.frontend.components.navigation :refer [back-to-top
                                                                    breadcrumbs]]
+            [codes.clj.docs.frontend.infra.auth.state :as auth.state]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.definition.state :refer [definition-docs-results
                                                                      definition-social-results]]
+            [codes.clj.docs.frontend.panels.definition.view.notes :refer [card-notes]]
             [helix.core :refer [$]]
             [helix.dom :as dom]
             [helix.hooks :as hooks]))
@@ -90,57 +91,34 @@
       ($ Skeleton {:height 30 :circle true})
       ($ Skeleton {:height 100 :radius "md"}))))
 
-;; todo finish & test
-(defnc card-notes [{:keys [_definition notes current-user]}]
-  (let [[new-note set-new-note] (hooks/use-state "")]
-
-    ($ Card {:id "card-notes"
-             :key "card-notes"
-             :data-testid "card-notes"
-             :withBorder true
-             :shadow "sm"
-             :padding "lg"}
-
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
-        ($ Title {:id "card-notes-title" :order 4}
-          (str (count notes) " Notes")))
-
-      ($ Card.Section {:inheritPadding true :py "sm"}
-        ($ Grid
-          ($ Grid.Col {:span 12}
-            (if (seq notes)
-              (map #(dom/div (str %)) notes)
-              ($ Center
-                ($ Text "No notes"))))))
-
-      ($ Card.Section {:inheritPadding true :py "sm"}
-        (if current-user
-          ($ Grid
-            ($ Grid.Col {:span 12}
-              ($ markdown-editor {:text new-note
-                                  :set-text set-new-note
-                                  :placeholder "Leave a note"}))
-            ($ Grid.Col {:span 12}
-              ($ Group {:justify "flex-end" :gap "xs"}
-                ($ Button {:variant "light" :color "red"} "Cancel")
-                ($ Button {:variant "filled" :color "teal"} "Save"))))
-
-          ($ Group {:justify "flex-end"}
-            ($ Text {:size "sm"} "Log in to add a note")))))))
+(defnc delete-alert [{:keys [delete-fn on-close-fn]}]
+  ($ Modal {:opened delete-fn :centered true
+            :onClose on-close-fn
+            :title "Are you sure?" :size "xs"}
+    ($ Group {:justify "flex-end" :gap "xs"}
+      ($ Button {:onClick on-close-fn
+                 :variant "light" :color "red"} "No")
+      ($ Button {:onClick #(do ((:fn delete-fn))
+                               (on-close-fn))
+                 :variant "filled" :color "teal"} "Yes"))))
 
 (defnc definition-detail []
   (let [{docs-state :state
          docs-error :error
          docs-value :value
          docs-loading? :loading?} (use-flex definition-docs-results)
-        {social-error :error
+        ; TODO social error
+        {_social-error :error
          social-value :value
          social-loading? :loading?} (use-flex definition-social-results)
+        ; TODO examples
+        ; TODO see-alsos
+        {:keys [notes _examples _see-alsos]} social-value
         {:keys [project namespace definition]} docs-value
+        user (use-flex auth.state/user-signal)
         project-id (:id project)
-        namespace-id (:id namespace)]
-
-    (prn social-error social-value social-loading?)
+        namespace-id (:id namespace)
+        [delete-modal-fn set-delete-modal-fn] (hooks/use-state nil)]
 
     ($ Container {:size "md"}
       ($ LoadingOverlay {:visible docs-loading? :zIndex 1000
@@ -162,8 +140,13 @@
           ($ card-definition {:& definition})
 
           ($ Space {:h "lg"})
-          (if false ;social-loading?
+          (if social-loading?
             ($ card-loading-social)
-            ($ card-notes {:notes [] :current-user true :definition definition}))
+            ($ card-notes {:notes notes :user user
+                           :definition definition
+                           :set-delete-modal-fn set-delete-modal-fn}))
 
-          ($ back-to-top))))))
+          ($ back-to-top)))
+
+      ($ delete-alert {:delete-fn delete-modal-fn
+                       :on-close-fn #(set-delete-modal-fn nil)}))))

@@ -30,9 +30,9 @@
                                                   "var(--mantine-font-size-sm)"))
                           :language language})))
 
-(defnc markdown [{:keys [children]}]
-  ($ ScrollArea.Autosize {:my "auto" :pl "1.5rem" :pr "1.5rem"
-                          :style #js {:minHeight "15rem"}}
+(defnc markdown [{:keys [children style padding]}]
+  ($ ScrollArea.Autosize {:style style
+                          :my "auto" :pl (:pl padding) :pr (:pr padding)}
     ($ ReactMarkdown {:children children
                       :remarkPlugins #js [remarkGfm]
                       :components
@@ -62,10 +62,13 @@
       ($ Tabs.Panel {:value "write"}
         ($ Textarea {:value text
                      :size "md"
-                     :onChange (fn [event] (set-text (-> event .-currentTarget .-value)))
+                     :onChange (fn [event]
+                                 (set-text (-> event .-currentTarget .-value)))
                      :autosize true
                      :minRows 8
                      :placeholder placeholder
                      :p "xs"}))
       ($ Tabs.Panel {:value "preview"}
-        ($ markdown (if (str/blank? text) "Nothing to preview" text))))))
+        ($ markdown {:style #js {:minHeight "15rem"}
+                     :padding {:pl "1.5rem" :pr "1.5rem"}}
+          (if (str/blank? text) "Nothing to preview" text))))))
