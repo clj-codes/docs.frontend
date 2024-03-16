@@ -17,7 +17,7 @@
         login-link (shell.adapters/path->github-link path config-github)
         user (use-flex auth.state/user-signal)
         logoff-fn #(auth.state/user assoc :value nil)]
-    ($ AppShell {:padding "md"}
+    ($ AppShell
       ($ shell.components/header {:user user
                                   :logoff logoff-fn
                                   :links header-links

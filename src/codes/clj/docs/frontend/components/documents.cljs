@@ -28,8 +28,7 @@
            :data-testid (str "card-project-" id)
            :className (when header "components-documents-cards")
            :withBorder true
-           :shadow "sm"
-           :padding "lg"}
+           :shadow "sm"}
 
     ($ head-card-section {:id id :name name :header header})
 
@@ -62,8 +61,7 @@
            :data-testid (str "card-namespace-" id)
            :className (when header "components-documents-cards")
            :withBorder true
-           :shadow "sm"
-           :padding "lg"}
+           :shadow "sm"}
 
     ($ head-card-section {:id id :name name :header header})
 

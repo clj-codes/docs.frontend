@@ -24,8 +24,7 @@
            :key (str "card-definition-" id)
            :data-testid (str "card-definition-" id)
            :withBorder true
-           :shadow "sm"
-           :padding "lg"}
+           :shadow "sm"}
 
     ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
       ($ Title {:id "card-definition-title" :order 2}
@@ -85,14 +84,14 @@
            :key "card-social-loading"
            :data-testid "card-social-loading"
            :withBorder true
-           :shadow "sm"
-           :padding "lg"}
+           :shadow "sm"}
     ($ Group {:mb "md"}
       ($ Skeleton {:height 30 :circle true})
       ($ Skeleton {:height 100 :radius "md"}))))
 
 (defnc delete-alert [{:keys [delete-fn on-close-fn]}]
-  ($ Modal {:opened delete-fn :centered true
+  ($ Modal {:id "delete-alert-modal"
+            :opened delete-fn :centered true
             :onClose on-close-fn
             :title "Are you sure?" :size "xs"}
     ($ Group {:justify "flex-end" :gap "xs"}
@@ -122,8 +121,10 @@
         namespace-id (:id namespace)
         [delete-modal-fn set-delete-modal-fn] (hooks/use-state nil)]
 
-    ($ Container {:size "md"}
-      ($ LoadingOverlay {:visible docs-loading? :zIndex 1000
+    ($ Container {:p "sm"}
+
+      ($ LoadingOverlay {:id "loading-overlay"
+                         :visible docs-loading? :zIndex 1000
                          :overlayProps #js {:radius "sm" :blur 2}})
 
       (if (= docs-state :error)
@@ -138,7 +139,6 @@
                                   {:id namespace-id :href (str "/" namespace-id) :title (:name namespace)}
                                   {:id (:id definition) :title (:name definition)}]})
 
-          ($ Space {:h "lg"})
           ($ card-definition {:& definition})
 
           ($ Space {:h "lg"})

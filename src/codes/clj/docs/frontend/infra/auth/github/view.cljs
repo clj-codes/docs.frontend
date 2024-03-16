@@ -30,7 +30,7 @@
       (when user
         (rfe/push-state route path-params query-params)))
 
-    ($ Container {:size "md"}
+    ($ Container {:p "sm"}
       ($ Space {:h "xl"})
       (cond
         error ($ Alert {:variant "light" :color "red"

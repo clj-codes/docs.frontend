@@ -44,7 +44,6 @@
              :className "card-note"
              :withBorder true
              :shadow "sm"
-             :padding "sm"
              :mb "sm"}
 
       ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
@@ -89,14 +88,14 @@
              :key "card-notes"
              :data-testid "card-notes"
              :withBorder true
-             :shadow "sm"
-             :padding "xs"}
+             :shadow "sm"}
 
       ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
         ($ Title {:id "card-notes-title" :order 4}
           (str (count notes) " Notes")))
 
-      ($ Card.Section {:inheritPadding true :py "sm"}
+      ($ Card.Section {:inheritPadding true
+                       :p "sm"}
         ($ Grid {:py 0}
           ($ Grid.Col {:span 12}
             (if (seq notes)

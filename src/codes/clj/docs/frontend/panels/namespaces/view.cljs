@@ -19,14 +19,13 @@
                                       ($ card-namespace {:& props})))))
         project-id (:id project)]
 
-    ($ Container {:size "md"}
+    ($ Container {:p "sm"}
       ($ LoadingOverlay {:visible loading? :zIndex 1000
                          :overlayProps #js {:radius "sm" :blur 2}})
 
       ($ breadcrumbs {:items [{:id "projects" :href "/projects" :title "Projects"}
                               {:id project-id :title project-id}]})
 
-      ($ Space {:h "lg"})
       ($ card-project {:header true :key project-id :& project})
       ($ Space {:h "lg"})
       ($ Title {:order 3} "Namespaces")
