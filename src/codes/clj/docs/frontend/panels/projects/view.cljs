@@ -44,7 +44,7 @@
 
 (defnc group-by-orgs []
   (let [{:keys [value loading?]} (use-flex document-projects-response)]
-    ($ Container {:size "md"}
+    ($ Container {:p "sm"}
       ($ Grid
         ($ Grid.Col {:key "organization-title" :span 12}
           (dom/section

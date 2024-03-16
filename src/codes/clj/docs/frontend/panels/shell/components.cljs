@@ -65,7 +65,7 @@
   (let [[opened updater] (useDisclosure false)
         close (.-toggle updater)]
     (dom/div
-      ($ Container {:size "md"}
+      ($ Container
         ($ Group {:className "shell-inner-header"}
           ($ logo)
           ($ Group
@@ -97,7 +97,7 @@
 
 (defnc footer []
   (dom/footer {:className "shell-footer"}
-    ($ Container {:className "shell-after-footer" :size "md"}
+    ($ Container {:className "shell-after-footer"}
       ($ Group {:gap 3}
         ($ Text {:c "dimmed" :size "sm"}
           "© 2024 docs.clj.codes by")

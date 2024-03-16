@@ -22,11 +22,13 @@
                          {:key id :id (str "t-" id)
                           :className "components-navigation-breadcrumbs"} title)))
                    items)]
-    ($ Breadcrumbs {:data-testid "breadcrumbs"
+    ($ Breadcrumbs {:id "breadcrumbs"
+                    :data-testid "breadcrumbs"
                     :visibleFrom "xs"
                     :separator "→"
                     :separatorMargin "xs"
-                    :mt "0"}
+                    :mt "0"
+                    :mb "lg"}
       links)))
 
 (defnc back-to-top []

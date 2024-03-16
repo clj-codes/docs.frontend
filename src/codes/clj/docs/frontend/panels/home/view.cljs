@@ -5,7 +5,7 @@
             [helix.dom :as dom]))
 
 (defnc home []
-  ($ Container {:size "md"}
+  ($ Container {:p "sm"}
     ($ Grid {:id "why"}
       ($ Grid.Col {:span 12}
         (dom/section
