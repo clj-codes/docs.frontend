@@ -1,17 +1,21 @@
 (ns codes.clj.docs.frontend.panels.definition.view
   (:refer-clojure :exclude [namespace])
-  (:require ["@mantine/core" :refer [Alert Anchor Badge Card Code Container
-                                     Grid Group LoadingOverlay Space Text
-                                     Title]]
+  (:require ["@mantine/core" :refer [Alert Anchor Badge Button Card Code
+                                     Container Grid Group LoadingOverlay Modal
+                                     Skeleton Space Text Title]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
             [codes.clj.docs.frontend.components.navigation :refer [back-to-top
                                                                    breadcrumbs]]
+            [codes.clj.docs.frontend.infra.auth.state :as auth.state]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
-            [codes.clj.docs.frontend.panels.definition.state :refer [definition-response]]
+            [codes.clj.docs.frontend.panels.definition.state :refer [definition-docs-results
+                                                                     definition-social-results]]
+            [codes.clj.docs.frontend.panels.definition.view.notes :refer [card-notes]]
             [helix.core :refer [$]]
-            [helix.dom :as dom]))
+            [helix.dom :as dom]
+            [helix.hooks :as hooks]))
 
 (defnc card-definition [{:keys [id added defined-by arglist-strs doc filename
                                 git-source col row deprecated macro private]
@@ -76,21 +80,57 @@
                      :block true}
               doc)))))))
 
+(defnc card-loading-social []
+  ($ Card {:id "card-social-loading"
+           :key "card-social-loading"
+           :data-testid "card-social-loading"
+           :withBorder true
+           :shadow "sm"
+           :padding "lg"}
+    ($ Group {:mb "md"}
+      ($ Skeleton {:height 30 :circle true})
+      ($ Skeleton {:height 100 :radius "md"}))))
+
+(defnc delete-alert [{:keys [delete-fn on-close-fn]}]
+  ($ Modal {:opened delete-fn :centered true
+            :onClose on-close-fn
+            :title "Are you sure?" :size "xs"}
+    ($ Group {:justify "flex-end" :gap "xs"}
+      ($ Button {:data-testid "definition-delete-alert-no-btn"
+                 :onClick on-close-fn
+                 :variant "light" :color "red"} "No")
+      ($ Button {:data-testid "definition-delete-alert-yes-btn"
+                 :onClick #(do ((:fn delete-fn))
+                               (on-close-fn))
+                 :variant "filled" :color "teal"} "Yes"))))
+
 (defnc definition-detail []
-  (let [{:keys [state error value loading?]} (use-flex definition-response)
-        {:keys [project namespace definition]} value
+  (let [{docs-state :state
+         docs-error :error
+         docs-value :value
+         docs-loading? :loading?} (use-flex definition-docs-results)
+        ; TODO social error
+        {_social-error :error
+         social-value :value
+         social-loading? :loading?} (use-flex definition-social-results)
+        ; TODO examples
+        ; TODO see-alsos
+        {:keys [notes _examples _see-alsos]} social-value
+        {:keys [project namespace definition]} docs-value
+        user (use-flex auth.state/user-signal)
         project-id (:id project)
-        namespace-id (:id namespace)]
+        namespace-id (:id namespace)
+        [delete-modal-fn set-delete-modal-fn] (hooks/use-state nil)]
 
     ($ Container {:size "md"}
-      ($ LoadingOverlay {:visible loading? :zIndex 1000
+      ($ LoadingOverlay {:visible docs-loading? :zIndex 1000
                          :overlayProps #js {:radius "sm" :blur 2}})
 
-      (if (= state :error)
+      (if (= docs-state :error)
         ($ Alert {:variant "light" :color "red"
                   :radius "md" :title "Error"
                   :icon ($ IconInfoCircle)}
-          (str error))
+          (str docs-error))
 
         (dom/div
           ($ breadcrumbs {:items [{:id "projects" :href "/projects" :title "Projects"}
@@ -101,4 +141,14 @@
           ($ Space {:h "lg"})
           ($ card-definition {:& definition})
 
-          ($ back-to-top))))))
+          ($ Space {:h "lg"})
+          (if social-loading?
+            ($ card-loading-social)
+            ($ card-notes {:notes notes :user user
+                           :definition definition
+                           :set-delete-modal-fn set-delete-modal-fn}))
+
+          ($ back-to-top)))
+
+      ($ delete-alert {:delete-fn delete-modal-fn
+                       :on-close-fn #(set-delete-modal-fn nil)}))))

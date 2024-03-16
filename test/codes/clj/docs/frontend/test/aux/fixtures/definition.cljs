@@ -1,6 +1,6 @@
 (ns codes.clj.docs.frontend.test.aux.fixtures.definition)
 
-(def definition
+(def definition-docs
   {:definition {:added "1.10",
                 :arglist-strs ["[in-reader out-fn & {:keys [stdin]}]"],
                 :artifact "clojure",
@@ -53,3 +53,26 @@
              :sha "ce55092f2b2f5481d25cff6205470c1335760ef6",
              :tag "clojure-1.11.1",
              :url "https://github.com/clojure/clojure"}})
+
+(def definition-social
+  {:definition-id "org.clojure/clojure/clojure.core.server/prepl/0",
+   :examples [],
+   :notes [{:author {:account-source "github",
+                     :author-id #uuid "42d95952-dc8f-4f97-ab31-b7534a43e728",
+                     :avatar-url "https://avatars.githubusercontent.com/u/1683898?v=4",
+                     :created-at #inst "2024-03-09T01:23:35.332-00:00",
+                     :login "rafaeldelboni"},
+            :body "Here is a version that will create a vector when the key is numerical. This may be useful instead of throwing an IndexOutOfBoundsException.\n```clojure\n(defn assoc-in-idx [m [k & ks] v]\n  (let [value (get m k (when (number? (first ks)) []))\n    m (if (and (vector? m) (number? k) (-> m count (< k)))\n        (reduce (fn [m _] (conj m nil)) m (range (count m) k))\n        m)\n    v (if ks\n        (assoc-in-idx value ks v)\n        v)]\n    (assoc m k v)))\n```",
+            :created-at #inst "2024-03-15T13:17:45.414-00:00",
+            :definition-id "org.clojure/clojure/clojure.core/assoc/0",
+            :note-id #uuid "8b81ce0d-20fd-43e7-a79a-a9edbb0f162a"}
+           {:author {:account-source "github",
+                     :author-id #uuid "42d95952-dc8f-4f97-ab31-b7534a43e728",
+                     :avatar-url "https://avatars.githubusercontent.com/u/1683898?v=4",
+                     :created-at #inst "2024-03-09T01:23:35.332-00:00",
+                     :login "rafaeldelboni"},
+            :body "the API is blurry When applied to a vector\n```clojure\n;; should indicate following\n(assoc vector index val)\n```",
+            :created-at #inst "2024-03-15T13:26:17.234-00:00",
+            :definition-id "org.clojure/clojure/clojure.core/assoc/0",
+            :note-id #uuid "2a704396-78d2-4153-9a0a-31fa1c87e9c8"}],
+   :see-alsos []})
