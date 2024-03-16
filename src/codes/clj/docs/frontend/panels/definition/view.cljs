@@ -96,9 +96,11 @@
             :onClose on-close-fn
             :title "Are you sure?" :size "xs"}
     ($ Group {:justify "flex-end" :gap "xs"}
-      ($ Button {:onClick on-close-fn
+      ($ Button {:data-testid "definition-delete-alert-no-btn"
+                 :onClick on-close-fn
                  :variant "light" :color "red"} "No")
-      ($ Button {:onClick #(do ((:fn delete-fn))
+      ($ Button {:data-testid "definition-delete-alert-yes-btn"
+                 :onClick #(do ((:fn delete-fn))
                                (on-close-fn))
                  :variant "filled" :color "teal"} "Yes"))))
 

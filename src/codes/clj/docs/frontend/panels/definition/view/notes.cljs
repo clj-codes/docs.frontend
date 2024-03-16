@@ -8,7 +8,6 @@
             [helix.core :refer [$]]
             [helix.hooks :as hooks]))
 
-;; todo test
 (defnc editor-note [{:keys [py on-save on-cancel note definition-id]}]
   (let [[note-body set-note-body] (hooks/use-state (if note (:body note) ""))]
     ($ Grid {:data-testid "editor-note" :py py}
@@ -25,8 +24,9 @@
                                      (set-note-body ""))
                                    (on-cancel))
                      :variant "light" :color "red"} "Cancel")
-          ($ Button {:id "editor-note-cancel-btn"
-                     :data-testid "editor-note-cancel-btn"
+          ($ Button {:id "editor-note-save-btn"
+                     :data-testid "editor-note-save-btn"
+                     :disabled (zero? (count note-body))
                      :onClick #(do (if note
                                      (set-note-body (:body note))
                                      (set-note-body ""))
@@ -36,13 +36,12 @@
                                            :body note-body)))
                      :variant "filled" :color "teal"} "Save"))))))
 
-;; todo test
 (defnc card-note [{:keys [children user set-delete-modal-fn]}]
   (let [{:keys [note-id body author created-at definition-id] :as note} children
         [show-note-editor set-show-note-editor] (hooks/use-state false)
         is-note-author? (= (-> user :author :author-id) (:author-id author))]
-    ($ Card {:id (str "card-note" note-id)
-             :data-testid (str "card-note" note-id)
+    ($ Card {:id (str "card-note-" note-id)
+             :className "card-note"
              :withBorder true
              :shadow "sm"
              :padding "sm"
@@ -55,11 +54,18 @@
           ($ Text {:size "xs"} (.toGMTString created-at))
 
           (when is-note-author?
-            ($ Group {:data-testid "author-edit-delete-note" :gap "xs"}
-              ($ Anchor {:onClick #(set-show-note-editor true)
+            ($ Group {:className "author-edit-delete-note"
+                      :gap "xs"}
+              ($ Anchor {:className "note-author-edit-button"
+                         :id (str "note-author-edit-button-" note-id)
+                         :data-testid (str "note-author-edit-button-" note-id)
+                         :onClick #(set-show-note-editor true)
                          :size "xs"} "edit")
               ($ Text {:size "xs"} "/")
-              ($ Anchor {:onClick #(set-delete-modal-fn
+              ($ Anchor {:className "note-author-delete-button"
+                         :id (str "note-author-delete-button-" note-id)
+                         :data-testid (str "note-author-delete-button-" note-id)
+                         :onClick #(set-delete-modal-fn
                                     {:fn (fn []
                                            (state.notes/delete! note))})
                          :size "xs"} "delete")))))
@@ -77,7 +83,6 @@
                               :py "sm"})
               ($ markdown body))))))))
 
-;; todo test
 (defnc card-notes [{:keys [definition notes user set-delete-modal-fn]}]
   (let [[show-new-note-editor set-new-note-show-editor] (hooks/use-state false)]
     ($ Card {:id "card-notes"
@@ -112,7 +117,8 @@
                             :definition-id (:id definition)})
             ($ Group {:data-testid "add-note-logged"
                       :justify "flex-end"}
-              ($ Anchor {:onClick #(set-new-note-show-editor true)
+              ($ Anchor {:data-testid "add-note-btn"
+                         :onClick #(set-new-note-show-editor true)
                          :size "sm"} "Add a Note")))
           ($ Group {:data-testid "add-note-logout"
                     :justify "flex-end"}

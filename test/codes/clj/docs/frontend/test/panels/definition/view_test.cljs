@@ -20,7 +20,7 @@
     (mock-http-with {"document/definition/org.clojure/clojure/clojure.core.server/prepl/0"
                      {:lag 0
                       :status 200
-                      :body fixtures/definition}})
+                      :body fixtures/definition-docs}})
 
     ; call initial db fetch
     (definition.state/definition-docs-fetch "org.clojure" "clojure" "clojure.core.server" "prepl" 0)
@@ -47,7 +47,7 @@
     (mock-http-with {"document/definition/org.clojure/clojure/clojure.core.server/prepl/1"
                      {:lag 0
                       :status 200
-                      :body (update-in fixtures/definition [:definition] dissoc :added)}})
+                      :body (update-in fixtures/definition-docs [:definition] dissoc :added)}})
 
     (definition.state/definition-docs-fetch "org.clojure" "clojure" "clojure.core.server" "prepl" 1)
 

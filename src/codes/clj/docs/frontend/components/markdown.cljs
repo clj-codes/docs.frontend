@@ -31,7 +31,8 @@
                           :language language})))
 
 (defnc markdown [{:keys [children style padding]}]
-  ($ ScrollArea.Autosize {:style style
+  ($ ScrollArea.Autosize {:className "markdown-viewer"
+                          :style style
                           :my "auto" :pl (:pl padding) :pr (:pr padding)}
     ($ ReactMarkdown {:children children
                       :remarkPlugins #js [remarkGfm]
@@ -60,7 +61,8 @@
         ($ Tabs.Tab {:value "write"} "Write")
         ($ Tabs.Tab {:value "preview"} "Preview"))
       ($ Tabs.Panel {:value "write"}
-        ($ Textarea {:value text
+        ($ Textarea {:data-testid "markdown-editor-textarea"
+                     :value text
                      :size "md"
                      :onChange (fn [event]
                                  (set-text (-> event .-currentTarget .-value)))
