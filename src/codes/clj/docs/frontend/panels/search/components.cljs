@@ -1,7 +1,8 @@
 (ns codes.clj.docs.frontend.panels.search.components
-  (:require ["@mantine/core" :refer [ActionIcon Badge Button Card FocusTrap
-                                     Group Group Loader SimpleGrid Space
-                                     Spotlight Text Text TextInput Title Title]]
+  (:require ["@mantine/core" :refer [ActionIcon Badge Button Card Container
+                                     FocusTrap Group Group Loader SimpleGrid
+                                     Space Spotlight Text Text TextInput Title
+                                     Title]]
             ["@mantine/spotlight" :refer [Spotlight]]
             ["@tabler/icons-react" :refer [IconFileCode IconFolderCode
                                            IconSearch IconSocial IconZoomCode]]
@@ -135,7 +136,7 @@
               "no documentation")))))))
 
 (defnc page-results-section [{:keys [query debounced set-debounced items]}]
-  (dom/div
+  ($ Container {:p "sm"}
     (dom/section
       (if-not (str/blank? query)
         ($ Title {:order 1}
@@ -143,7 +144,11 @@
           ($ Text {:component "span" :inherit true :variant "gradient"
                    :gradient #js {:from "cyan" :to "green" :deg 90}}
             query))
-        ($ Title {:order 1} "Search the documentation")))
+        ($ Title {:order 1}
+          "Search the "
+          ($ Text {:component "span" :inherit true :variant "gradient"
+                   :gradient #js {:from "cyan" :to "green" :deg 90}}
+            "documentation"))))
 
     ($ Space {:h "lg"})
 
