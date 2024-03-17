@@ -1,6 +1,7 @@
 (ns codes.clj.docs.frontend.test.aux.init
   (:require #?@(:node [["global-jsdom/register"]])
             [cljs.js :as js]
+            [codes.clj.docs.frontend.infra.auth.state :as auth.state]
             [codes.clj.docs.frontend.infra.http.component :as http.component]
             [codes.clj.docs.frontend.infra.system.state :as system.state]
             [codes.clj.docs.frontend.test.aux.testing-library :as tlr]
@@ -53,7 +54,8 @@
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn async-cleanup []
-  (tlr/cleanup))
+  (tlr/cleanup)
+  (auth.state/user nil))
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn sync-setup [f]
