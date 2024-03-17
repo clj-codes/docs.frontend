@@ -145,12 +145,14 @@
           (if social-loading?
             ($ card-loading-social)
             (dom/div
-              ($ card-examples {:examples examples :user user
+              ($ card-examples {:examples (sort-by :created-at examples)
+                                :user user
                                 :definition definition})
 
               ($ Space {:h "lg"})
 
-              ($ card-notes {:notes notes :user user
+              ($ card-notes {:notes (sort-by :created-at notes)
+                             :user user
                              :definition definition
                              :set-delete-modal-fn set-delete-modal-fn})))
 

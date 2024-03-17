@@ -1,48 +1,25 @@
 (ns codes.clj.docs.frontend.panels.definition.view.examples
-  (:require ["@mantine/core" :refer [Anchor Avatar Button Card Center Grid
-                                     Group Text Title Tooltip]]
+  (:require ["@mantine/core" :refer [Anchor Avatar Card Center Grid Group Text
+                                     Title Tooltip]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
-            [codes.clj.docs.frontend.components.markdown :refer [code-editor
-                                                                 code-viewer]]
+            [codes.clj.docs.frontend.components.markdown :refer [code-viewer
+                                                                 previewer-code]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.definition.state.examples :as state.examples]
+            [codes.clj.docs.frontend.panels.definition.view.editor :refer [editor-base]]
             [helix.core :refer [$]]
             [helix.hooks :as hooks]))
 
-; TODO make editor and reuse code between note and example
-(defnc editor-example [{:keys [py on-save on-cancel example definition-id]}]
-  (let [[example-body set-example-body] (hooks/use-state (if example (:body example) ""))]
-    ($ Grid {:data-testid "editor-example" :py py :align "center"}
-      ($ Grid.Col {:span 12}
-        ($ code-editor {:text example-body
-                        :set-text set-example-body
-                        :placeholder "Leave a example"}))
-
-      ($ Grid.Col {:span #js {:base 12 :md 8}}
-        ($ Group {:gap "xs"}
-          ($ IconInfoCircle {:style #js {:width "1.0rem" :height "1.0rem"}})
-          ($ Text {:size "xs"} "Add your snippet of clojure.")))
-
-      ($ Grid.Col {:span #js {:base 12 :md 4}}
-        ($ Group {:justify "flex-end" :gap "xs"}
-          ($ Button {:id "editor-example-cancel-btn"
-                     :data-testid "editor-example-cancel-btn"
-                     :onClick #(do (if example
-                                     (set-example-body (:body example))
-                                     (set-example-body ""))
-                                   (on-cancel))
-                     :variant "light" :color "red"} "Cancel")
-          ($ Button {:id "editor-example-save-btn"
-                     :data-testid "editor-example-save-btn"
-                     :disabled (zero? (count example-body))
-                     :onClick #(do (if example
-                                     (set-example-body (:body example))
-                                     (set-example-body ""))
-                                   (on-save
-                                    (assoc example
-                                           :definition-id definition-id
-                                           :body example-body)))
-                     :variant "filled" :color "teal"} "Save"))))))
+(defnc editor-example [{:keys [py on-save on-cancel example]}]
+  ($ editor-base {:py py
+                  :on-save on-save
+                  :on-cancel on-cancel
+                  :body (str (:body example))
+                  :placeholder "Leave a example"
+                  :description ($ Group {:gap "xs"}
+                                 ($ IconInfoCircle {:style #js {:width "1.0rem" :height "1.0rem"}})
+                                 ($ Text {:size "xs"} "Add your snippet of clojure."))
+                  :previewer previewer-code}))
 
 ; TODO tests
 (defnc card-example [{:keys [example user]}]
@@ -74,13 +51,14 @@
         ($ Grid
           ($ Grid.Col {:span 12}
             (if show-example-editor
-              ($ editor-example {:on-save (fn [example]
-                                            (do (set-show-example-editor false)
-                                                (state.examples/edit! example author)))
-                                 :on-cancel #(set-show-example-editor false)
+              ($ editor-example {:py "sm"
                                  :example example
-                                 :definition-id definition-id
-                                 :py "sm"})
+                                 :on-cancel #(set-show-example-editor false)
+                                 :on-save (fn [body]
+                                            (do (set-show-example-editor false)
+                                                (state.examples/edit! (assoc example
+                                                                             :definition-id definition-id
+                                                                             :body body))))})
               ($ code-viewer {:language "clojure"} body))))))))
 
 ; TODO tests
@@ -111,11 +89,12 @@
       ($ Card.Section {:inheritPadding true :pb "sm"}
         (if user
           (if show-new-example-editor
-            ($ editor-example {:on-save (fn [example author]
-                                          (do (set-new-example-show-editor false)
-                                              (state.examples/new! example author)))
+            ($ editor-example {:example nil
                                :on-cancel #(set-new-example-show-editor false)
-                               :definition-id (:id definition)})
+                               :on-save (fn [body]
+                                          (do (set-new-example-show-editor false)
+                                              (state.examples/new! {:definition-id (:id definition)
+                                                                    :body body})))})
             ($ Group {:data-testid "add-example-logged"
                       :justify "flex-end"}
               ($ Anchor {:data-testid "add-example-btn"

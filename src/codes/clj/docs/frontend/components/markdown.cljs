@@ -17,7 +17,7 @@
 ;; Register your languages here
 (.registerLanguage SyntaxHighlighter "clojure" clojure-prism)
 
-(defnc syntax-highlighter [{:keys [children language] :as props}]
+(defnc syntax-highlighter [{:keys [children language min-height] :as props}]
   (let [current-scheme (useComputedColorScheme "light" #js {:getInitialValueInEffect true})]
     ($ SyntaxHighlighter {:& props
                           :PreTag "div"
@@ -28,14 +28,23 @@
                                      (j/assoc-in! ["code[class*=\"language-\"]" :fontSize]
                                                   "var(--mantine-font-size-sm)")
                                      (j/assoc-in! ["pre[class*=\"language-\"]" :fontSize]
-                                                  "var(--mantine-font-size-sm)"))
+                                                  "var(--mantine-font-size-sm)")
+                                     (j/assoc-in! ["code[class*=\"language-\"]" :borderRadius]
+                                                  "var(--mantine-radius-md)")
+                                     (j/assoc-in! ["pre[class*=\"language-\"]" :borderRadius]
+                                                  "var(--mantine-radius-md)")
+                                     (j/assoc-in! ["code[class*=\"language-\"]" :minHeight]
+                                                  min-height)
+                                     (j/assoc-in! ["pre[class*=\"language-\"]" :minHeight]
+                                                  min-height))
                           :language language})))
 
-(defnc code-viewer [{:keys [children language] :as props}]
+(defnc code-viewer [{:keys [children language min-height] :as props}]
   ($ ScrollArea.Autosize {:className "code-viewer"}
     ($ syntax-highlighter {:& props
                            :children children
-                           :language language})))
+                           :language language
+                           :min-height min-height})))
 
 (defnc markdown-viewer [{:keys [children]}]
   ($ ScrollArea.Autosize {:className "markdown-viewer"}
@@ -59,7 +68,7 @@
                                                 :className className
                                                 :children children}))))}})))
 
-(defnc editor-base [{:keys [children placeholder text set-text]}]
+(defnc previewer-base [{:keys [children placeholder text set-text]}]
   ($ Paper {:style #js {:minHeight "17rem"}
             :withBorder true}
     ($ Tabs {:defaultValue "write"}
@@ -79,16 +88,16 @@
       ($ Tabs.Panel {:value "preview"}
         children))))
 
-(defnc markdown-editor [{:keys [placeholder text set-text]}]
-  ($ editor-base {:placeholder placeholder :text text :set-text set-text}
+(defnc previewer-markdown [{:keys [placeholder text set-text]}]
+  ($ previewer-base {:placeholder placeholder :text text :set-text set-text}
     ($ Container {:fluid true :my "auto" :px "1.5rem"}
-        (if (str/blank? text)
-          ($ Text {:py "1rem"} "Nothing to preview")
-          ($ markdown-viewer text)))))
+      (if (str/blank? text)
+        ($ Text {:py "1rem"} "Nothing to preview")
+        ($ markdown-viewer text)))))
 
-(defnc code-editor [{:keys [placeholder text set-text]}]
-  ($ editor-base {:placeholder placeholder :text text :set-text set-text}
-    ($ Container {:fluid true :my "auto" :px "1.5rem" :py "1rem"}
-        (if (str/blank? text)
-          ($ Text "Nothing to preview")
-          ($ code-viewer {:language "clojure"} text)))))
+(defnc previewer-code [{:keys [placeholder text set-text]}]
+  ($ previewer-base {:placeholder placeholder :text text :set-text set-text}
+    ($ Container {:fluid true :my "auto" :px "0.6rem" :py "0.35rem"}
+      (if (str/blank? text)
+        ($ Text {:px "0.9rem" :py "0.5rem"} "Nothing to preview")
+        ($ code-viewer {:language "clojure" :min-height "13rem"} text)))))

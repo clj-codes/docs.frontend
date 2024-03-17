@@ -93,13 +93,13 @@
                 _click (tl/wait-for #(tl/click add-button))
                 input (tl/wait-for #(.findByTestId ^js/Object (tlr/within js/document) "markdown-editor-textarea"))
                 _change (tl/wait-for #(tl/change input "my note 1"))
-                save-button (tl/wait-for #(.findByTestId ^js/Object (tlr/within js/document) "editor-note-save-btn"))
+                save-button (tl/wait-for #(.findByTestId ^js/Object (tlr/within js/document) "editor-base-save-btn"))
                 _save-click (tl/wait-for #(tl/click save-button))
                 card (tl/wait-for #(.findByTestId ^js/Object view "card-notes"))]
 
           (is (= ["card-note-8b81ce0d-20fd-43e7-a79a-a9edbb0f162a"
-                  "card-note-2a704396-78d2-4153-9a0a-31fa1c87e9c8"
-                  "card-note-d5c4870e-5d92-4d4b-8614-f54995a259d3"]
+                  "card-note-d5c4870e-5d92-4d4b-8614-f54995a259d3"
+                  "card-note-2a704396-78d2-4153-9a0a-31fa1c87e9c8"]
                  (->> (.querySelectorAll card ".card-note")
                       (map #(.-id %)))))
 
@@ -134,7 +134,7 @@
                 _click (tl/wait-for #(tl/click edit-button))
                 input (tl/wait-for #(.findByTestId ^js/Object (tlr/within js/document) "markdown-editor-textarea"))
                 _change (tl/wait-for #(tl/change input "edited note"))
-                save-button (tl/wait-for #(.findByTestId ^js/Object (tlr/within js/document) "editor-note-save-btn"))
+                save-button (tl/wait-for #(.findByTestId ^js/Object (tlr/within js/document) "editor-base-save-btn"))
                 _save-click (tl/wait-for #(tl/click save-button))
                 card-after (tl/wait-for #(.findByTestId ^js/Object view "card-notes"))]
 
