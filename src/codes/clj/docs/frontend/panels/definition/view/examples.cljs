@@ -21,7 +21,6 @@
                                  ($ Text {:size "xs"} "Add your snippet of clojure."))
                   :previewer previewer-code}))
 
-; TODO tests
 (defnc avatar-editors [{:keys [editors]}]
   (let [shown-editors 3]
     (if (>= shown-editors (count editors))
@@ -49,7 +48,6 @@
              ($ Avatar {:size "sm" :src (:avatar-url %)}))
           (take-last shown-editors editors))))))
 
-; TODO tests
 (defnc card-example [{:keys [example user set-delete-modal-fn]}]
   (let [{:keys [example-id body author created-at definition-id editors]} example
         [show-example-editor set-show-example-editor] (hooks/use-state false)
@@ -96,7 +94,6 @@
                                                                              :body body))))})
               ($ code-viewer {:language "clojure"} body))))))))
 
-; TODO tests
 (defnc card-examples [{:keys [definition examples user set-delete-modal-fn]}]
   (let [[show-new-example-editor set-new-example-show-editor] (hooks/use-state false)]
     ($ Card {:id "card-examples"
