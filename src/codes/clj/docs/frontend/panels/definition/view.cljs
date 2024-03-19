@@ -147,7 +147,8 @@
             (dom/div
               ($ card-examples {:examples (sort-by :created-at examples)
                                 :user user
-                                :definition definition})
+                                :definition definition
+                                :set-delete-modal-fn set-delete-modal-fn})
 
               ($ Space {:h "lg"})
 

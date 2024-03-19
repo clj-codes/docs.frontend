@@ -4,6 +4,22 @@
             [codes.clj.docs.frontend.panels.definition.state :refer [definition-social-results]]
             [town.lilac.flex.promise :as flex.promise]))
 
+(defn ^:private update-local-state-examples [response author]
+  (definition-social-results
+    update-in [:value :examples]
+    (fn [current-examples updated]
+      (mapv #(if (= (:example-id updated) (:example-id %)) updated %)
+            current-examples))
+    (assoc (:body response) :author author)))
+
+(defn ^:private remove-local-state-examples [response author]
+  (definition-social-results
+    update-in [:value :examples]
+    (fn [current-examples deleted]
+      (remove #(= (:example-id deleted) (:example-id %))
+              current-examples))
+    (assoc (:body response) :author author)))
+
 (def new!
   (flex.promise/resource
    (fn [example]
@@ -34,12 +50,7 @@
                            :body (select-keys example [:example-id :body])})
            (.then (fn [response]
                     (definition-social-results assoc :error nil :loading? false)
-                    (definition-social-results
-                      update-in [:value :examples]
-                      (fn [current-examples updated]
-                        (mapv #(if (= (:example-id updated) (:example-id %)) updated %)
-                              current-examples))
-                      (assoc (:body response) :author author))))
+                    (update-local-state-examples response author)))
            (.catch (fn [error]
                      (js/console.error error)
                      (definition-social-results assoc :error error :loading? false)
@@ -55,12 +66,10 @@
                            :method :delete})
            (.then (fn [response]
                     (definition-social-results assoc :error nil :loading? false)
-                    (definition-social-results
-                      update-in [:value :examples]
-                      (fn [current-examples deleted]
-                        (remove #(= (:example-id deleted) (:example-id %))
-                                current-examples))
-                      (assoc (:body response) :author author))))
+                    (prn :delete response)
+                    (if (-> response :body :editors)
+                      (update-local-state-examples response author)
+                      (remove-local-state-examples response author))))
            (.catch (fn [error]
                      (js/console.error error)
                      (definition-social-results assoc :error error :loading? false)

@@ -66,3 +66,8 @@
 (defn mock-http-with [mocked-responses]
   (system.state/components assoc
                            :http (http.component/new-http-mock mocked-responses)))
+
+#_{:clj-kondo/ignore [:unresolved-var]}
+(defn get-mock-http-requests []
+  @(-> @system.state/components :http :requests))
+

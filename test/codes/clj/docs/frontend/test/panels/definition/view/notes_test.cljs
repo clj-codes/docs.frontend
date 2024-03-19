@@ -8,6 +8,7 @@
             [codes.clj.docs.frontend.test.aux.fixtures.user :as fixtures.user]
             [codes.clj.docs.frontend.test.aux.init :refer [async-cleanup
                                                            async-setup
+                                                           get-mock-http-requests
                                                            mock-http-with]]
             [codes.clj.docs.frontend.test.aux.testing-library :as tl]
             [helix.core :refer [$]]
@@ -148,6 +149,17 @@
                       (->> (.querySelectorAll card-after ".markdown-viewer")
                            (map #(.-textContent %)))))
 
+          (is (match? [{:path "document/definition/org.clojure/clojure/clojure.core.server/prepl/0"
+                        :method :get}
+                       {:path "social/definition/org.clojure/clojure/clojure.core.server/prepl/0"
+                        :method :get}
+                       {:path "social/note/"
+                        :headers {"authorization" "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"}
+                        :method :put
+                        :body {:note-id #uuid "8b81ce0d-20fd-43e7-a79a-a9edbb0f162a"
+                               :body "edited note"}}]
+                      (get-mock-http-requests)))
+
           (done))
         (fn [err] (is (= nil err))
           (done))))))
@@ -186,6 +198,15 @@
           (is (match? [#"the API is blurry When applied to a vector"]
                       (->> (.querySelectorAll card-after ".markdown-viewer")
                            (map #(.-textContent %)))))
+
+          (is (match? [{:path "document/definition/org.clojure/clojure/clojure.core.server/prepl/0"
+                        :method :get}
+                       {:path "social/definition/org.clojure/clojure/clojure.core.server/prepl/0"
+                        :method :get}
+                       {:path "social/note/8b81ce0d-20fd-43e7-a79a-a9edbb0f162a"
+                        :headers {"authorization" "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"}
+                        :method :delete}]
+                      (get-mock-http-requests)))
 
           (done))
         (fn [err] (is (= nil err))

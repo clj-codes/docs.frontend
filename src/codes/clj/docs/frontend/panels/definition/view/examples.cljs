@@ -97,7 +97,7 @@
               ($ code-viewer {:language "clojure"} body))))))))
 
 ; TODO tests
-(defnc card-examples [{:keys [definition examples user]}]
+(defnc card-examples [{:keys [definition examples user set-delete-modal-fn]}]
   (let [[show-new-example-editor set-new-example-show-editor] (hooks/use-state false)]
     ($ Card {:id "card-examples"
              :key "card-examples"
@@ -116,7 +116,8 @@
             (if (seq examples)
               (map #($ card-example {:key (:example-id %)
                                      :example %
-                                     :user user})
+                                     :user user
+                                     :set-delete-modal-fn set-delete-modal-fn})
                    examples)
               ($ Center
                 ($ Text "No examples"))))))
