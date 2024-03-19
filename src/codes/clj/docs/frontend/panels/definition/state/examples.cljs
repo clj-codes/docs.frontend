@@ -44,3 +44,24 @@
                      (js/console.error error)
                      (definition-social-results assoc :error error :loading? false)
                      (throw error))))))))
+
+(def delete!
+  (flex.promise/resource
+   (fn [example]
+     (let [{:keys [author access-token]} @auth.state/user-signal]
+       (definition-social-results assoc :loading? true)
+       (-> (http/request! {:path (str "social/example/" (:example-id example))
+                           :headers {"authorization" (str "Bearer " access-token)}
+                           :method :delete})
+           (.then (fn [response]
+                    (definition-social-results assoc :error nil :loading? false)
+                    (definition-social-results
+                      update-in [:value :examples]
+                      (fn [current-examples deleted]
+                        (remove #(= (:example-id deleted) (:example-id %))
+                                current-examples))
+                      (assoc (:body response) :author author))))
+           (.catch (fn [error]
+                     (js/console.error error)
+                     (definition-social-results assoc :error error :loading? false)
+                     (throw error))))))))

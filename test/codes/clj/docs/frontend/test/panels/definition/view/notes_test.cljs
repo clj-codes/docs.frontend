@@ -1,4 +1,4 @@
-(ns codes.clj.docs.frontend.test.panels.definition.notes.view-test
+(ns codes.clj.docs.frontend.test.panels.definition.view.notes-test
   (:require ["@testing-library/react" :as tlr]
             [cljs.test :refer [async deftest is testing use-fixtures]]
             [codes.clj.docs.frontend.infra.auth.state :as auth.state]
@@ -58,8 +58,8 @@
                             :loading? false
                             :value fixtures.user/user-2})
 
-          (is (= ["edit/delete"
-                  "edit/delete"]
+          (is (= ["editdelete"
+                  "editdelete"]
                  (->> (.querySelectorAll card ".author-edit-delete-note")
                       (map #(.-textContent %)))))
 

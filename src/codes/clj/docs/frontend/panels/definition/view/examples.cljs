@@ -22,8 +22,36 @@
                   :previewer previewer-code}))
 
 ; TODO tests
-(defnc card-example [{:keys [example user]}]
-  (let [{:keys [example-id body author created-at definition-id]} example
+(defnc avatar-editors [{:keys [editors]}]
+  (let [shown-editors 3]
+    (if (>= shown-editors (count editors))
+      ($ Avatar.Group
+        (map
+          #($ Tooltip {:key (str (:login %) (:edited-at %))
+                       :label (str (:login %)
+                                   " reviewed at "
+                                   (.toGMTString (:edited-at %)))
+                       :withArrow true}
+             ($ Avatar {:size "sm" :src (:avatar-url %)}))
+          editors))
+      ($ Avatar.Group
+        ($ Tooltip {:key "older-edits"
+                    :label "Older revisions"
+                    :withArrow true}
+          ($ Avatar {:size "sm"}
+            (str "+" (- (count editors) shown-editors))))
+        (map
+          #($ Tooltip {:key (str (:login %) (:edited-at %))
+                       :label (str (:login %)
+                                   " reviewed at "
+                                   (.toGMTString (:edited-at %)))
+                       :withArrow true}
+             ($ Avatar {:size "sm" :src (:avatar-url %)}))
+          (take-last shown-editors editors))))))
+
+; TODO tests
+(defnc card-example [{:keys [example user set-delete-modal-fn]}]
+  (let [{:keys [example-id body author created-at definition-id editors]} example
         [show-example-editor set-show-example-editor] (hooks/use-state false)
         is-example-author? (= (-> user :author :author-id) (:author-id author))]
     ($ Card {:id (str "card-example-" example-id)
@@ -34,18 +62,25 @@
 
       ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
         ($ Group {:gap "xs"}
-          ($ Tooltip {:label (:login author) :withArrow true}
-            ($ Avatar {:size "sm" :src (:avatar-url author)}))
+          ($ avatar-editors {:editors editors})
+
           ($ Text {:size "xs"} (.toGMTString created-at))
 
-          (when is-example-author?
-            ($ Group {:className "author-edit-delete-example"
-                      :gap "xs"}
-              ($ Anchor {:className "example-author-edit-button"
-                         :id (str "example-author-edit-button-" example-id)
-                         :data-testid (str "example-author-edit-button-" example-id)
-                         :onClick #(set-show-example-editor true)
-                         :size "xs"} "edit")))))
+          ($ Group {:className "author-edit-delete-example"
+                    :gap "xs"}
+            ($ Anchor {:className "example-author-edit-button"
+                       :id (str "example-author-edit-button-" example-id)
+                       :data-testid (str "example-author-edit-button-" example-id)
+                       :onClick #(set-show-example-editor true)
+                       :size "xs"} "edit")
+            (when is-example-author?
+              ($ Anchor {:className "example-author-delete-button"
+                         :id (str "example-author-delete-button-" example-id)
+                         :data-testid (str "example-author-delete-button-" example-id)
+                         :onClick #(set-delete-modal-fn
+                                    {:fn (fn []
+                                           (state.examples/delete! example))})
+                         :size "xs"} "delete")))))
 
       ($ Card.Section {:inheritPadding true :py 0}
         ($ Grid

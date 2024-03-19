@@ -47,7 +47,6 @@
                          :data-testid (str "note-author-edit-button-" note-id)
                          :onClick #(set-show-note-editor true)
                          :size "xs"} "edit")
-              ($ Text {:size "xs"} "/")
               ($ Anchor {:className "note-author-delete-button"
                          :id (str "note-author-delete-button-" note-id)
                          :data-testid (str "note-author-delete-button-" note-id)
