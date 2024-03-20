@@ -33,7 +33,9 @@
                     (definition-social-results assoc :error nil :loading? false)
                     (definition-social-results
                       update-in [:value :examples] merge
-                      (assoc (:body response) :author author))))
+                      (assoc (:body response)
+                             :author author
+                             :editors [(assoc author :edited-at (js/Date.))]))))
            (.catch (fn [error]
                      (js/console.error error)
                      (definition-social-results assoc :error error :loading? false)
