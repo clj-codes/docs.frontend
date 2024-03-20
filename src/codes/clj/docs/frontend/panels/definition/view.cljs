@@ -12,6 +12,7 @@
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.definition.state :refer [definition-docs-results
                                                                      definition-social-results]]
+            [codes.clj.docs.frontend.panels.definition.view.examples :refer [card-examples]]
             [codes.clj.docs.frontend.panels.definition.view.notes :refer [card-notes]]
             [helix.core :refer [$]]
             [helix.dom :as dom]
@@ -112,9 +113,8 @@
         {_social-error :error
          social-value :value
          social-loading? :loading?} (use-flex definition-social-results)
-        ; TODO examples
         ; TODO see-alsos
-        {:keys [notes _examples _see-alsos]} social-value
+        {:keys [notes examples _see-alsos]} social-value
         {:keys [project namespace definition]} docs-value
         user (use-flex auth.state/user-signal)
         project-id (:id project)
@@ -144,9 +144,18 @@
           ($ Space {:h "lg"})
           (if social-loading?
             ($ card-loading-social)
-            ($ card-notes {:notes notes :user user
-                           :definition definition
-                           :set-delete-modal-fn set-delete-modal-fn}))
+            (dom/div
+              ($ card-examples {:examples (sort-by :created-at examples)
+                                :user user
+                                :definition definition
+                                :set-delete-modal-fn set-delete-modal-fn})
+
+              ($ Space {:h "lg"})
+
+              ($ card-notes {:notes (sort-by :created-at notes)
+                             :user user
+                             :definition definition
+                             :set-delete-modal-fn set-delete-modal-fn})))
 
           ($ back-to-top)))
 

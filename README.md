@@ -1,6 +1,9 @@
 # docs.frontend
 Frontend SPA for docs.clj.codes
 
+## Project
+[Check the project backlog, issues and ongoing tasks](https://github.com/orgs/clj-codes/projects/2)
+
 ## Commands
 
 ### Watch
