@@ -103,6 +103,17 @@
                  (->> (.querySelectorAll card ".card-example")
                       (map #(.-id %)))))
 
+          (is (match? [{:path "document/definition/org.clojure/clojure/clojure.core.server/prepl/0"
+                        :method :get}
+                       {:path "social/definition/org.clojure/clojure/clojure.core.server/prepl/0"
+                        :method :get}
+                       {:path "social/example/"
+                        :headers {"authorization" "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"}
+                        :method :post
+                        :body {:definition-id "org.clojure/clojure/clojure.core.server/prepl/0"
+                               :body "my example 1"}}]
+                      (get-mock-http-requests)))
+
           (done))
         (fn [err] (is (= nil err))
           (done))))))

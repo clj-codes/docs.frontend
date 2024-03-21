@@ -16,7 +16,6 @@
             [helix.core :refer [$]]
             [helix.dom :as dom]
             [helix.hooks :as hooks]
-            [react :as react]
             [reitit.frontend.easy :as rfe]))
 
 (defnc search-spotlight []
@@ -49,7 +48,7 @@
 (defnc search-page []
   (let [{:keys [current-route]} (use-flex routes-db)
         query (-> current-route :query-params :q)
-        [deb-query set-deb-query] (react/useState query)
+        [deb-query set-deb-query] (hooks/use-state query)
         [debounced] (useDebouncedValue deb-query 500)
         {:keys [value loading? error]} (use-flex page-results)]
 

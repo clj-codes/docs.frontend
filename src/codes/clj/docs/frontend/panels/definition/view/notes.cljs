@@ -79,7 +79,7 @@
 
       ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
         ($ Title {:id "card-notes-title" :order 4}
-          (str (count notes) " Notes")))
+          (str (count notes) " notes")))
 
       ($ Card.Section {:inheritPadding true
                        :p "sm"}

@@ -4,6 +4,13 @@
             [codes.clj.docs.frontend.panels.definition.state :refer [definition-social-results]]
             [town.lilac.flex.promise :as flex.promise]))
 
+(defn ^:private create-local-state-examples [response author]
+  (definition-social-results
+    update-in [:value :examples] merge
+    (assoc (:body response)
+           :author author
+           :editors [(assoc author :edited-at (js/Date.))])))
+
 (defn ^:private update-local-state-examples [response author]
   (definition-social-results
     update-in [:value :examples]
@@ -31,11 +38,7 @@
                            :body example})
            (.then (fn [response]
                     (definition-social-results assoc :error nil :loading? false)
-                    (definition-social-results
-                      update-in [:value :examples] merge
-                      (assoc (:body response)
-                             :author author
-                             :editors [(assoc author :edited-at (js/Date.))]))))
+                    (create-local-state-examples response author)))
            (.catch (fn [error]
                      (js/console.error error)
                      (definition-social-results assoc :error error :loading? false)
@@ -68,7 +71,6 @@
                            :method :delete})
            (.then (fn [response]
                     (definition-social-results assoc :error nil :loading? false)
-                    (prn :delete response)
                     (if (-> response :body :editors)
                       (update-local-state-examples response author)
                       (remove-local-state-examples response author))))
