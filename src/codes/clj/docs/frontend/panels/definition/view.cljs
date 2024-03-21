@@ -14,6 +14,7 @@
                                                                      definition-social-results]]
             [codes.clj.docs.frontend.panels.definition.view.examples :refer [card-examples]]
             [codes.clj.docs.frontend.panels.definition.view.notes :refer [card-notes]]
+            [codes.clj.docs.frontend.panels.definition.view.see-alsos :refer [card-see-alsos]]
             [helix.core :refer [$]]
             [helix.dom :as dom]
             [helix.hooks :as hooks]))
@@ -109,12 +110,10 @@
          docs-error :error
          docs-value :value
          docs-loading? :loading?} (use-flex definition-docs-results)
-        ; TODO social error
-        {_social-error :error
+        {social-error :error
          social-value :value
          social-loading? :loading?} (use-flex definition-social-results)
-        ; TODO see-alsos
-        {:keys [notes examples _see-alsos]} social-value
+        {:keys [notes examples see-alsos]} social-value
         {:keys [project namespace definition]} docs-value
         user (use-flex auth.state/user-signal)
         project-id (:id project)
@@ -142,20 +141,33 @@
           ($ card-definition {:& definition})
 
           ($ Space {:h "lg"})
+
           (if social-loading?
             ($ card-loading-social)
-            (dom/div
-              ($ card-examples {:examples (sort-by :created-at examples)
-                                :user user
-                                :definition definition
-                                :set-delete-modal-fn set-delete-modal-fn})
+            (if social-error
+              ($ Alert {:variant "light" :color "red"
+                        :radius "md" :title "Error"
+                        :icon ($ IconInfoCircle)}
+                (str social-error))
+              (dom/div
+                ($ card-examples {:examples (sort-by :created-at examples)
+                                  :user user
+                                  :definition definition
+                                  :set-delete-modal-fn set-delete-modal-fn})
 
-              ($ Space {:h "lg"})
+                ($ Space {:h "lg"})
 
-              ($ card-notes {:notes (sort-by :created-at notes)
-                             :user user
-                             :definition definition
-                             :set-delete-modal-fn set-delete-modal-fn})))
+                ($ card-see-alsos {:see-alsos (sort-by :created-at see-alsos)
+                                   :user user
+                                   :definition definition
+                                   :set-delete-modal-fn set-delete-modal-fn})
+
+                ($ Space {:h "lg"})
+
+                ($ card-notes {:notes (sort-by :created-at notes)
+                               :user user
+                               :definition definition
+                               :set-delete-modal-fn set-delete-modal-fn}))))
 
           ($ back-to-top)))
 

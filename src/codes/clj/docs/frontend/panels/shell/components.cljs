@@ -38,7 +38,8 @@
         "docs.clj.codes"))))
 
 (defnc header-drawer [{:keys [links login-link opened close logoff user]}]
-  ($ Drawer {:data-testid "header-drawer"
+  ($ Drawer {:closeOnEscape false
+             :data-testid "header-drawer"
              :position "right"
              :size "xs"
              :opened opened

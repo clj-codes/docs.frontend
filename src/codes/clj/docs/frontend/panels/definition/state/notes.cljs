@@ -4,6 +4,27 @@
             [codes.clj.docs.frontend.panels.definition.state :refer [definition-social-results]]
             [town.lilac.flex.promise :as flex.promise]))
 
+(defn ^:private create-local-state-notes [response author]
+  (definition-social-results
+    update-in [:value :notes] merge
+    (assoc (:body response) :author author)))
+
+(defn ^:private update-local-state-notes [response author]
+  (definition-social-results
+    update-in [:value :notes]
+    (fn [current-notes updated]
+      (mapv #(if (= (:note-id updated) (:note-id %)) updated %)
+            current-notes))
+    (assoc (:body response) :author author)))
+
+(defn ^:private remove-local-state-notes [response author]
+  (definition-social-results
+    update-in [:value :notes]
+    (fn [current-notes deleted]
+      (remove #(= (:note-id deleted) (:note-id %))
+              current-notes))
+    (assoc (:body response) :author author)))
+
 (def new!
   (flex.promise/resource
    (fn [note]
@@ -15,9 +36,7 @@
                            :body note})
            (.then (fn [response]
                     (definition-social-results assoc :error nil :loading? false)
-                    (definition-social-results
-                      update-in [:value :notes] merge
-                      (assoc (:body response) :author author))))
+                    (create-local-state-notes response author)))
            (.catch (fn [error]
                      (js/console.error error)
                      (definition-social-results assoc :error error :loading? false)
@@ -34,12 +53,7 @@
                            :body (select-keys note [:note-id :body])})
            (.then (fn [response]
                     (definition-social-results assoc :error nil :loading? false)
-                    (definition-social-results
-                      update-in [:value :notes]
-                      (fn [current-notes updated]
-                        (mapv #(if (= (:note-id updated) (:note-id %)) updated %)
-                              current-notes))
-                      (assoc (:body response) :author author))))
+                    (update-local-state-notes response author)))
            (.catch (fn [error]
                      (js/console.error error)
                      (definition-social-results assoc :error error :loading? false)
@@ -55,12 +69,7 @@
                            :method :delete})
            (.then (fn [response]
                     (definition-social-results assoc :error nil :loading? false)
-                    (definition-social-results
-                      update-in [:value :notes]
-                      (fn [current-notes deleted]
-                        (remove #(= (:note-id deleted) (:note-id %))
-                                current-notes))
-                      (assoc (:body response) :author author))))
+                    (remove-local-state-notes response author)))
            (.catch (fn [error]
                      (js/console.error error)
                      (definition-social-results assoc :error error :loading? false)
