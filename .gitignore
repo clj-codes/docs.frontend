@@ -1,6 +1,8 @@
 node_modules/
-resources/public
+
 resources/tests
+resources/public/*
+!resources/public/favicon.svg
 
 /out
 /checkouts

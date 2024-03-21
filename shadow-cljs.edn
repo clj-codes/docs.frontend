@@ -11,11 +11,13 @@
                 :output-dir       "resources/public/js"
                 :asset-path       "/js"
                 :dev              {:modules {:core {:init-fn codes.clj.docs.frontend.dev.core/init}}}
-                :release          {:modules {:core {:init-fn codes.clj.docs.frontend.core/init}}
-                                   :module-hash-names true}
+                :release          {:modules {:core {:init-fn codes.clj.docs.frontend.core/init}}}
                 :compiler-options {:warnings {:extending-base-js-type false}
                                    :install-deps true}
-                :build-hooks      [(shadow.html/copy-file
+                :build-hooks      [(codes.clj.docs.frontend.dev.shadow.hooks/hashed-files
+                                    ["resources/public/css/app.css"
+                                     "resources/public/js/core.js"])
+                                   (codes.clj.docs.frontend.dev.shadow.hooks/replace-hashed-files
                                     "resources/index.src.html"
                                     "resources/public/index.html")]}
 
