@@ -37,8 +37,7 @@
         ($ Tooltip {:key "older-edits"
                     :label "Older revisions"
                     :withArrow true}
-          ($ Avatar {:size "sm"}
-            (str "+" (- (count editors) shown-editors))))
+          ($ Avatar {:size "sm"} "+"))
         (map
           #($ Tooltip {:key (str (:login %) (:edited-at %))
                        :label (str (:login %)
@@ -64,21 +63,22 @@
 
           ($ Text {:size "xs"} (.toGMTString created-at))
 
-          ($ Group {:className "author-edit-delete-example"
-                    :gap "xs"}
-            ($ Anchor {:className "example-author-edit-button"
-                       :id (str "example-author-edit-button-" example-id)
-                       :data-testid (str "example-author-edit-button-" example-id)
-                       :onClick #(set-show-example-editor true)
-                       :size "xs"} "edit")
-            (when is-example-author?
-              ($ Anchor {:className "example-author-delete-button"
-                         :id (str "example-author-delete-button-" example-id)
-                         :data-testid (str "example-author-delete-button-" example-id)
-                         :onClick #(set-delete-modal-fn
-                                    {:fn (fn []
-                                           (state.examples/delete! example))})
-                         :size "xs"} "delete")))))
+          (when user
+            ($ Group {:className "author-edit-delete-example"
+                      :gap "xs"}
+              ($ Anchor {:className "example-author-edit-button"
+                         :id (str "example-author-edit-button-" example-id)
+                         :data-testid (str "example-author-edit-button-" example-id)
+                         :onClick #(set-show-example-editor true)
+                         :size "xs"} "edit")
+              (when is-example-author?
+                ($ Anchor {:className "example-author-delete-button"
+                           :id (str "example-author-delete-button-" example-id)
+                           :data-testid (str "example-author-delete-button-" example-id)
+                           :onClick #(set-delete-modal-fn
+                                      {:fn (fn []
+                                             (state.examples/delete! example))})
+                           :size "xs"} "delete"))))))
 
       ($ Card.Section {:inheritPadding true :py 0}
         ($ Grid
