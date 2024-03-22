@@ -42,8 +42,8 @@
                        :output-to "resources/tests/node.js"
                        :js-options {:resolve {"react-syntax-highlighter/dist/esm/languages/prism/clojure" {:target :npm
                                                                                                            :require "react-syntax-highlighter/dist/cjs/languages/prism/clojure"}
-                                              "react-syntax-highlighter/dist/esm/prism-light.js" {:target :npm
-                                                                                                  :require "react-syntax-highlighter/dist/cjs/prism-light.js"}
+                                              "react-syntax-highlighter/dist/esm/prism-light" {:target :npm
+                                                                                               :require "react-syntax-highlighter/dist/cjs/prism-light"}
                                               "react-syntax-highlighter/dist/esm/styles/prism" {:target :npm
                                                                                                 :require "react-syntax-highlighter/dist/cjs/styles/prism"}
                                               "react-markdown" {:target :file
