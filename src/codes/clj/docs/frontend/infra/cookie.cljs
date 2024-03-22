@@ -4,10 +4,10 @@
 
 (defn set-cookie
   ([name value]
-   (cookie/set name (str value) #js {:sameSite "strict"}))
+   (.set cookie name (str value) #js {:sameSite "strict"}))
   ([name value expires]
-   (cookie/set name (str value) #js {:sameSite "strict"
-                                     :expires expires})))
+   (.set cookie name (str value) #js {:sameSite "strict"
+                                      :expires expires})))
 
 (defn get-cookie
   [name]
@@ -23,4 +23,4 @@
 
 (defn remove-cookie
   [name]
-  (cookie/remove name))
+  (.remove cookie name))
