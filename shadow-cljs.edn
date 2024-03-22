@@ -34,7 +34,9 @@
           :ci-tests {:target           :karma
                      :output-to        "resources/tests/ci.js"
                      :ns-regexp        "-test$"
-                     :compiler-options {:static-fns false}}
+                     :compiler-options {:static-fns false}
+                     :js-options {:entry-keys ["module" "browser" "main"]
+                                  :export-conditions ["module" "import" "browser" "require" "default"]}}
 
           :node-tests {:target    :node-test
                        :compiler-options {:reader-features #{:node}}
@@ -49,4 +51,6 @@
                                               "react-markdown" {:target :file
                                                                 :file   "test/mocks/react-markdown.js"}
                                               "remark-gfm" {:target :file
-                                                            :file   "test/mocks/remark-gfm.js"}}}}}}
+                                                            :file   "test/mocks/remark-gfm.js"}
+                                              "js-cookie" {:target :file
+                                                           :file   "node_modules/js-cookie/dist/js.cookie.mjs"}}}}}}
