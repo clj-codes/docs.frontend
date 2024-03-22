@@ -30,15 +30,15 @@
                            (sort-by :artifact)
                            (map (fn [{:keys [id] :as props}]
                                   ($ card-project {:key id :& props}))))]
-    ($ Accordion.Item {:id (str "accordion-item-" id)
-                       :data-testid (str "accordion-item-" id)
-                       :key id :value id}
-      ($ Accordion.Control
+    ($ (-> Accordion .-Item) {:id (str "accordion-item-" id)
+                              :data-testid (str "accordion-item-" id)
+                              :key id :value id}
+      ($ (-> Accordion .-Control)
         ($ accordion-label {:label id
                             :image image
                             :urls urls
                             :count-projects count-projects}))
-      ($ Accordion.Panel
+      ($ (-> Accordion .-Panel)
         ($ Group {:justify "space-between"}
           project-cards)))))
 
@@ -46,7 +46,7 @@
   (let [{:keys [value loading?]} (use-flex document-projects-response)]
     ($ Container {:p "sm"}
       ($ Grid
-        ($ Grid.Col {:key "organization-title" :span 12}
+        ($ (-> Grid .-Col) {:key "organization-title" :span 12}
           (dom/section
             ($ Title {:order 1}
               "Projects by "
@@ -56,7 +56,7 @@
 
         ($ Space {:h "xl"})
 
-        ($ Grid.Col {:key "organization-list" :span 12}
+        ($ (-> Grid .-Col) {:key "organization-list" :span 12}
           ($ LoadingOverlay {:visible loading? :zIndex 1000 :overlayProps #js {:radius "sm" :blur 2}})
           ($ Accordion {:defaultValue "org.clojure"
                         :chevronPosition "right"

@@ -24,7 +24,7 @@
 (defnc avatar-editors [{:keys [editors]}]
   (let [shown-editors 3]
     (if (>= shown-editors (count editors))
-      ($ Avatar.Group
+      ($ (-> Avatar .-Group)
         (map
           #($ Tooltip {:key (str (:login %) (:edited-at %))
                        :label (str (:login %)
@@ -33,7 +33,7 @@
                        :withArrow true}
              ($ Avatar {:size "sm" :src (:avatar-url %)}))
           editors))
-      ($ Avatar.Group
+      ($ (-> Avatar .-Group)
         ($ Tooltip {:key "older-edits"
                     :label "Older revisions"
                     :withArrow true}
@@ -57,7 +57,7 @@
              :shadow "sm"
              :mb "sm"}
 
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+      ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
         ($ Group {:gap "xs"}
           ($ avatar-editors {:editors editors})
 
@@ -80,9 +80,9 @@
                                              (state.examples/delete! example))})
                            :size "xs"} "delete"))))))
 
-      ($ Card.Section {:inheritPadding true :py 0}
+      ($ (-> Card .-Section) {:inheritPadding true :py 0}
         ($ Grid
-          ($ Grid.Col {:span 12}
+          ($ (-> Grid .-Col) {:span 12}
             (if show-example-editor
               ($ editor-example {:py "sm"
                                  :example example
@@ -102,14 +102,14 @@
              :withBorder true
              :shadow "sm"}
 
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+      ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
         ($ Title {:id "card-examples-title" :order 4}
           (str (count examples) " examples")))
 
-      ($ Card.Section {:inheritPadding true
-                       :p "sm"}
+      ($ (-> Card .-Section) {:inheritPadding true
+                              :p "sm"}
         ($ Grid {:py 0}
-          ($ Grid.Col {:span 12}
+          ($ (-> Grid .-Col) {:span 12}
             (if (seq examples)
               (map #($ card-example {:key (:example-id %)
                                      :example %
@@ -119,7 +119,7 @@
               ($ Center
                 ($ Text "No examples"))))))
 
-      ($ Card.Section {:inheritPadding true :pb "sm"}
+      ($ (-> Card .-Section) {:inheritPadding true :pb "sm"}
         (if user
           (if show-new-example-editor
             ($ editor-example {:example nil

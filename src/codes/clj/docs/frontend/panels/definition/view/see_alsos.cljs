@@ -30,7 +30,7 @@
         (search-fetch state.see-alsos/search-results (or debounced "") query-limit)))
 
     ($ Grid {:data-testid "editor-see-also" :align "center"}
-      ($ Grid.Col {:span 12}
+      ($ (-> Grid .-Col) {:span 12}
         ($ Combobox
           {:onOptionSubmit (fn [option-value option-props]
                              (set-definition-id-to (.-id option-props))
@@ -38,7 +38,7 @@
                              (.closeDropdown combobox))
            :withinPortal true
            :store combobox}
-          ($ Combobox.Target
+          ($ (-> Combobox .-Target)
             ($ TextInput {:id "editor-see-also-textarea"
                           :data-testid "editor-see-also-textarea"
                           :label "New see also"
@@ -57,19 +57,19 @@
                           :rightSection (when loading?
                                           ($ Loader {:size "md"}))}))
 
-          ($ Combobox.Dropdown
-            ($ Combobox.Options {:mah 200 :style #js {:overflowY "auto"}}
+          ($ (-> Combobox .-Dropdown)
+            ($ (-> Combobox .-Options) {:mah 200 :style #js {:overflowY "auto"}}
               (if-not (nil? (seq auto-complete-list))
                 (map (fn [{:keys [id name]}]
-                       ($ Combobox.Option {:value name :id id :key id}
+                       ($ (-> Combobox .-Option) {:value name :id id :key id}
                          (dom/div
                            ($ Title {:order 4} name)
                            ($ Text {:size "xs" :variant "dimmed"}
                              (str/replace id #"/0$" "")))))
                      auto-complete-list)
-                ($ Combobox.Empty "No results found"))))))
+                ($ (-> Combobox .-Empty) "No results found"))))))
 
-      ($ Grid.Col {:span 12}
+      ($ (-> Grid .-Col) {:span 12}
         ($ Group {:justify "flex-end" :gap "xs"}
           ($ Button {:id "editor-see-also-cancel-btn"
                      :data-testid "editor-see-also-cancel-btn"
@@ -94,18 +94,18 @@
              :shadow "sm"
              :mb "sm"}
 
-      ($ Card.Section {:component safe-anchor
-                       :href (str "/" id)
-                       :withBorder true
-                       :inheritPadding true
-                       :py "sm"}
+      ($ (-> Card .-Section) {:component safe-anchor
+                              :href (str "/" id)
+                              :withBorder true
+                              :inheritPadding true
+                              :py "sm"}
         ($ Group {:justify "space-between" :gap "xs"}
           ($ Title {:order 4} link-name)))
 
-      ($ Card.Section {:withBorder false
-                       :inheritPadding true
-                       :pt "xs"
-                       :pb "0"}
+      ($ (-> Card .-Section) {:withBorder false
+                              :inheritPadding true
+                              :pt "xs"
+                              :pb "0"}
         ($ Text {:size "sm" :fw "bold"}
           id))
 
@@ -137,25 +137,25 @@
              :withBorder true
              :shadow "sm"}
 
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+      ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
         ($ Title {:id "card-see-alsos-title" :order 4}
           (str (count see-alsos) " see alsos")))
 
-      ($ Card.Section {:inheritPadding true
-                       :p "sm"}
+      ($ (-> Card .-Section) {:inheritPadding true
+                              :p "sm"}
         ($ Grid {:py 0 :gutter "xs"}
           (if (seq see-alsos)
-            (map #($ Grid.Col {:key (:see-also-id %)
-                               :span #js {:base 12 :sm 6}}
+            (map #($ (-> Grid .-Col) {:key (:see-also-id %)
+                                      :span #js {:base 12 :sm 6}}
                     ($ card-see-also {:see-also %
                                       :user user
                                       :set-delete-modal-fn set-delete-modal-fn}))
                  see-alsos)
-            ($ Grid.Col {:span 12}
+            ($ (-> Grid .-Col) {:span 12}
               ($ Center
                 ($ Text "No see alsos"))))))
 
-      ($ Card.Section {:inheritPadding true :pb "sm"}
+      ($ (-> Card .-Section) {:inheritPadding true :pb "sm"}
         (if user
           (if show-new-see-also-editor
             ($ editor-see-also {:definition-id (:id definition)

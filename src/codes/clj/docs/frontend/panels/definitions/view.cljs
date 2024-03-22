@@ -61,7 +61,7 @@
       (when definitions
         ($ Grid {:data-testid "definition-lines-grid"}
           (map (fn [[group sub-definitions]]
-                 ($ Grid.Col {:key group}
+                 ($ (-> Grid .-Col) {:key group}
                    ($ definitions-grouped {:key (str "grouped-" group)
                                            :group group
                                            :sub-definitions sub-definitions})))

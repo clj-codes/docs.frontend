@@ -33,7 +33,7 @@
              :shadow "sm"
              :mb "sm"}
 
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+      ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
         ($ Group {:gap "xs"}
           ($ Tooltip {:label (:login author) :withArrow true}
             ($ Avatar {:size "sm" :src (:avatar-url author)}))
@@ -55,9 +55,9 @@
                                            (state.notes/delete! note))})
                          :size "xs"} "delete")))))
 
-      ($ Card.Section {:inheritPadding true :py 0}
+      ($ (-> Card .-Section) {:inheritPadding true :py 0}
         ($ Grid
-          ($ Grid.Col {:span 12}
+          ($ (-> Grid .-Col) {:span 12}
             (if show-note-editor
               ($ editor-note {:py "sm"
                               :note note
@@ -77,14 +77,14 @@
              :withBorder true
              :shadow "sm"}
 
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+      ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
         ($ Title {:id "card-notes-title" :order 4}
           (str (count notes) " notes")))
 
-      ($ Card.Section {:inheritPadding true
-                       :p "sm"}
+      ($ (-> Card .-Section) {:inheritPadding true
+                              :p "sm"}
         ($ Grid {:py 0}
-          ($ Grid.Col {:span 12}
+          ($ (-> Grid .-Col) {:span 12}
             (if (seq notes)
               (map #($ card-note {:key (:note-id %)
                                   :note %
@@ -94,7 +94,7 @@
               ($ Center
                 ($ Text "No notes"))))))
 
-      ($ Card.Section {:inheritPadding true :pb "sm"}
+      ($ (-> Card .-Section) {:inheritPadding true :pb "sm"}
         (if user
           (if show-new-note-editor
             ($ editor-note {:note nil

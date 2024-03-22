@@ -7,7 +7,7 @@
 (defnc home []
   ($ Container {:p "sm"}
     ($ Grid {:id "why"}
-      ($ Grid.Col {:span 12}
+      ($ (-> Grid .-Col) {:span 12}
         (dom/section
           ($ Title {:order 1}
             ($ Anchor {:component "a"
@@ -25,7 +25,7 @@
                        :underline "never"
                        :href "https://clojure.org"}
               "Clojure programming language"))))
-      ($ Grid.Col {:span 12}
+      ($ (-> Grid .-Col) {:span 12}
         ($ Text {:size "xl" :style #js {:paddingTop "1rem"}}
           "Built on a tech stack featuring "
           ($ Text {:component "a" :href "https://github.com/lilactown/helix" :inherit true :fw 700} "helix")
@@ -36,27 +36,27 @@
           " on the backend.")))
 
     ($ Grid {:id "features"}
-      ($ Grid.Col {:span 12}
+      ($ (-> Grid .-Col) {:span 12}
         (dom/section
           (dom/h2 "Key Features")
           ($ Grid  {:grow true :gutter "lg"}
-            ($ Grid.Col {:span 4}
+            ($ (-> Grid .-Col) {:span 4}
               ($ Card {:shadow "sm" :padding "lg" :radius "lg" :style #js {:minHeight "14rem"}}
                 (dom/h3 "Comprehensive Documentation")
                 (dom/p "Explore in-depth documentation for a vast array of Clojure libraries.")))
-            ($ Grid.Col {:span 4}
+            ($ (-> Grid .-Col) {:span 4}
               ($ Card {:shadow "sm" :padding "lg" :radius "lg" :style #js {:minHeight "14rem"}}
                 (dom/h3 "Seamless Git Integration")
                 (dom/p "Documentation is directly parsed from their Git repositories.")))
-            ($ Grid.Col {:span 4}
+            ($ (-> Grid .-Col) {:span 4}
               ($ Card {:shadow "sm" :padding "lg" :radius "lg" :style #js {:minHeight "14rem"}}
                 (dom/h3 "Social Interaction")
                 (dom/p "Join a vibrant community of Clojure enthusiasts.")))
-            ($ Grid.Col {:span 4}
+            ($ (-> Grid .-Col) {:span 4}
               ($ Card {:shadow "sm" :padding "lg" :radius "lg" :style #js {:minHeight "14rem"}}
                 (dom/h3 "Extensive Search Capabilities")
                 (dom/p "Harness the power of Datalevin for lightning-fast full-text search.")))
-            ($ Grid.Col {:span 4}
+            ($ (-> Grid .-Col) {:span 4}
               ($ Card {:shadow "sm" :padding "lg" :radius "lg" :style #js {:minHeight "14rem"}}
                 (dom/h3 "Easy Contribution")
                 (dom/p "Become a part of the documentation ecosystem.")))))))))

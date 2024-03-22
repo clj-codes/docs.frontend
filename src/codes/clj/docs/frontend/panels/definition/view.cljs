@@ -28,12 +28,12 @@
            :withBorder true
            :shadow "sm"}
 
-    ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+    ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
       ($ Title {:id "card-definition-title" :order 2}
         (:name definition)))
 
     (when (or added deprecated macro private)
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+      ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
         ($ Group {:id "card-definition-metadata"
                   :justify "flex-start"}
           ($ Title {:order 6} "Metadata")
@@ -48,7 +48,7 @@
           (when private
             ($ Badge {:variant "light" :color "gray"} "private")))))
 
-    ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+    ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
       ($ Group {:justify "space-between"}
         ($ Group
           ($ Title {:order 6} "Source")
@@ -58,10 +58,10 @@
           ($ Title {:order 6} "Defined by")
           ($ Text defined-by))))
 
-    ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+    ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
       ($ Grid {:justify "space-between"}
         (when arglist-strs
-          ($ Grid.Col {:span 12}
+          ($ (-> Grid .-Col) {:span 12}
             ($ Title {:order 6} "Arguments")
             (map
               #($ Group {:key (str %) :my "sm"}
@@ -75,7 +75,7 @@
                      ($ Text {:span true :size "sm"} ")"))))
               arglist-strs)))
         (when doc
-          ($ Grid.Col {:span 12}
+          ($ (-> Grid .-Col) {:span 12}
             ($ Title {:order 6} "Doc")
             ($ Code {:style #js {:fontSize "var(--mantine-font-size-sm)"}
                      :block true}

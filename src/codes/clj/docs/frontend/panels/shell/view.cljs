@@ -22,5 +22,5 @@
                                   :logoff logoff-fn
                                   :links header-links
                                   :login-link login-link})
-      ($ AppShell.Main ($ children))
+      ($ (-> AppShell .-Main) ($ children))
       ($ shell.components/footer))))
