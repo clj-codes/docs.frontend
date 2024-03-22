@@ -12,11 +12,17 @@
                 :asset-path       "/js"
                 :dev              {:modules {:core {:init-fn codes.clj.docs.frontend.dev.core/init}}}
                 :release          {:modules {:core {:init-fn codes.clj.docs.frontend.core/init}}}
-                :compiler-options {:warnings {:extending-base-js-type false}
-                                   :install-deps true}
-                :build-hooks      [(codes.clj.docs.frontend.dev.shadow.hooks/hashed-files
+                :compiler-options {:install-deps true}
+                :js-options       {:js-provider :external
+                                   :external-index "resources/public/js/lib.js"
+                                   :external-index-format :esm}
+                :build-hooks      [(codes.clj.docs.frontend.dev.shadow.hooks/esbuild
+                                    "resources/public/js/lib.js"
+                                    "resources/public/js/lib.bundle.js")
+                                   (codes.clj.docs.frontend.dev.shadow.hooks/hashed-files
                                     ["resources/public/css/app.css"
-                                     "resources/public/js/core.js"])
+                                     "resources/public/js/core.js"
+                                     "resources/public/js/lib.bundle.js"])
                                    (codes.clj.docs.frontend.dev.shadow.hooks/replace-hashed-files
                                     "resources/index.src.html"
                                     "resources/public/index.html")]}

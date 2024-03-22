@@ -25,3 +25,5 @@ pom.xml.asc
 
 .hgignore
 .hg/
+
+.bundle.meta.json

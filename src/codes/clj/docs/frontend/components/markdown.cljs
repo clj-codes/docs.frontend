@@ -4,7 +4,7 @@
                                      useComputedColorScheme]]
             ["react-markdown$default" :as ReactMarkdown]
             ["react-syntax-highlighter/dist/esm/languages/prism/clojure$default" :as clojure-prism]
-            ["react-syntax-highlighter/dist/esm/prism-light.js$default" :as SyntaxHighlighter]
+            ["react-syntax-highlighter/dist/esm/prism-light$default" :as SyntaxHighlighter]
             ["react-syntax-highlighter/dist/esm/styles/prism" :refer [materialDark
                                                                       materialLight]]
             ["remark-gfm$default" :as remarkGfm]
