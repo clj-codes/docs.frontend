@@ -14,35 +14,35 @@
 
 (defnc spotlight-modal
   [{:keys [query-limit debounced-query loading? items close-fn query] :as props}]
-  ($ Spotlight.Root {:data-testid "spotlight-modal-search-root"
-                     :& (dissoc props
-                                :query-limit
-                                :debounced-query
-                                :loading?
-                                :close-fn
-                                :items)}
+  ($ (-> Spotlight .-Root) {:data-testid "spotlight-modal-search-root"
+                            :& (dissoc props
+                                       :query-limit
+                                       :debounced-query
+                                       :loading?
+                                       :close-fn
+                                       :items)}
 
-    ($ Spotlight.Search {:data-testid "spotlight-modal-search-input"
-                         :placeholder "Search"
-                         :leftSection ($ IconSearch {:stroke 1.5})})
+    ($ (-> Spotlight .-Search) {:data-testid "spotlight-modal-search-input"
+                                :placeholder "Search"
+                                :leftSection ($ IconSearch {:stroke 1.5})})
 
-    ($ Spotlight.ActionsList
+    ($ (-> Spotlight .-ActionsList)
       (cond
-        loading? ($ Spotlight.Empty {:data-testid "spotlight-loading"
-                                     :key "spotlight-loading"}
+        loading? ($ (-> Spotlight .-Empty) {:data-testid "spotlight-loading"
+                                            :key "spotlight-loading"}
                    ($ Loader {:color "moonstone"}))
 
         (seq items) (->> items
                          (group-by :type)
                          (map
                           (fn [[type-key grouped-items]]
-                            ($ Spotlight.ActionsGroup
+                            ($ (-> Spotlight .-ActionsGroup)
                               {:data-testid (str "spotlight-actions-group" type-key)
                                :key (str "spotlight-actions-group" type-key)
                                :label (name type-key)}
                               (map
                                 (fn [{:keys [id name doc type]}]
-                                  ($ Spotlight.Action
+                                  ($ (-> Spotlight .-Action)
                                     {:data-testid (str "spotlight-action-" id)
                                      :key (str "spotlight-action-" id)
                                      :label name
@@ -66,17 +66,17 @@
         :else (if (and (zero? (count items))
                        (not (str/blank? query))
                        (= query debounced-query))
-                ($ Spotlight.Empty {:data-testid "spotlight-no-results"
-                                    :key "spotlight-no-results"}
+                ($ (-> Spotlight .-Empty) {:data-testid "spotlight-no-results"
+                                           :key "spotlight-no-results"}
                   "No results were found")
-                ($ Spotlight.Empty {:data-testid "spotlight-no-query"
-                                    :key "spotlight-no-query"}
+                ($ (-> Spotlight .-Empty) {:data-testid "spotlight-no-query"
+                                           :key "spotlight-no-query"}
                   "Search the documentation")))
 
       (when (and (>= (count items) query-limit)
                  (not loading?))
-        ($ Spotlight.Empty {:data-testid "spotlight-limit-reached"
-                            :key "spotlight-limit-reached"}
+        ($ (-> Spotlight .-Empty) {:data-testid "spotlight-limit-reached"
+                                   :key "spotlight-limit-reached"}
           ($ Button {:component "a"
                      :href (str "/search?q=" debounced-query)
                      :onClick close-fn}
@@ -110,20 +110,20 @@
              :shadow "sm"
              :padding "lg"}
 
-      ($ Card.Section {:component safe-anchor
-                       :href (str "/" id)
-                       :withBorder true
-                       :inheritPadding true
-                       :py "sm"}
+      ($ (-> Card .-Section) {:component safe-anchor
+                              :href (str "/" id)
+                              :withBorder true
+                              :inheritPadding true
+                              :py "sm"}
         ($ Group {:justify "space-between" :gap "xs"}
           ($ Title {:order 4} result-name)
           ($ Badge {:variant "light" :color "moonstone" :size "xs"}
             (name type))))
 
-      ($ Card.Section {:withBorder false
-                       :inheritPadding true
-                       :pt "xs"
-                       :pb "0"}
+      ($ (-> Card .-Section) {:withBorder false
+                              :inheritPadding true
+                              :pt "xs"
+                              :pb "0"}
         ($ Text {:size "xs" :fw "bold"}
           (str/replace id #"/0$" "")))
 

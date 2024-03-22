@@ -15,7 +15,7 @@
         card-namespaces (->> namespaces
                              (sort-by :name)
                              (map (fn [{:keys [id] :as props}]
-                                    ($ Grid.Col {:key id}
+                                    ($ (-> Grid .-Col) {:key id}
                                       ($ card-namespace {:& props})))))
         project-id (:id project)]
 
