@@ -1,5 +1,5 @@
 (ns codes.clj.docs.frontend.infra.cookie
-  (:require ["js-cookie" :as cookie]
+  (:require ["js-cookie$default" :as cookie]
             [cljs.reader :as reader]))
 
 (defn set-cookie
@@ -11,7 +11,7 @@
 
 (defn get-cookie
   [name]
-  (cookie/get name))
+  (.get cookie name))
 
 (defn get-edn-cookie
   [name]
