@@ -8,7 +8,14 @@
 (use-fixtures :each sync-setup)
 
 (def expected-output
-  [{:id "org.clojure"
+  [{:id "lilactown"
+    :image "https://github.com/lilactown.png?size=200"
+    :count-projects 2
+    :urls #{"https://github.com/lilactown"}
+    :projects
+    [{:id "lilactown/helix"}
+     {:id "lilactown/flex"}]}
+   {:id "org.clojure"
     :image "https://github.com/clojure.png?size=200"
     :count-projects 3
     :urls #{"https://github.com/clojure"}
@@ -16,13 +23,6 @@
     [{:id "org.clojure/core.memoize"}
      {:id "org.clojure/core.logic"}
      {:id "org.clojure/clojure"}]}
-   {:id "lilactown"
-    :image "https://github.com/lilactown.png?size=200"
-    :count-projects 2
-    :urls #{"https://github.com/lilactown"}
-    :projects
-    [{:id "lilactown/helix"}
-     {:id "lilactown/flex"}]}
    {:id "someone"
     :image nil
     :count-projects 1
