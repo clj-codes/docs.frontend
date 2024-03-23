@@ -40,14 +40,14 @@
                           :language language})))
 
 (defnc code-viewer [{:keys [children language min-height] :as props}]
-  ($ ScrollArea.Autosize {:className "code-viewer"}
+  ($ (-> ScrollArea .-Autosize) {:className "code-viewer"}
     ($ syntax-highlighter {:& props
                            :children children
                            :language language
                            :min-height min-height})))
 
 (defnc markdown-viewer [{:keys [children]}]
-  ($ ScrollArea.Autosize {:className "markdown-viewer"}
+  ($ (-> ScrollArea .-Autosize) {:className "markdown-viewer"}
     ($ ReactMarkdown {:children children
                       :remarkPlugins #js [remarkGfm]
                       :components
@@ -72,10 +72,10 @@
   ($ Paper {:style #js {:minHeight "17rem"}
             :withBorder true}
     ($ Tabs {:defaultValue "write"}
-      ($ Tabs.List
-        ($ Tabs.Tab {:value "write"} "Write")
-        ($ Tabs.Tab {:value "preview"} "Preview"))
-      ($ Tabs.Panel {:value "write"}
+      ($ (-> Tabs .-List)
+        ($ (-> Tabs .-Tab) {:value "write"} "Write")
+        ($ (-> Tabs .-Tab) {:value "preview"} "Preview"))
+      ($ (-> Tabs .-Panel) {:value "write"}
         ($ Textarea {:data-testid "markdown-editor-textarea"
                      :value text
                      :size "md"
@@ -85,7 +85,7 @@
                      :minRows 8
                      :placeholder placeholder
                      :p "xs"}))
-      ($ Tabs.Panel {:value "preview"}
+      ($ (-> Tabs .-Panel) {:value "preview"}
         children))))
 
 (defnc previewer-markdown [{:keys [placeholder text set-text]}]
