@@ -25,5 +25,5 @@
                  :image image
                  :count-projects (count projects)
                  :urls urls
-                 :projects projects})))))
-
+                 :projects projects})))
+       (sort-by :id)))

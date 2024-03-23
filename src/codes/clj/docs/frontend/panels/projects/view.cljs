@@ -58,8 +58,7 @@
 
         ($ (-> Grid .-Col) {:key "organization-list" :span 12}
           ($ LoadingOverlay {:visible loading? :zIndex 1000 :overlayProps #js {:radius "sm" :blur 2}})
-          ($ Accordion {:defaultValue "org.clojure"
-                        :chevronPosition "right"
+          ($ Accordion {:chevronPosition "right"
                         :variant "contained"}
             (map (fn [{:keys [id] :as props}]
                    ($ accordion-item {:key id :& props})) value)))))))
