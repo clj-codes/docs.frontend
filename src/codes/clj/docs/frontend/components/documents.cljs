@@ -42,9 +42,10 @@
             ($ (-> Grid .-Col) {:span #js {:base 12 :md 5}}
               ($ Title {:order 6} "Sha")
               ($ Code sha))
-            ($ (-> Grid .-Col) {:span #js {:base 12 :md 2}}
-              ($ Title {:order 6} "Tag")
-              ($ Badge {:variant "primary"} tag))))
+            (when tag
+              ($ (-> Grid .-Col) {:span #js {:base 12 :md 2}}
+                ($ Title {:order 6} "Tag")
+                ($ Badge {:variant "primary"} tag)))))
         ($ (-> Grid .-Col) {:span 24}
           ($ Group
             ($ Group
