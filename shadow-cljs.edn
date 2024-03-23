@@ -29,7 +29,9 @@
 
           :tests {:target    :browser-test
                   :test-dir  "resources/tests"
-                  :ns-regexp "-test$"}
+                  :ns-regexp "-test$"
+                  :js-options {:entry-keys ["module" "browser" "main"]
+                               :export-conditions ["module" "import" "browser" "require" "default"]}}
 
           :ci-tests {:target           :karma
                      :output-to        "resources/tests/ci.js"
