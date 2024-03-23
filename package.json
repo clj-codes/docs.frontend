@@ -37,19 +37,19 @@
     "use-sync-external-store": "^1.2.0"
   },
   "devDependencies": {
-    "@testing-library/react": "^14.2.1",
+    "@testing-library/react": "^14.2.2",
     "concurrently": "^8.2.2",
-    "cssnano": "^6.1.0",
+    "cssnano": "^6.1.1",
     "global-jsdom": "^9.2.0",
     "jsdom": "^23.2.0",
     "karma": "^6.4.3",
     "karma-chrome-launcher": "^3.2.0",
     "karma-cljs-test": "^0.1.0",
-    "postcss": "^8.4.35",
+    "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
-    "postcss-import": "^16.0.1",
+    "postcss-import": "^16.1.0",
     "postcss-preset-mantine": "^1.13.0",
     "postcss-simple-vars": "^7.0.1",
-    "shadow-cljs": "^2.27.5"
+    "shadow-cljs": "^2.28.2"
   }
 }

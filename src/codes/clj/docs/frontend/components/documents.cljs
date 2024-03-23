@@ -8,15 +8,15 @@
 
 (defnc head-card-section [{:keys [id name header]}]
   (if header
-    ($ Card.Section {:withBorder true
-                     :inheritPadding true
-                     :py "sm"}
+    ($ (-> Card .-Section) {:withBorder true
+                            :inheritPadding true
+                            :py "sm"}
       ($ Title {:order 5} name))
-    ($ Card.Section {:component safe-anchor
-                     :href (str "/" id)
-                     :withBorder true
-                     :inheritPadding true
-                     :py "sm"}
+    ($ (-> Card .-Section) {:component safe-anchor
+                            :href (str "/" id)
+                            :withBorder true
+                            :inheritPadding true
+                            :py "sm"}
       ($ Group {:justify "space-between"}
         ($ Title {:order 4} name)
         ($ ActionIcon {:variant "light"}
@@ -32,20 +32,20 @@
 
     ($ head-card-section {:id id :name name :header header})
 
-    ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+    ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
       ($ Grid {:c "dimmed"}
-        ($ Grid.Col
+        ($ (-> Grid .-Col)
           ($ Grid
-            ($ Grid.Col {:span #js {:base 12 :md 5}}
+            ($ (-> Grid .-Col) {:span #js {:base 12 :md 5}}
               ($ Title {:order 6} "Git")
               ($ Anchor {:size "sm" :href url} url))
-            ($ Grid.Col {:span #js {:base 12 :md 5}}
+            ($ (-> Grid .-Col) {:span #js {:base 12 :md 5}}
               ($ Title {:order 6} "Sha")
               ($ Code sha))
-            ($ Grid.Col {:span #js {:base 12 :md 2}}
+            ($ (-> Grid .-Col) {:span #js {:base 12 :md 2}}
               ($ Title {:order 6} "Tag")
               ($ Badge {:variant "primary"} tag))))
-        ($ Grid.Col {:span 24}
+        ($ (-> Grid .-Col) {:span 24}
           ($ Group
             ($ Group
               ($ Title {:order 6} "Manifest")
@@ -65,22 +65,22 @@
 
     ($ head-card-section {:id id :name name :header header})
 
-    ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+    ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
       ($ Grid
-        ($ Grid.Col
+        ($ (-> Grid .-Col)
           ($ Grid {:justify "space-between"}
-            ($ Grid.Col
+            ($ (-> Grid .-Col)
               ($ Group
                 ($ Title {:order 6} "Source")
                 ($ Anchor {:size "md" :href git-source :fw 500}
                   ($ Text (rest (str filename ":" row ":" col))))))))
         (when doc
-          ($ Grid.Col
+          ($ (-> Grid .-Col)
             ($ Title {:order 6} "Doc")
             ($ Code {:block true} doc)))))
 
     (when author
-      ($ Card.Section {:withBorder true :inheritPadding true :py "sm"}
+      ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
         ($ Group {:justify "flex-start"}
           ($ Avatar {:alt "Author"})
           ($ Text author))))))
