@@ -5,6 +5,7 @@
             [codes.clj.docs.frontend.panels.definitions.state :as definitions.state]
             [codes.clj.docs.frontend.panels.definitions.view :as definitions.view]
             [codes.clj.docs.frontend.panels.home.view :as home.view]
+            [codes.clj.docs.frontend.panels.license.view :as license.view]
             [codes.clj.docs.frontend.panels.namespaces.state :as namespaces.state]
             [codes.clj.docs.frontend.panels.namespaces.view :as namespaces.view]
             [codes.clj.docs.frontend.panels.projects.state :as projects.state]
@@ -23,6 +24,13 @@
      :link-text   "Home"
      :controllers [{:start (fn [& _params]
                              (set-title! "docs.clj.codes"))}]}]
+
+   ["license"
+    {:name        :license
+     :view        license.view/license
+     :link-text   "license"
+     :controllers [{:start (fn [& _params]
+                             (set-title! "License - docs.clj.codes"))}]}]
 
    ["github-callback"
     {:name        :github-callback

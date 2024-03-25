@@ -3,6 +3,7 @@
                                      Group Loader Text TextInput Title Tooltip
                                      useCombobox]]
             ["@mantine/hooks" :refer [useDebouncedValue]]
+            ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
             [codes.clj.docs.frontend.components.navigation :refer [safe-anchor]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
@@ -69,7 +70,13 @@
                      auto-complete-list)
                 ($ (-> Combobox .-Empty) "No results found"))))))
 
-      ($ (-> Grid .-Col) {:span 12}
+      ($ (-> Grid .-Col) {:span #js {:base 12 :md 8}}
+        ($ Group {:gap "xs"}
+          ($ IconInfoCircle {:style #js {:width "1.0rem" :height "1.0rem"}})
+          ($ Text {:size "xs"} "Any contributions to this site will be under "
+            ($ Text {:component "a" :href "/license#contributions" :inherit true :fw 700} "public domain"))))
+
+      ($ (-> Grid .-Col) {:span #js {:base 12 :md 4}}
         ($ Group {:justify "flex-end" :gap "xs"}
           ($ Button {:id "editor-see-also-cancel-btn"
                      :data-testid "editor-see-also-cancel-btn"
