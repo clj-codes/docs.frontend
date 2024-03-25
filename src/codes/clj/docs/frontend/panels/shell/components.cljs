@@ -109,6 +109,10 @@
           "delboni"))
       ($ Group {:className "shell-social-footer"
                 :gap 0 :justify "flex-end" :wrap "nowrap"}
+        ($ Anchor {:className "shell-link-footer"
+                   :color "var(--mantine-color-text)"
+                   :href "/license"}
+          "License")
         ($ ActionIcon {:size "lg" :color "gray" :variant "subtle"
                        :component "a"
                        :href "https://www.github.com/clj-codes"

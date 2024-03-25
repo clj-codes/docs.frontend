@@ -20,7 +20,9 @@
                                  ($ IconInfoCircle {:style #js {:width "1.0rem" :height "1.0rem"}})
                                  ($ Text {:size "xs"}
                                    ($ Anchor {:href "https://github.github.com/gfm/"}
-                                     "GFM Markdown") " is supported."))
+                                     "GFM Markdown") " is supported.")
+                                 ($ Text {:size "xs"} "Any contributions to this site will be under "
+                                   ($ Text {:component "a" :href "/license#contributions" :inherit true :fw 700} "public domain")))
                   :previewer previewer-markdown}))
 
 (defnc card-note [{:keys [note user set-delete-modal-fn]}]

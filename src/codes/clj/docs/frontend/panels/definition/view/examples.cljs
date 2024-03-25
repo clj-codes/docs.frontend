@@ -18,7 +18,9 @@
                   :placeholder "Leave a example"
                   :description ($ Group {:gap "xs"}
                                  ($ IconInfoCircle {:style #js {:width "1.0rem" :height "1.0rem"}})
-                                 ($ Text {:size "xs"} "Add your snippet of clojure."))
+                                 ($ Text {:size "xs"} "Add your snippet of clojure.")
+                                 ($ Text {:size "xs"} "Any contributions to this site will be under "
+                                   ($ Text {:component "a" :href "/license#contributions" :inherit true :fw 700} "public domain")))
                   :previewer previewer-code}))
 
 (defnc avatar-editors [{:keys [editors]}]
