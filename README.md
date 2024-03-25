@@ -1,6 +1,13 @@
 # docs.frontend
 Frontend SPA for docs.clj.codes
 
+## Config `src/codes/clj/docs/frontend/config.cljs`
+This file has two main functions:
+- Define mantine.dev base theme
+- Set configuration differences between local and deployed versions
+  - `:base-url` base url that the http client will use to build the backend requests
+  - `:github` informations used to do the login with github like `:client-id` and `:redirect-uri`
+
 ## Project
 [Check the project backlog, issues and ongoing tasks](https://github.com/orgs/clj-codes/projects/2)
 
