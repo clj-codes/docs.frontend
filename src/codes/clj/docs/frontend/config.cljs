@@ -17,20 +17,20 @@
      :primaryColor "moonstone"
      :defaultRadius "md"})))
 
-(goog-define base-url "https://docs-backend.fly.dev/api/")
-(goog-define client-id "46d86692f00ed9c613a1")
-(goog-define redirect-uri "https://docs.clj.codes/github-callback")
+(goog-define BASE_URL "https://docs-backend.fly.dev/api/")
+(goog-define CLIENT_ID "46d86692f00ed9c613a1")
+(goog-define REDIRECT_URI "https://docs.clj.codes/github-callback")
 
 (def config
   (let [debug? goog.DEBUG]
     {:debug? debug?
      :base-url (if debug?
                  "http://localhost:3001/api/"
-                 base-url)
+                 BASE_URL)
      :github {:login-url "https://github.com/login/oauth/authorize"
               :client-id (if debug?
                            "e2e06123b7ca69a6150a"
-                           client-id)
+                           CLIENT_ID)
               :redirect-uri (if debug?
                               "http://localhost:5000/github-callback"
-                              redirect-uri)}}))
+                              REDIRECT_URI)}}))
