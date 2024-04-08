@@ -19,7 +19,7 @@
 
 (goog-define base-url "https://docs-backend.fly.dev/api/")
 (goog-define client-id "46d86692f00ed9c613a1")
-(goog-define redirect-ui "https://docs.clj.codes/github-callback")
+(goog-define redirect-uri "https://docs.clj.codes/github-callback")
 
 (def config
   (let [debug? goog.DEBUG]
@@ -33,4 +33,4 @@
                            client-id)
               :redirect-uri (if debug?
                               "http://localhost:5000/github-callback"
-                              redirect-ui)}}))
+                              redirect-uri)}}))
