@@ -13,7 +13,10 @@
                 :dev              {:modules {:core {:init-fn codes.clj.docs.frontend.dev.core/init}}}
                 :release          {:modules {:core {:init-fn codes.clj.docs.frontend.core/init}}}
                 :compiler-options {:warnings {:extending-base-js-type false}
-                                   :install-deps true}
+                                   :install-deps true
+                                   :closure-defines {codes.clj.docs.frontend.config/BASE_URL #shadow/env ["BASE_URL"]
+                                                     codes.clj.docs.frontend.config/CLIENT_ID #shadow/env ["CLIENT_ID"]
+                                                     codes.clj.docs.frontend.config/REDIRECT_URI #shadow/env ["REDIRECT_URI"]}}
                 :build-hooks      [(codes.clj.docs.frontend.dev.shadow.hooks/hashed-files
                                     ["resources/public/css/app.css"
                                      "resources/public/js/core.js"])
