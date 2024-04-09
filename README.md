@@ -7,6 +7,8 @@ This file has two main functions:
 - Set configuration differences between local and deployed versions
   - `:base-url` base url that the http client will use to build the backend requests
   - `:github` informations used to do the login with github like `:client-id` and `:redirect-uri`
+- For the configuration values above, their values may be redefined at compile time if their corresponding environment 
+variables are present: `BASE_URL`, `CLIENT_ID` and `REDIRECT_URI`.
 
 ## Project
 [Check the project backlog, issues and ongoing tasks](https://github.com/orgs/clj-codes/projects/2)
