@@ -1,6 +1,6 @@
 (ns codes.clj.docs.frontend.infra.analytics
-  (:require [codes.clj.docs.frontend.infra.system.state :as system.state]
-            [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [codes.clj.docs.frontend.infra.system.state :as system.state]))
 
 (defn google-tag-manager
   [ga-tag-id]
