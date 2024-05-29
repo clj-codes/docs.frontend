@@ -1,5 +1,6 @@
 (ns codes.clj.docs.frontend.infra.analytics
-  (:require [codes.clj.docs.frontend.infra.system.state :as system.state]))
+  (:require [codes.clj.docs.frontend.infra.system.state :as system.state]
+            [clojure.string :as string]))
 
 (defn google-tag-manager
   [ga-tag-id]
@@ -20,8 +21,11 @@
                                gtag('config', '" ga-tag-id "');"))
     (js/document.head.insertBefore script (.-nextSibling gtm-script))))
 
+(defn ga-scripts
+  [ga-tag-id]
+  (when-not (string/blank? ga-tag-id)
+    (let [gtm-script (google-tag-manager ga-tag-id)]
+      (google-tag ga-tag-id gtm-script))))
+
 (defn google-analytics []
-  (let [ga-tag-id (-> @system.state/components :config :ga-tag-id)]
-    (when (seq ga-tag-id)
-      (let [gtm-script (google-tag-manager ga-tag-id)]
-        (google-tag ga-tag-id gtm-script)))))
+  (ga-scripts (-> @system.state/components :config :ga-tag-id)))
