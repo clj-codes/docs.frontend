@@ -14,11 +14,11 @@
 (defn google-tag
   [ga-tag-id gtm-script]
   (let [script (js/document.createElement "script")]
-    (set! (.-src script) (str "window.dataLayer = window.dataLayer || [];
-                               function gtag(){dataLayer.push(arguments);}
-                               gtag('js', new Date());
-
-                               gtag('config', '" ga-tag-id "');"))
+    (set! (.-text script) (str "window.dataLayer = window.dataLayer || [];
+                                function gtag(){dataLayer.push(arguments);}
+                                gtag('js', new Date());
+                                
+                                gtag('config', '" ga-tag-id "');"))
     (js/document.head.insertBefore script (.-nextSibling gtm-script))))
 
 (defn ga-scripts
