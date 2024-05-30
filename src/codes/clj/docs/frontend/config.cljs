@@ -20,10 +20,14 @@
 (goog-define BASE_URL "https://docs-backend.fly.dev/api/")
 (goog-define CLIENT_ID "46d86692f00ed9c613a1")
 (goog-define REDIRECT_URI "https://docs.clj.codes/github-callback")
+(goog-define GA_TAG_ID "")
 
 (def config
   (let [debug? goog.DEBUG]
     {:debug? debug?
+     :ga-tag-id (if debug?
+                  ""
+                  GA_TAG_ID)
      :base-url (if debug?
                  "http://localhost:3001/api/"
                  BASE_URL)
