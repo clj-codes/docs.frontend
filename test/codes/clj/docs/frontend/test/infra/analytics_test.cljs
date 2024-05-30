@@ -8,6 +8,6 @@
     (let [ga-tag-id "G-0123456789"
           ga-scripts (analytics/ga-scripts ga-tag-id)]
       (is (instance? js/HTMLScriptElement ga-scripts))
-      (is (string/includes? (.-src ga-scripts) ga-tag-id))))
+      (is (string/includes? (.-text ga-scripts) ga-tag-id))))
   (testing "blank GA_TAG_ID should not return anything"
     (is (nil? (analytics/ga-scripts "")))))
