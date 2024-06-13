@@ -8,6 +8,14 @@
             [helix.core :refer [$]]
             [helix.dom :as dom]))
 
+(defn get-default-org-id
+  [orgs]
+  (when (seq orgs)
+    (let [count (count orgs)
+          _ (js/console.log count)]
+      (when (= 1 count)
+        (-> orgs first :id)))))
+
 (defnc accordion-label [{:keys [label image urls count-projects]}]
   ($ Group {:data-testid (str "accordion-label-" label)
             :wrap "nowrap"}
@@ -43,7 +51,9 @@
           project-cards)))))
 
 (defnc group-by-orgs []
-  (let [{:keys [value loading?]} (use-flex document-projects-response)]
+  (let [{:keys [value loading?]} (use-flex document-projects-response)
+        default-org-id (get-default-org-id value)
+        _ (js/console.log (str "DEFAULT-ORG-ID: " default-org-id))]
     ($ Container {:p "sm"}
       ($ Grid
         ($ (-> Grid .-Col) {:key "organization-title" :span 12}
@@ -59,6 +69,7 @@
         ($ (-> Grid .-Col) {:key "organization-list" :span 12}
           ($ LoadingOverlay {:visible loading? :zIndex 1000 :overlayProps #js {:radius "sm" :blur 2}})
           ($ Accordion {:chevronPosition "right"
-                        :variant "contained"}
+                        :variant "contained"
+                        :defaultValue default-org-id}
             (map (fn [{:keys [id] :as props}]
                    ($ accordion-item {:key id :& props})) value)))))))
