@@ -6,14 +6,15 @@
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.projects.state :refer [document-projects-response]]
             [helix.core :refer [$]]
-            [helix.dom :as dom]))
+            [helix.dom :as dom]
+            [helix.hooks :as hooks]))
 
 (defn get-default-org-id
   [orgs]
   (when (seq orgs)
     (let [count (count orgs)
           _ (js/console.log count)]
-      (when (= 1 count)
+      (when (= count 1)
         (-> orgs first :id)))))
 
 (defnc accordion-label [{:keys [label image urls count-projects]}]
@@ -52,8 +53,13 @@
 
 (defnc group-by-orgs []
   (let [{:keys [value loading?]} (use-flex document-projects-response)
-        default-org-id (get-default-org-id value)
-        _ (js/console.log (str "DEFAULT-ORG-ID: " default-org-id))]
+        [default-org-id set-default-org-id] (hooks/use-state "")]
+    
+    (hooks/use-effect
+     [value]
+     (when value
+       (set-default-org-id (get-default-org-id value))))
+    
     ($ Container {:p "sm"}
       ($ Grid
         ($ (-> Grid .-Col) {:key "organization-title" :span 12}
@@ -70,6 +76,7 @@
           ($ LoadingOverlay {:visible loading? :zIndex 1000 :overlayProps #js {:radius "sm" :blur 2}})
           ($ Accordion {:chevronPosition "right"
                         :variant "contained"
-                        :defaultValue default-org-id}
+                        :onChange set-default-org-id
+                        :value default-org-id}
             (map (fn [{:keys [id] :as props}]
                    ($ accordion-item {:key id :& props})) value)))))))
