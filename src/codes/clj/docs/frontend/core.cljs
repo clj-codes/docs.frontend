@@ -2,6 +2,7 @@
   (:require ["@mantine/core" :refer [MantineProvider]]
             ["react-dom/client" :as rdom]
             [codes.clj.docs.frontend.config :refer [theme]]
+            [codes.clj.docs.frontend.infra.analytics :refer [google-analytics]]
             [codes.clj.docs.frontend.infra.flex.hook :refer [use-flex]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.infra.routes.core :refer [init-routes!]]
@@ -25,5 +26,6 @@
   (.render root ($ app)))
 
 (defn ^:export init []
+  (google-analytics)
   (init-routes!)
   (render))
