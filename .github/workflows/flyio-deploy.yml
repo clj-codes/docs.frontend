@@ -34,7 +34,7 @@ jobs:
     - name: Install clojure cli
       uses: DeLaGuardo/setup-clojure@master
       with:
-        cli: 1.11.2.1446
+        cli: 1.11.3.1463
 
     - name: Karma Tests ${{ matrix.node-version }}
       uses: actions/setup-node@v4.0.2
@@ -65,7 +65,7 @@ jobs:
     - name: Install clojure cli
       uses: DeLaGuardo/setup-clojure@master
       with:
-        cli: 1.11.2.1446
+        cli: 1.11.3.1463
 
     - name: Setup Node ${{ matrix.node-version }}
       uses: actions/setup-node@v4.0.2
