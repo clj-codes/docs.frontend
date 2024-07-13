@@ -154,6 +154,49 @@
          notes " notes and "
          see-alsos " see alsos.")))
 
+(defnc social-preview-list [{:keys [title items id-key data-key]}]
+  (dom/div
+    ($ Title {:style #js {:paddingTop 10} :order 4}
+      title)
+    (map (fn [item]
+           ($ Box {:key (id-key item)
+                   :w #js {:base 350 :xs 400 :sm 600 :md 800 :lg 900 :xl 1000}}
+             ($ Text {:truncate "end"} (data-key item))))
+      items)))
+
+(defnc author-socials-preview-list [{:keys [socials]}]
+  (dom/div
+    ($ Title {:order 2} "Interactions")
+    ($ Space {:h "md"})
+    ($ Group
+      ($ Grid {:data-testid "author-grid"}
+        (map (fn [{:keys [definition-id examples notes see-alsos]}]
+               ($ (-> Grid .-Col) {:key definition-id}
+                 (dom/div
+                   ($ safe-anchor {:fz "xl" :fw 500
+                                   :href (str "/" definition-id)}
+                     (str/replace definition-id #"/0$" ""))
+
+                   (when (seq examples)
+                     ($ social-preview-list {:title "Examples"
+                                             :items examples
+                                             :id-key :example-id
+                                             :data-key :body}))
+
+                   (when (seq see-alsos)
+                     ($ social-preview-list {:title "See Alsos"
+                                             :items see-alsos
+                                             :id-key :see-also-id
+                                             :data-key :definition-id-to}))
+
+                   (when (seq notes)
+                     ($ social-preview-list {:title "Notes"
+                                             :items notes
+                                             :id-key :note-id
+                                             :data-key :body})))))
+
+          socials)))))
+
 (defnc author-detail-page []
   (let [{:keys [loading? error value]} {:loading? false :error nil :value author-value}
         {:keys [login account-source avatar-url socials]} value]
@@ -192,60 +235,6 @@
             ($ Space {:h "lg"})
 
             (when socials
-              ;; todo move to own component
-              (dom/div
-                ($ Title {:order 2} "Interactions")
-                ($ Space {:h "md"})
-                ($ Group
-                  ($ Grid {:data-testid "author-grid"}
-                    (map (fn [{:keys [definition-id examples notes see-alsos]}]
-                           ($ (-> Grid .-Col) {:key definition-id}
-                             (dom/div
-                               ($ safe-anchor {:fz "xl" :fw 500
-                                               :href (str "/" definition-id)}
-                                 (str/replace definition-id #"/0$" ""))
-
-                               (when (seq examples)
-                                 ;; todo move to own component
-                                 (dom/div
-                                   ($ Title {:style #js {:paddingTop 10} :order 4}
-                                      "Examples")
-                                   (map (fn [{:keys [example-id body]}]
-                                          ($ Box {:key example-id
-                                                  :w #js {:base 350 :xs 400
-                                                          :sm 600 :md 800
-                                                          :lg 900 :xl 1000}}
-                                            ($ Text {:truncate "end"} body)))
-                                     examples)))
-
-                               (when (seq see-alsos)
-                                 ;; todo move to own component
-                                 (dom/div
-                                   ($ Title {:style #js {:paddingTop 10} :order 4}
-                                      "See Alsos")
-                                   (map (fn [{:keys [see-also-id definition-id-to]}]
-                                          ($ Box {:key see-also-id
-                                                  :w #js {:base 350 :xs 400
-                                                          :sm 600 :md 800
-                                                          :lg 900 :xl 1000}}
-                                            ($ Text {:truncate "end"}
-                                              (str/replace definition-id-to #"/0$" "\n"))))
-                                     see-alsos)))
-
-                               (when (seq notes)
-                                 ;; todo move to own component
-                                 (dom/div
-                                   ($ Title {:style #js {:paddingTop 10} :order 4}
-                                      "Notes")
-                                   (map (fn [{:keys [note-id body]}]
-                                          ($ Box {:key note-id
-                                                  :w #js {:base 350 :xs 400
-                                                          :sm 600 :md 800
-                                                          :lg 900 :xl 1000}}
-                                            ($ Text {:truncate "end"}
-                                              body)))
-                                     notes))))))
-
-                      socials)))))
+              ($ author-socials-preview-list {:socials socials}))
 
             ($ back-to-top)))))))
