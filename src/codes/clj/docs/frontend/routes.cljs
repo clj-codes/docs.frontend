@@ -1,5 +1,7 @@
 (ns codes.clj.docs.frontend.routes
   (:require [codes.clj.docs.frontend.infra.auth.github.view :as auth.github.view]
+            [codes.clj.docs.frontend.panels.author.state :as author.state]
+            [codes.clj.docs.frontend.panels.author.view :as author.view]
             [codes.clj.docs.frontend.panels.definition.state :as definition.state]
             [codes.clj.docs.frontend.panels.definition.view :as definition.view]
             [codes.clj.docs.frontend.panels.definitions.state :as definitions.state]
@@ -66,6 +68,19 @@
                                (set-title! "Search - docs.clj.codes")
                                (search.state/search-fetch page-results (or q "") 100)))}]}]
 
+   ["author/:login/:source"
+    {:name        :author
+     :view        author.view/author-detail-page
+     :link-text   "Author Details"
+     :conflicting true
+     :parameters  {:path {:login string?
+                          :source string?}}
+     :controllers [{:parameters {:path [:login :source]}
+                    :start (fn [& params]
+                             (let [{:keys [login source]} (-> params first :path)]
+                               (set-title! "Author Details - docs.clj.codes")
+                               (author.state/author-fetch login source)))}]}]
+
    [":organization/:project"
     {:name        :namespaces
      :view        namespaces.view/org-projects
@@ -82,6 +97,7 @@
     {:name        :definitions
      :view        definitions.view/namespace-definitions
      :link-text   "Definitions"
+     :conflicting true
      :parameters  {:path {:organization string?
                           :project string?
                           :namespace string?}}

@@ -1,11 +1,12 @@
 (ns codes.clj.docs.frontend.panels.definition.view.notes
-  (:require ["@mantine/core" :refer [Anchor Avatar Card Center Grid Group Text
-                                     Title Tooltip]]
+  (:require ["@mantine/core" :refer [Anchor Card Center Grid Group Text Title
+                                     Tooltip]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [codes.clj.docs.frontend.components.markdown :refer [markdown-viewer
                                                                  previewer-markdown]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.definition.state.notes :as state.notes]
+            [codes.clj.docs.frontend.panels.definition.view.author :as author]
             [codes.clj.docs.frontend.panels.definition.view.editor :refer [editor-base]]
             [helix.core :refer [$]]
             [helix.hooks :as hooks]))
@@ -38,7 +39,7 @@
       ($ (-> Card .-Section) {:withBorder true :inheritPadding true :py "sm"}
         ($ Group {:gap "xs"}
           ($ Tooltip {:label (:login author) :withArrow true}
-            ($ Avatar {:size "sm" :src (:avatar-url author)}))
+            ($ author/avatar {:author author :id (str "avatar" (:login author) note-id)}))
           ($ Text {:size "xs"} (.toGMTString created-at))
 
           (when is-note-author?
