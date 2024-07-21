@@ -6,6 +6,7 @@
             [codes.clj.docs.frontend.components.navigation :refer [back-to-top
                                                                    safe-anchor]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
+            [codes.clj.docs.frontend.panels.author.adapters :as author.adapters]
             [helix.core :refer [$]]
             [helix.dom :as dom]))
 
@@ -131,29 +132,6 @@
                                                     :avatar-url "https://avatars.githubusercontent.com/u/1683898?v=4"
                                                     :created-at #inst "2024-03-11T14:16:54.404609000-00:00"}}]}]})
 
-; TODO move to adapters & unit test
-(defn author-socials->summary [socials]
-  (reduce (fn [{notes-a :notes examples-a :examples see-alsos-a :see-alsos
-                :as accum}
-               {notes-c :notes examples-c :examples see-alsos-c :see-alsos}]
-            (assoc accum
-                   :notes (+ notes-a (count notes-c))
-                   :examples (+ examples-a (count examples-c))
-                   :see-alsos (+ see-alsos-a (count see-alsos-c))))
-          {:notes 0 :examples 0 :see-alsos 0}
-          socials))
-
-; TODO move to adapters & unit test
-(defn author->string-summary
-  [{:keys [socials]}]
-  ; TODO add cases when only authored examples, notes or see alsos
-  ; case when not authored nothing
-  (let [{:keys [examples notes see-alsos]} (author-socials->summary socials)]
-    (str "This has user has authored "
-         examples " examples, "
-         notes " notes and "
-         see-alsos " see alsos.")))
-
 (defnc social-preview-list [{:keys [title items id-key data-key]}]
   (dom/div
     ($ Title {:style #js {:paddingTop 10} :order 4}
@@ -230,7 +208,7 @@
                   ($ Space {:h "sm"})
 
                   ($ Text {:fz "lg" :fw 500}
-                    (author->string-summary value)))))
+                    (author.adapters/->string-summary value)))))
 
             ($ Space {:h "lg"})
 
