@@ -6,6 +6,7 @@
                                                                  previewer-code]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.panels.definition.state.examples :as state.examples]
+            [codes.clj.docs.frontend.panels.definition.view.author :as author]
             [codes.clj.docs.frontend.panels.definition.view.editor :refer [editor-base]]
             [helix.core :refer [$]]
             [helix.hooks :as hooks]))
@@ -25,29 +26,20 @@
 
 (defnc avatar-editors [{:keys [editors]}]
   (let [shown-editors 3]
-    (if (>= shown-editors (count editors))
-      ($ (-> Avatar .-Group)
-        (map
-          #($ Tooltip {:key (str (:login %) (:edited-at %))
-                       :label (str (:login %)
-                                   " reviewed at "
-                                   (.toGMTString (:edited-at %)))
-                       :withArrow true}
-             ($ Avatar {:size "sm" :src (:avatar-url %)}))
-          editors))
-      ($ (-> Avatar .-Group)
+    ($ (-> Avatar .-Group)
+      (when (> (count editors) shown-editors)
         ($ Tooltip {:key "older-edits"
                     :label "Older revisions"
                     :withArrow true}
-          ($ Avatar {:size "sm"} "+"))
-        (map
-          #($ Tooltip {:key (str (:login %) (:edited-at %))
-                       :label (str (:login %)
-                                   " reviewed at "
-                                   (.toGMTString (:edited-at %)))
-                       :withArrow true}
-             ($ Avatar {:size "sm" :src (:avatar-url %)}))
-          (take-last shown-editors editors))))))
+          ($ Avatar {:size "sm"} "+")))
+      (map
+        #($ Tooltip {:key (str (:login %) (:edited-at %))
+                     :label (str (:login %)
+                                 " reviewed at "
+                                 (.toGMTString (:edited-at %)))
+                     :withArrow true}
+           ($ author/avatar {:author % :id (str "avatar" (:login %) (:edited-at %))}))
+        (take-last shown-editors editors)))))
 
 (defnc card-example [{:keys [example user set-delete-modal-fn]}]
   (let [{:keys [example-id body author created-at definition-id editors]} example

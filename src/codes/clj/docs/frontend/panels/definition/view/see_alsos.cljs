@@ -123,7 +123,9 @@
           ($ Group {:gap "xs"}
             ($ Tooltip {:label (str "at " (.toGMTString created-at)) :withArrow true}
               ($ Text {:c "dimmed"}
-                (str "By " (:login author))))
+                (str "By ")
+                ($ Anchor {:href (str "/author/" (:login author) "/" (:account-source author))}
+                  (:login author))))
             (when is-see-also-author?
               ($ Group {:className "author-edit-delete-see-also"
                         :gap "xs"}

@@ -1,6 +1,7 @@
 (ns codes.clj.docs.frontend.panels.author.view
   (:require ["@mantine/core" :refer [Alert Avatar Box Center Container Grid
-                                     Group LoadingOverlay Space Text Title List]]
+                                     Group List LoadingOverlay Space Text
+                                     Title]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
             [codes.clj.docs.frontend.components.navigation :refer [back-to-top
