@@ -1,5 +1,6 @@
 (ns codes.clj.docs.frontend.routes
   (:require [codes.clj.docs.frontend.infra.auth.github.view :as auth.github.view]
+            [codes.clj.docs.frontend.panels.author.state :as author.state]
             [codes.clj.docs.frontend.panels.author.view :as author.view]
             [codes.clj.docs.frontend.panels.definition.state :as definition.state]
             [codes.clj.docs.frontend.panels.definition.view :as definition.view]
@@ -78,7 +79,7 @@
                     :start (fn [& params]
                              (let [{:keys [login source]} (-> params first :path)]
                                (set-title! "Author Details - docs.clj.codes")
-                               (js/console.log login source)))}]}]
+                               (author.state/author-fetch login source)))}]}]
 
    [":organization/:project"
     {:name        :namespaces
