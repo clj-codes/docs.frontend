@@ -20,10 +20,12 @@
     ($ List {:listStyleType "square"}
       (map (fn [item]
              ($ (-> List .-Item) {:key (id-key item)}
-               ($ Box {:w #js {:base 350 :xs 400 :sm 600 :md 800 :lg 900 :xl 1000}}
+               ($ Box {:w #js {:base 300 :xs 400 :sm 600 :md 800 :lg 900 :xl 1000}}
                  ($ Text {:id (id-key item) :className "social-preview-item"
                           :truncate "end"}
-                   (data-key item)))))
+                   (if (= data-key :definition-id-to)
+                     (str/replace (data-key item) #"/0$" "")
+                     (data-key item))))))
         items))))
 
 (defnc author-socials-preview-list [{:keys [socials]}]
@@ -80,7 +82,7 @@
             ($ Center
               ($ Group {:wrap "nowrap"}
                 ($ Avatar {:src avatar-url
-                           :size 200
+                           :size "xl"
                            :radius 200})
                 (dom/div
                   ($ Title {:order 3}
@@ -89,15 +91,13 @@
                   ($ Text {:fz "xs" :tt "uppercase" :fw 700 :c "dimmed"}
                     (name account-source))
 
-                  ($ Space {:h "sm"})
-
                   ($ Text {:data-testid "author-social-summary"
                            :fz "lg" :fw 500}
                     (author.adapters/->string-summary value)))))
 
             ($ Space {:h "lg"})
 
-            (when socials
+            (when (seq socials)
               ($ author-socials-preview-list {:socials socials}))
 
             ($ back-to-top)))))))
