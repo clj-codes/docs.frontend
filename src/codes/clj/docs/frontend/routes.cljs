@@ -62,9 +62,7 @@
      :view        dashboards.view/all
      :link-text   "dashboards"
      :controllers [{:start (fn [& _params]
-                             (set-title! "Dashboards - docs.clj.codes")
-                             ; fetch todo
-                             )}]}]
+                             (set-title! "Dashboards - docs.clj.codes"))}]}]
 
    ["search"
     {:name        :search

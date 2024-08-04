@@ -21,10 +21,12 @@
 (goog-define CLIENT_ID "46d86692f00ed9c613a1")
 (goog-define REDIRECT_URI "https://docs.clj.codes/github-callback")
 (goog-define GA_TAG_ID "")
+(goog-define SHOW_DASHBOARD "true")
 
 (def config
   (let [debug? goog.DEBUG]
     {:debug? debug?
+     :show-dashboard (= SHOW_DASHBOARD "true")
      :ga-tag-id (if debug?
                   ""
                   GA_TAG_ID)

@@ -1,4 +1,4 @@
-(ns codes.clj.docs.frontend.components.query
+(ns codes.clj.docs.frontend.panels.dashboards.components
   (:require ["@mantine/core" :refer [Alert Anchor Avatar Box Grid Group
                                      Indicator LoadingOverlay SimpleGrid Text
                                      Title Tooltip]]
@@ -8,8 +8,8 @@
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [helix.core :refer [$]]))
 
-(defnc latest-interactions [{:keys [value loading? error]}]
-  ($ SimpleGrid {:cols 1}
+(defnc latest-interactions-list [{:keys [value loading? error]}]
+  ($ SimpleGrid {:cols 1 :data-testid "latest-interactions-list"}
     ($ Title {:order 1} "Recently Updated")
 
     (if error
@@ -25,24 +25,26 @@
             (fn [{:keys [note-id example-id see-also-id definition-id author created-at]}]
               (let [id (str "latest" (or note-id example-id see-also-id))
                     action (cond
-                             note-id " authored a note for "
-                             example-id " authored an example for "
-                             see-also-id " added a see also on ")
+                             note-id "authored a note for"
+                             example-id "authored an example for"
+                             see-also-id "added a see also on")
                     definition (str/replace definition-id #"/0$" "")
                     ago (adapters.time/time-since created-at (.now js/Date))
                     {:keys [login account-source avatar-url]} author]
-                ($ Group {:key id :wrap "nowrap"}
+                ($ Group {:key id :id id
+                          :wrap "nowrap"
+                          :className "interaction-text"}
                   ($ Anchor {:href (str "/author/" login "/" account-source)}
                     ($ Avatar {:src avatar-url}))
-                  ($ Text {:size "sm"} login
+                  ($ Text {:size "sm"} login " "
                     ($ Text {:component "span"}
                       action " "
                       ($ Anchor {:href definition-id} definition)
                       " " ago ".")))))
             value))))))
 
-(defnc top-author [{:keys [value loading? error]}]
-  ($ SimpleGrid {:cols 1}
+(defnc top-authors-list [{:keys [value loading? error]}]
+  ($ SimpleGrid {:cols 1 :data-testid "top-authors-list"}
     ($ Title {:order 1} "Top Authors")
 
     (if error
@@ -59,7 +61,8 @@
               ($ (.-Col Grid) {:key (str "top" author-id)
                                :span "lg"}
                 ($ Indicator {:withBorder true :inline true :label interactions :size 16 :position "bottom-end"}
-                  ($ Anchor {:href (str "/author/" login "/" account-source)}
+                  ($ Anchor {:href (str "/author/" login "/" account-source)
+                             :className "author-interaction-anchor"}
                     ($ Tooltip {:label (str login " with " interactions " interactions")
                                 :withArrow true}
                       ($ Avatar {:size "md" :src avatar-url}))))))
