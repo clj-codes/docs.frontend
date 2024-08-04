@@ -2,6 +2,7 @@
   (:require [codes.clj.docs.frontend.infra.auth.github.view :as auth.github.view]
             [codes.clj.docs.frontend.panels.author.state :as author.state]
             [codes.clj.docs.frontend.panels.author.view :as author.view]
+            [codes.clj.docs.frontend.panels.dashboards.view :as dashboards.view]
             [codes.clj.docs.frontend.panels.definition.state :as definition.state]
             [codes.clj.docs.frontend.panels.definition.view :as definition.view]
             [codes.clj.docs.frontend.panels.definitions.state :as definitions.state]
@@ -55,6 +56,13 @@
      :controllers [{:start (fn [& _params]
                              (set-title! "Projects - docs.clj.codes")
                              (projects.state/document-projects-fetch))}]}]
+
+   ["dashboards"
+    {:name        :dashboards
+     :view        dashboards.view/all
+     :link-text   "dashboards"
+     :controllers [{:start (fn [& _params]
+                             (set-title! "Dashboards - docs.clj.codes"))}]}]
 
    ["search"
     {:name        :search
