@@ -1,11 +1,12 @@
 (ns codes.clj.docs.frontend.components.query
-  (:require ["@mantine/core" :refer [Alert Anchor Avatar Grid Group Indicator
-                                     LoadingOverlay SimpleGrid Text Title
-                                     Tooltip]]
+  (:require ["@mantine/core" :refer [Alert Anchor Avatar Box Grid Group
+                                     Indicator LoadingOverlay SimpleGrid Text
+                                     Title Tooltip]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
+            [clojure.string :as str]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
-            [helix.core :refer [$]]
-            [helix.dom :as dom]))
+            [codes.clj.docs.frontend.adapters.time :as adapters.time]
+            [helix.core :refer [$]]))
 
 (defnc latest-interactions [{:keys [value loading? error]}]
   ($ SimpleGrid {:cols 1}
@@ -15,41 +16,30 @@
       ($ Alert {:variant "light" :color "red" :radius "md" :title "Error" :icon ($ IconInfoCircle)}
         (str error))
 
-      ($ Group {:pos "relative" :grow true}
-        ($ LoadingOverlay {:visible loading? :zIndex 1000 :overlayProps #js {:radius "sm" :blur 2}})
+      ($ Box {:pos "relative"}
+        ($ LoadingOverlay {:visible loading? :zIndex 1000
+                           :loaderProps #js {:type "dots"}
+                           :overlayProps #js {:radius "sm" :blur 2}})
         ($ SimpleGrid {:cols 2}
           (map
-            (fn [{:keys [author]}]
-              (let [{:keys [author-id login account-source avatar-url]} author]
-                ($ Group {:key (str "latest" author-id) :grow true}
+            (fn [{:keys [note-id example-id see-also-id definition-id author created-at]}]
+              (let [id (str "latest" (or note-id example-id see-also-id))
+                    action (cond
+                             note-id " authored a note for "
+                             example-id " authored an example for "
+                             see-also-id " added a see also on ")
+                    definition (str/replace definition-id #"/0$" "")
+                    ago (adapters.time/time-since created-at (.now js/Date))
+                    {:keys [login account-source avatar-url]} author]
+                ($ Group {:key id :wrap "nowrap"}
                   ($ Anchor {:href (str "/author/" login "/" account-source)}
-                    ($ Avatar {:size "md" :src avatar-url}))
-
-                  (dom/div
-                    ($ Text "banana")))))
-
+                    ($ Avatar {:src avatar-url}))
+                  ($ Text {:size "sm"} login
+                    ($ Text {:component "span"}
+                      action " "
+                      ($ Anchor {:href definition-id} definition)
+                      " " ago ".")))))
             value))))))
-
-    ; <UnstyledButton className={classes.user}>
-    ;   <Group>
-    ;     <Avatar
-    ;       src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
-    ;       radius="xl"
-    ;     />
-    ;
-    ;     <div style={{ flex: 1 }}>
-    ;       <Text size="sm" fw={500}>
-    ;         Harriette Spoonlicker
-    ;       </Text>
-    ;
-    ;       <Text c="dimmed" size="xs">
-    ;         hspoonlicker@outlook.com
-    ;       </Text>
-    ;     </div>
-    ;
-    ;     <IconChevronRight style={{ width: rem(14), height: rem(14) }} stroke={1.5} />
-    ;   </Group>
-    ; </UnstyledButton>
 
 (defnc top-author [{:keys [value loading? error]}]
   ($ SimpleGrid {:cols 1}
@@ -60,7 +50,9 @@
         (str error))
 
       ($ Group {:pos "relative"}
-        ($ LoadingOverlay {:visible loading? :zIndex 1000 :overlayProps #js {:radius "sm" :blur 2}})
+        ($ LoadingOverlay {:visible loading? :zIndex 1000
+                           :loaderProps #js {:type "dots"}
+                           :overlayProps #js {:radius "sm" :blur 2}})
         ($ Grid {:grow false :gutter "lg"}
           (map
             (fn [{:keys [author-id login account-source interactions avatar-url]}]
