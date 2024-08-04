@@ -4,8 +4,8 @@
                                      Title Tooltip]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
-            [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [codes.clj.docs.frontend.adapters.time :as adapters.time]
+            [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [helix.core :refer [$]]))
 
 (defnc latest-interactions [{:keys [value loading? error]}]
