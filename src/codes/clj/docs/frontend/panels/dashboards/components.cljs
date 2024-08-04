@@ -1,7 +1,7 @@
 (ns codes.clj.docs.frontend.panels.dashboards.components
   (:require ["@mantine/core" :refer [Alert Anchor Avatar Box Grid Group
-                                     Indicator LoadingOverlay SimpleGrid Text
-                                     Title Tooltip]]
+                                     Indicator LoadingOverlay SimpleGrid Space
+                                     Text Title Tooltip]]
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
             [codes.clj.docs.frontend.adapters.time :as adapters.time]
@@ -20,7 +20,9 @@
         ($ LoadingOverlay {:visible loading? :zIndex 1000
                            :loaderProps #js {:type "dots"}
                            :overlayProps #js {:radius "sm" :blur 2}})
-        ($ SimpleGrid {:cols 2}
+        (when loading? ($ Space {:h "xl"}))
+
+        ($ SimpleGrid {:cols #js {:base 1 :sm 2}}
           (map
             (fn [{:keys [note-id example-id see-also-id definition-id author created-at]}]
               (let [id (str "latest" (or note-id example-id see-also-id))
@@ -55,6 +57,8 @@
         ($ LoadingOverlay {:visible loading? :zIndex 1000
                            :loaderProps #js {:type "dots"}
                            :overlayProps #js {:radius "sm" :blur 2}})
+        (when loading? ($ Space {:h "xl"}))
+
         ($ Grid {:grow false :gutter "lg"}
           (map
             (fn [{:keys [author-id login account-source interactions avatar-url]}]
