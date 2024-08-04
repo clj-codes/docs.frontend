@@ -1,10 +1,11 @@
 (ns codes.clj.docs.frontend.test.panels.dashboard.components-test
   (:require [cljs.test :refer [async deftest is testing use-fixtures]]
+            [clojure.string :as str]
             [codes.clj.docs.frontend.panels.dashboards.components :as components]
+            [codes.clj.docs.frontend.test.aux.fixtures.dashboards :as fixtures]
             [codes.clj.docs.frontend.test.aux.init :refer [async-cleanup
                                                            async-setup]]
             [codes.clj.docs.frontend.test.aux.testing-library :as tl]
-            [codes.clj.docs.frontend.test.aux.fixtures.dashboards :as fixtures]
             [helix.core :refer [$]]
             [matcher-combinators.test :refer [match?]]
             [promesa.core :as p]))
@@ -19,8 +20,7 @@
    :error nil})
 
 (def top-authors-response
-  {:value fixtures/top-authors
-   :loading? false
+  {:value fixtures/top-authors :loading? false
    :error nil})
 
 (deftest latest-interactions-component-test
@@ -57,17 +57,19 @@
                                   #(-> (tl/mantine-render ($ components/top-authors-list {:& top-authors-response}))
                                        (.findByTestId "top-authors-list")))]
 
-          (is (match? ["http://localhost:5002/author/rafaeldelboni/github"
-                       "http://localhost:5002/author/vloth/github"
-                       "http://localhost:5002/author/matheusfrancisco/github"
-                       "http://localhost:5002/author/strobelt/github"
-                       "http://localhost:5002/author/kroncatti/github"
-                       "http://localhost:5002/author/dimmyjr-nu/github"
-                       "http://localhost:5002/author/daveliepmann/github"]
+          (is (match? [["rafaeldelboni" "github"]
+                       ["vloth" "github"]
+                       ["matheusfrancisco" "github"]
+                       ["strobelt" "github"]
+                       ["kroncatti" "github"]
+                       ["dimmyjr-nu" "github"]
+                       ["daveliepmann" "github"]]
                       (->> (.querySelectorAll top-authors-list ".author-interaction-anchor")
                            (map (fn [top-author]
-                                  (js/console.log top-author)
-                                  (.-href top-author))))))
+                                  (-> top-author
+                                      .-href
+                                      (str/split "/")
+                                      (->> (drop 4))))))))
 
           (done))
         (fn [err] (is (= nil err))
