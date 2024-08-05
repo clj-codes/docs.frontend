@@ -24,16 +24,37 @@
                                      "resources/public/js/core.js"])
                                    (codes.clj.docs.frontend.dev.shadow.hooks/replace-hashed-files
                                     "resources/index.src.html"
-                                    "resources/public/index.html")]}
+                                    "resources/public/index.html")]
+                ; vfile 6.0.2, react-markdown transitive dependency need this.
+                :js-options {:resolve {"#minpath" {:target :npm
+                                                   :require "vfile/lib/minpath.browser.js"}
+                                       "#minproc" {:target :npm
+                                                   :require "vfile/lib/minproc.browser.js"}
+                                       "#minurl" {:target :npm
+                                                  :require "vfile/lib/minurl.browser.js"}}}}
 
           :tests {:target    :browser-test
                   :test-dir  "resources/tests"
-                  :ns-regexp "-test$"}
+                  :ns-regexp "-test$"
+                  ; vfile 6.0.2, react-markdown transitive dependency need this.
+                  :js-options {:resolve {"#minpath" {:target :npm
+                                                     :require "vfile/lib/minpath.browser.js"}
+                                         "#minproc" {:target :npm
+                                                     :require "vfile/lib/minproc.browser.js"}
+                                         "#minurl" {:target :npm
+                                                    :require "vfile/lib/minurl.browser.js"}}}}
 
           :ci-tests {:target           :karma
                      :output-to        "resources/tests/ci.js"
                      :ns-regexp        "-test$"
-                     :compiler-options {:static-fns false}}
+                     :compiler-options {:static-fns false}
+                     ; vfile 6.0.2, react-markdown transitive dependency need this.
+                     :js-options {:resolve {"#minpath" {:target :npm
+                                                        :require "vfile/lib/minpath.browser.js"}
+                                            "#minproc" {:target :npm
+                                                        :require "vfile/lib/minproc.browser.js"}
+                                            "#minurl" {:target :npm
+                                                       :require "vfile/lib/minurl.browser.js"}}}}
 
           :node-tests {:target    :node-test
                        :compiler-options {:reader-features #{:node}}
