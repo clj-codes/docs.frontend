@@ -5,6 +5,7 @@
             ["@tabler/icons-react" :refer [IconInfoCircle]]
             [clojure.string :as str]
             [codes.clj.docs.frontend.adapters.time :as adapters.time]
+            [codes.clj.docs.frontend.components.navigation :refer [safe-anchor]]
             [codes.clj.docs.frontend.infra.helix :refer [defnc]]
             [helix.core :refer [$]]))
 
@@ -41,7 +42,7 @@
                   ($ Text {:size "sm"} login " "
                     ($ Text {:component "span"}
                       action " "
-                      ($ Anchor {:href definition-id} definition)
+                      ($ safe-anchor {:href definition-id} definition)
                       " " ago ".")))))
             value))))))
 
