@@ -7,6 +7,7 @@
                                                            async-setup]]
             [codes.clj.docs.frontend.test.aux.testing-library :as tl]
             [helix.core :refer [$]]
+            [matcher-combinators.matchers :as m]
             [matcher-combinators.test :refer [match?]]
             [promesa.core :as p]))
 
@@ -31,16 +32,16 @@
                                           #(-> (tl/mantine-render ($ components/latest-interactions-list {:& latest-interactions-response}))
                                                (.findByTestId "latest-interactions-list")))]
 
-          (is (match? ["strobelt added a see also on org.clojure/clojure/clojure.core/contains? 3 months ago."
-                       "strobelt authored an example for org.clojure/clojure/clojure.core/contains? 3 months ago."
-                       "kroncatti authored an example for org.clojure/clojure/clojure.core/defmulti 4 months ago."
-                       "rafaeldelboni added a see also on org.clojure/clojure/clojure.core/take 4 months ago."
-                       "rafaeldelboni authored an example for org.clojure/clojure/clojure.core/take 4 months ago."
-                       "rafaeldelboni added a see also on org.clojure/clojure/clojure.core/remove 4 months ago."
-                       "rafaeldelboni added a see also on org.clojure/clojure/clojure.core/keep 4 months ago."
-                       "rafaeldelboni authored an example for org.clojure/clojure/clojure.core/keep 4 months ago."
-                       "dimmyjr-nu authored an example for nubank/matcher-combinators/matcher-combinators.matchers/embeds 4 months ago."
-                       "matheusfrancisco authored a note for org.clojure/clojure/clojure.core/assoc 4 months ago."]
+          (is (match? [(m/pred #(str/starts-with? % "strobelt added a see also on org.clojure/clojure/clojure.core/contains?"))
+                       (m/pred #(str/starts-with? % "strobelt authored an example for org.clojure/clojure/clojure.core/contains?"))
+                       (m/pred #(str/starts-with? % "kroncatti authored an example for org.clojure/clojure/clojure.core/defmulti"))
+                       (m/pred #(str/starts-with? % "rafaeldelboni added a see also on org.clojure/clojure/clojure.core/take"))
+                       (m/pred #(str/starts-with? % "rafaeldelboni authored an example for org.clojure/clojure/clojure.core/take"))
+                       (m/pred #(str/starts-with? % "rafaeldelboni added a see also on org.clojure/clojure/clojure.core/remove"))
+                       (m/pred #(str/starts-with? % "rafaeldelboni added a see also on org.clojure/clojure/clojure.core/keep"))
+                       (m/pred #(str/starts-with? % "rafaeldelboni authored an example for org.clojure/clojure/clojure.core/keep"))
+                       (m/pred #(str/starts-with? % "dimmyjr-nu authored an example for nubank/matcher-combinators/matcher-combinators.matchers/embeds"))
+                       (m/pred #(str/starts-with? % "matheusfrancisco authored a note for org.clojure/clojure/clojure.core/assoc"))]
                       (->> (.querySelectorAll latest-interactions-list ".interaction-text")
                            (map (fn [interaction]
                                   (.-textContent interaction))))))
