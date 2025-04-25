@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os-version: [ubuntu-latest]
-        node-version: [18.x]
+        node-version: [23.x]
     runs-on: ${{ matrix.os-version }}
 
     steps:
@@ -34,7 +34,7 @@ jobs:
     - name: Install clojure cli
       uses: DeLaGuardo/setup-clojure@master
       with:
-        cli: 1.12.0.1479
+        cli: 1.12.0.1530
 
     - name: Karma Tests ${{ matrix.node-version }}
       uses: actions/setup-node@v4.0.2
@@ -49,7 +49,7 @@ jobs:
     strategy:
       matrix:
         os-version: [ubuntu-latest]
-        node-version: [18.x]
+        node-version: [23.x]
     runs-on: ${{ matrix.os-version }}
 
     steps:
@@ -65,7 +65,7 @@ jobs:
     - name: Install clojure cli
       uses: DeLaGuardo/setup-clojure@master
       with:
-        cli: 1.12.0.1479
+        cli: 1.12.0.1530
 
     - name: Setup Node ${{ matrix.node-version }}
       uses: actions/setup-node@v4.0.2
